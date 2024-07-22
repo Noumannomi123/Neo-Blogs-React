@@ -155,7 +155,14 @@ const AllPosts = () => {
         key={post.id}
         id={post.id}
         title={post.title}
-        description={post.description}
+        description={
+          post.description.substring(
+            0,
+            post.description.length > 400
+              ? 400
+              : Math.ceil(post.description.length / 2)
+          ) + "..."
+        }
         image={post.image}
         date={post.date}
         author={post.author}
