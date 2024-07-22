@@ -2,9 +2,9 @@ import PropTypes from "prop-types";
 import "../styles/Post.css";
 const Post = ({ id, title, description, image, date, author }) => {
   return (
-    <div className={`row ${id % 2 !== 0 && `blog-direction`}`}>
+    <div className={`row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
       <div className="col-lg-3 col-sm-12 col-md-5 img-container">
-        <img className="float-start img-fluid" src={image} alt="" />
+        <img className= {`img-fluid`} src={image} alt="" />
       </div>
       <div className="col-lg-9 col-sm-12 col-md-7 details">
         <h2>{title}</h2>
