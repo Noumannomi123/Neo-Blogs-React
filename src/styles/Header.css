@@ -2,27 +2,15 @@
     margin-left: 10px;
 }
 #options{
-    margin-right: 10%;
-}
-.navButtons{
-    padding: 1.5%;
-}
-.navBtn {
-    border-radius: 4px; /* or a value between 4px and 12px for a subtle rounded look */
-    padding: 10px 20px; /* adjust padding to ensure buttons have good size */
-    background-color: #007bff; /* example background color */
-    color: white; /* example text color */
-    border: none; /* remove default border */
-    cursor: pointer; /* change cursor to pointer */
-    transition: background-color 0.3s; /* smooth transition for hover effect */
+    margin-right: 0%;
 }
 
-.navBtn:hover {
-    background-color: #0056b3; /* darker shade for hover effect */
+.navButton{
+    background-color: inherit;
+    color: black;
+    border-color: rgb(248, 249, 250);
+    border-radius: 20%;
 }
-
-
-
-.navButtons::hover{
-    /* background-color: ; */
+.navButton:hover{
+    background-color: rgb(0, 42, 255,0.7);
 }
