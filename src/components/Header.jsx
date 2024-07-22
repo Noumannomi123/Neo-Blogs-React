@@ -4,24 +4,24 @@ import NavButton from "./NavButton";
 import "../styles/Header.css";
 const Header = () => {
   return (
-    <>
-      <Navbar expand="lg" className="bg-body-tertiary" >
+    <div className="w-100 hd">
+      <Navbar expand="lg" className="bg-body-tertiary">
+        {/* remove this class to check the color effect */}
         <Container className="w-auto">
           <Navbar.Brand href="/home">NeoBlogs</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
         </Container>
-
         <Container className="w-auto" id="options">
           <Navbar.Collapse id="basic-navbar-nav">
-            <NavButton text={`Home`} />
-            <NavButton text={`About`} />
-            <NavButton text={`Contact`} />
-            <NavButton text={`Login`} />
-            <NavButton text={`Register`} bg_visible={true} />
+            <NavButton text={`Home`} address="/home" />
+            <NavButton text={`About`} address="/about" />
+            <NavButton text={`Contact`} address="/contact" />
+            <NavButton text={`Login`} address="login" />
+            <NavButton text={`Register`} bg_visible={true} address="register" />
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </>
+    </div>
   );
 };
 

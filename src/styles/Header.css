@@ -6,11 +6,16 @@
 }
 
 .navButton{
+    
     background-color: inherit;
     color: black;
     border-color: rgb(248, 249, 250);
     border-radius: 20%;
 }
 .navButton:hover{
+    text-decoration: underline;
     background-color: rgb(0, 42, 255,0.7);
+}
+.hd{
+    background-color: inherit;
 }
