@@ -1,5 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
-import AllPosts from "./Pages/AllPosts";
+import AllPosts from "./components/AllPosts";
 import Home from "./Pages/Home";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 function App() {

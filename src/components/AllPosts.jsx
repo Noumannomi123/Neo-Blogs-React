@@ -1,5 +1,5 @@
-import Container from "react-bootstrap/Container";
 import Post from "../components/Post";
+import { VStack } from "@chakra-ui/react";
 const AllPosts = () => {
   const posts = [
     {
@@ -170,9 +170,15 @@ const AllPosts = () => {
     );
   }
   return (
-    <>
-      <Container>{posts.map(showPost)}</Container>
-    </>
+    // <Container>
+    //   {showPost(posts[0])}
+    //   {/* {posts.map(showPost)} */}
+    // </Container>
+    // decrease width to 80%
+    // how to ->
+    <VStack marginLeft="15%" marginRight="15%" className="mt-5">
+      {posts.map(showPost)}
+    </VStack>
   );
 };
 
