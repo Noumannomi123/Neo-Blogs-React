@@ -1,21 +1,50 @@
 .container{
     margin-left: 10px;
 }
-#options{
-    margin-right: 0%;
-}
 
-.navButton{
-    
+.options{
+    background-color: white;
+}
+.navButton{    
     background-color: inherit;
-    color: black;
-    border-color: rgb(248, 249, 250);
-    border-radius: 20%;
+    color: white;
+    border: none;
 }
 .navButton:hover{
     text-decoration: underline;
-    background-color: rgb(0, 42, 255,0.7);
+    background-color: inherit;
 }
+.register{
+    font-size: 0.8em;
+    border: none;
+    background-color: rgba(133, 218, 212);
+    font-weight: normal;
+    color: black
+}
+.register:hover{
+    background-color: rgb(92, 172, 185);
+}
+.register:click{
+    background-color: red;
+}
+
 .hd{
     background-color: inherit;
+}
+
+#brandName{
+    font-size: 2rem;
+}
+
+@media(max-width: 1240px){
+     #logo{
+        /* position: absolute;
+        width: 100%;
+        text-align: center; */
+     }
+     .options{
+        /* position: absolute;
+        left: 0px;
+        top: 20px; */
+     }
 }

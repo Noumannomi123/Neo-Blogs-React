@@ -1,18 +1,18 @@
 .bg {
-	background: linear-gradient(-45deg, #3785b6, #c436aa, #3466be, #46d6db);
-	background-size: 400% 400%;
-	animation: gradient 15s ease-in-out;
-	height: 30vh;
+    background: linear-gradient(-45deg, #1666b7, #07296e, #1e5799, #4c89ae);
+    background-size: 400% 400%;
+    animation: gradient 20s ease infinite;
+    height: 30vh;
 }
 
 @keyframes gradient {
-	0% {
-		background-position: 0% 50%;
-	}
-	50% {
-		background-position: 100% 50%;
-	}
-	100% {
-		background-position: 0% 50%;
-	}
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }

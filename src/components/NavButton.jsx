@@ -3,10 +3,10 @@ import Button from "react-bootstrap/Button";
 import PropTypes from "prop-types";
 const NavButton = ({ text, bg_visible, address}) => {
   return (
-    <Nav className="me-auto p-1">
-      <Nav.Link href={address}>
+    <Nav className="me-auto">
+      <Nav.Link href={address} className="w-100">
         <Button
-          className={`${bg_visible === true ? `` : `navButton`}`}
+          className={`${bg_visible === true ? `register` : `navButton`}`}
           variant="primary"
           size="sm"
         >

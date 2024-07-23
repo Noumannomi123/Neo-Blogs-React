@@ -1,6 +1,10 @@
 import "../styles/Background.css";
-const Background = () => {
-  return <div className="bg"></div>;
+import PropTypes from "prop-types";
+const Background = ({ children }) => {
+  return <div className="bg">{children}</div>;
+};
+Background.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default Background;
