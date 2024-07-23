@@ -1,12 +1,20 @@
 .container{
     margin-left: 10px;
+    width: 100%;
+    display: flex;
+}
+
+.ch2{
+    position: relative;
+    left: 85%;
 }
 
 .options{
-    background-color: white;
+    background-color: rgb(231, 244, 249);
 }
+
 .navButton{    
-    background-color: inherit;
+    background: inherit;
     color: white;
     border: none;
 }
@@ -24,27 +32,19 @@
 .register:hover{
     background-color: rgb(92, 172, 185);
 }
-.register:click{
-    background-color: red;
-}
-
-.hd{
-    background-color: inherit;
-}
 
 #brandName{
     font-size: 2rem;
 }
-
 @media(max-width: 1240px){
-     #logo{
-        /* position: absolute;
+    .navbar{
         width: 100%;
-        text-align: center; */
-     }
-     .options{
-        /* position: absolute;
-        left: 0px;
-        top: 20px; */
-     }
+        background: inherit;
+    }
+}
+
+@media(max-width: 1500px){
+    .ch2{
+        left: 60%;
+    }
 }

@@ -1,8 +1,14 @@
 .bg {
+    /* #edeafb
+#5162f0
+#896ad9
+#c272c2
+#fb7aab */
+/* background: linear-gradient(-45deg, #edeafb, #5162f0, #896ad9, #c272c2, #fb7aab); */
     background: linear-gradient(-45deg, #1666b7, #07296e, #1e5799, #4c89ae);
     background-size: 400% 400%;
-    animation: gradient 20s ease infinite;
-    height: 30vh;
+    animation: gradient 30s ease infinite;
+    max-height: 100px;
 }
 
 @keyframes gradient {
