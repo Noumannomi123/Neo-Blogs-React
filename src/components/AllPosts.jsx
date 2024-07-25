@@ -176,7 +176,7 @@ const AllPosts = () => {
     // </Container>
     // decrease width to 80%
     // how to ->
-    <VStack marginLeft="15%" marginRight="15%" className="mt-5">
+    <VStack spacing={10} marginLeft="15%" marginRight="15%" className="mt-5">
       {posts.map(showPost)}
     </VStack>
   );
