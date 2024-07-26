@@ -1,0 +1,15 @@
+.ql-align-left img {
+    display: block;
+    margin: 0;
+  }
+  
+  .ql-align-center img {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .ql-align-right img {
+    display: block;
+    margin: 0;
+    text-align: right;
+  }
