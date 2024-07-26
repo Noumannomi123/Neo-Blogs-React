@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.13.0",
     "@xeger/quill-image-actions": "^0.7.2",
     "@xeger/quill-image-formats": "^0.7.2",
+    "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
     "dompurify": "^3.1.6",
     "framer-motion": "^11.3.12",

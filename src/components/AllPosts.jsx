@@ -7,7 +7,7 @@ const AllPosts = () => {
       title: "Observability Data Types",
       description: `Sed lorem mi, pellentesque sit amet orci et, mollis vehicula nunc. In fermentum rhoncus rutrum. Quisque eget varius risus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. In in libero eget nisl dictum egestas dapibus ut lorem. Morbi in risus non lacus interdum congue at sed velit. Phasellus ornare felis feugiat purus scelerisque porta.`,
       image:
-        "https://media.istockphoto.com/id/174616627/photo/programming-language.webp?b=1&s=170667a&w=0&k=20&c=9wqa8MtXR7hV2xbEQFjY96vvzcjHg5CNtsoInNA7eFQ=",
+        "",
       date: "2020-01-01",
       author: "John Doe",
       likes: 10,

@@ -5,7 +5,16 @@ const Post = ({ id, title, description, image, date, author }) => {
   return (
     <div className={`row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
       <div className={`col-lg-2 col-sm-12 col-md-5 img-container`}>
-        <PostImage src={image} alth="post-image" height={150} width={200} />
+        <PostImage
+          src={
+            image
+              ? image
+              : `https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA`
+          }
+          alth="post-image"
+          height={150}
+          width={200}
+        />
       </div>
       <div className="col-lg-10 col-sm-12 col-md-7 details">
         <h2>{title}</h2>

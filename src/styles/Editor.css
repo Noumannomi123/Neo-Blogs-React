@@ -13,3 +13,23 @@
     margin: 0;
     text-align: right;
   }
+  .ql-toolbar {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 10; /* Ensure it stays on top of other content */
+    background-color: white;
+  }
+  .btn-light{
+    margin-right: 2%;
+  }
+  .btn-primary{
+    /* background-color: rgba(35, 93, 144, 0.7); */
+    background-color: #1666b7;
+  }
+  .btn-primary:hover{
+    background-color: rgb(112, 140, 206);
+  }
+  .btn{
+    font-family: sans-serif;
+  }
