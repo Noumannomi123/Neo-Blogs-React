@@ -158,8 +158,8 @@ const AllPosts = () => {
         description={
           post.description.substring(
             0,
-            post.description.length > 400
-              ? 400
+            post.description.length > 200
+              ? 200
               : Math.ceil(post.description.length / 2)
           ) + "..."
         }
@@ -170,12 +170,6 @@ const AllPosts = () => {
     );
   }
   return (
-    // <Container>
-    //   {showPost(posts[0])}
-    //   {/* {posts.map(showPost)} */}
-    // </Container>
-    // decrease width to 80%
-    // how to ->
     <VStack spacing={10} marginLeft="15%" marginRight="15%" className="mt-5">
       {posts.map(showPost)}
     </VStack>

@@ -3,6 +3,7 @@ import Home from "./Pages/Home";
 import Editor from "./components/Editor";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import NotFoundPage from "./Pages/NotFoundPage";
 function App() {
   return (
     <Router>
@@ -18,7 +19,7 @@ function App() {
         <Route path="/posts/:id" element={<h1>Single Post</h1>} />
         <Route path="/Home" element={<Home />} />
         <Route path="/editor" element={<Editor />} />
-        <Route path="*" element={<h1>Page Not Found</h1>} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

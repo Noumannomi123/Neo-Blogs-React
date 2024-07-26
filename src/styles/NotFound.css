@@ -1,0 +1,21 @@
+.error-container {
+    text-align: center;
+    padding: 50px;
+    background-color: #f1e1e2;
+    color: #721c24;
+}
+
+.error-container h1 {
+    font-size: 100px;
+    margin: 0;
+}
+
+.error-container p {
+    font-size: 20px;
+}
+
+.error-container a {
+    text-decoration: none;
+    color: #004085;
+    font-weight: bold;
+}

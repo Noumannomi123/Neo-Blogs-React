@@ -32,6 +32,12 @@ p{
     }   
 }
 
+@media(max-width: 1450px){
+    .row{
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adjust the values as needed */
+    }
+}
+
 /* #options-container{
     display: flex;
     justify-content: space-between;
