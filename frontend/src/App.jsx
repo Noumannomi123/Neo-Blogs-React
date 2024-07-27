@@ -5,6 +5,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NotFoundPage from "./Pages/NotFoundPage";
 import NewBlog from "./Pages/NewBlog";
+import Login from "./Pages/Login";
 function App() {
   return (
     <Router>
@@ -21,6 +22,7 @@ function App() {
         <Route path="/users/:id/posts/new" element={<NewBlog />} />
         <Route path="/Home" element={<Home />} />
         <Route path="/editor" element={<Editor />} />
+        <Route path="/users/login" element={<Login />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
