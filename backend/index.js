@@ -5,6 +5,8 @@ import pg from "pg";
 import cors from "cors";
 import blogRouter from "./routes/blogsRouter.js";
 import userRouter from "./routes/usersRouter.js";
+import session from "express-session";// for cookies and session
+
 env.config();
 const db = new pg.Client({
     user: process.env.PG_USER,
@@ -14,26 +16,38 @@ const db = new pg.Client({
     port: process.env.PG_PORT,
 });
 
-const PORT = process.env.PORT || 3000 ;
+const PORT = process.env.PORT || 3000;
 
 const app = express();
 
 // middlewares
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookite: {
+        maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
+    }
+}))
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors({
     origin: "http://localhost:5173", // allow the frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // allow these methods
     allowedHeaders: ["Content-Type"], // allow these headers
-}))
+}));
 
 app.use("/user", userRouter);
 app.use("/user/posts", blogRouter);
-
+app.get("/", (req, res) => {
+    res.send("User endpoint success.");
+});
 app.get("*", (req, res) => {
-    res.json("Sorry, no defined endpoint exists for this route.");
+    res.json(`User endpoint doens't exist for ${req.originalUrl}`);
 });
 
-console.log("Connected to database.");
+if (db.connect()) console.log("Connected to database.");
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
+export { db };
