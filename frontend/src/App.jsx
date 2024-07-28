@@ -10,14 +10,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route
-          path="/"
-          element={
-            <>
-              <h1>Landing Page</h1>
-            </>
-          }
-        />
+        <Route path="/" element={<h1>Landing Page</h1>} />
         <Route path="/posts/:id" element={<h1>Single Post</h1>} />
         <Route path="/users/:id/posts/new" element={<NewBlog />} />
         <Route path="/Home" element={<Home />} />

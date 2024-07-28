@@ -63,4 +63,8 @@ button[type="submit"]{
   .btn-google:hover {
     border: 1px solid #2d79f3;
   }
-  
+
+  /*  */
+  #root{
+    background-color: rgb(0, 36, 81);
+  }
