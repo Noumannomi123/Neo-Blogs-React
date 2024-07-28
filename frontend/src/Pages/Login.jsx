@@ -5,22 +5,33 @@ import { VStack } from "@chakra-ui/react";
 import "../styles/Login.css";
 import "../components/GoogleSignInButton";
 import GoogleSignInButton from "../components/GoogleSignInButton";
+import Error from "../components/Error";
 import API_URL from "../config";
 const Login = ({ checkAuthStatus }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [error, setError] = useState(false);
   const hanldeSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(email, password);
-      const response = await axios.post(API_URL + "/user/login", {
-        email,
-        password,
-      });
-      console.log(response.data, "returned by server");
+      const response = await axios.post(
+        API_URL + "/user/login",
+        {
+          email,
+          password,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      console.log(response.data, "returned by server.");
+      if (response.status === 200) {
+        setError(false);
+      }
+      // check again and save to the props
       checkAuthStatus();
     } catch (error) {
+      setError(true);
       console.log("Error loggin in.");
     }
   };
@@ -54,7 +65,8 @@ const Login = ({ checkAuthStatus }) => {
             />
             <label htmlFor="passwordInput">Password</label>
           </div>
-
+          {/* Error singing */}
+          {error && <Error />}
           <button className="btn btn-primary py-2" type="submit">
             Next
           </button>

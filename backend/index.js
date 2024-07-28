@@ -5,8 +5,8 @@ import pg from "pg";
 import cors from "cors";
 import blogRouter from "./routes/blogsRouter.js";
 import userRouter from "./routes/usersRouter.js";
-import session from "express-session";// for cookies and session
-
+import session from "express-session";
+import passport from "passport";
 env.config();
 const db = new pg.Client({
     user: process.env.PG_USER,
@@ -21,24 +21,34 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // middlewares
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    cookite: {
-        maxAge: 1000 * 60 * 60 * 24 * 1, // 1 day
-    }
-}))
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+        }
+    })
+);
+
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors({
     origin: "http://localhost:5173", // allow the frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // allow these methods
     allowedHeaders: ["Content-Type"], // allow these headers
+    credentials: true
 }));
 
 app.use("/user", userRouter);
 app.use("/user/posts", blogRouter);
+
+// routes
 app.get("/", (req, res) => {
     res.send("User endpoint success.");
 });

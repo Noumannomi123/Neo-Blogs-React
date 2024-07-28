@@ -16,23 +16,22 @@ function App() {
   useEffect(() => {
     // useEffect only runs when render is finished. so it doesn't cause errors.
     hanldeAuthentication();
-    console.log("CHECKING");
   });
   const hanldeAuthentication = async () => {
     try {
-      const response = await axios.get(API_URL + "/user/login");
+      const response = await axios.get(API_URL + "/user/checkAuth", {
+        withCredentials: true,
+      });
       const data = response.data;
       const authenticated = data.isAuthenticated;
       setIsAuthenticated(authenticated);
       if (authenticated) {
         setUser(data.user);
-        console.log("Yes authenticated");
-        console.log(user);
       } else {
-        console.log("Not authenticated");
+        console.error("Not authenticated");
       }
     } catch (error) {
-      console.log("Error while sending authenticating request.");
+      console.error("Error while sending authenticating request.");
     }
   };
 

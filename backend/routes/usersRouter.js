@@ -1,15 +1,12 @@
 import express from "express";
-const router = express.Router();
 import bcrypt from "bcrypt";
 import { Strategy } from "passport-local";
 import { db } from "../index.js";
 import passport from "passport";
 const saltRounds = 10;
+const router = express.Router();
 
-router.use(passport.initialize());
-router.use(passport.session());
-
-router.get("/login", (req, res) => {
+router.get("/checkAuth", (req, res) => {
     if (req.isAuthenticated()) {
         res.json({
             isAuthenticated: true,
@@ -27,42 +24,17 @@ router.get("/all", (req, res) => {
     res.send("All Users");
 });
 
-// router.post("/login", (req, res) => {
-//     console.log(req.body);
-//     res.sendStatus(200);
-// });
-router.post("/login", (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
-        if (err) {
-            return res.status(500).json({
-                success: false,
-                message: "An error occurred during authentication"
-            });
-        }
-        if (!user) {
-            return res.status(401).json({
-                success: false,
-                message: "Authentication failed"
-            });
-        }
-        req.logIn(user, (err) => {
-            if (err) {
-                return res.status(500).json({
-                    success: false,
-                    message: "An error occurred during login"
-                });
-            }
-            return res.json({
-                success: true,
-                isAuthenticated: true,
-                user: {
-                    id: user.id,
-                    email: user.email,
-                }
-            });
-        });
-    })(req, res, next);
+router.get("/login", (req, res) => {
+    res.status(500).send("Error during authenticating.")
 });
+
+router.post(
+    "/login",
+    passport.authenticate("local", {
+        successRedirect: "/user/checkAuth",
+        failureRedirect: "/user/login",
+    })
+);
 
 router.post("/register", async (req, res) => {
     const email = req.body.username;
@@ -148,7 +120,6 @@ passport.use(
 passport.serializeUser((user, cb) => {
     cb(null, user);
 });
-
 passport.deserializeUser((user, cb) => {
     cb(null, user);
 });
