@@ -1,11 +1,10 @@
 import { Navigate, Outlet } from "react-router-dom";
-import PrtpTypes from "prop-types";
-function ProtectedRoute({ isAuthhtenticated }) {
+import AuthContext from "./AuthContext";
+import { useContext } from "react";
+function ProtectedRoute() {
     // Outlet is children routes. That is, the route we want on success.
+    const {isAuthhtenticated} = useContext(AuthContext);
   return isAuthhtenticated ? <Outlet /> : <Navigate to="/users/login" />;
 }
-ProtectedRoute.propTypes = {
-  isAuthhtenticated: PrtpTypes.bool.isRequired,
-};
 
 export default ProtectedRoute;

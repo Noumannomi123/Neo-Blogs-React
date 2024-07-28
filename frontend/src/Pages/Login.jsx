@@ -1,5 +1,4 @@
 import axios from "axios";
-import PropTypes from "prop-types";
 import { useState } from "react";
 import { VStack } from "@chakra-ui/react";
 import "../styles/Login.css";
@@ -7,7 +6,11 @@ import "../components/GoogleSignInButton";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import Error from "../components/Error";
 import API_URL from "../config";
-const Login = ({ checkAuthStatus }) => {
+import { useContext } from "react";
+import AuthContext from "../components/AuthContext";
+const Login = () => {
+  const { handleAuthentication } = useContext(AuthContext);
+  
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -29,7 +32,7 @@ const Login = ({ checkAuthStatus }) => {
         setError(false);
       }
       // check again and save to the props
-      checkAuthStatus();
+      handleAuthentication();
     } catch (error) {
       setError(true);
       console.log("Error loggin in.");
@@ -80,8 +83,5 @@ const Login = ({ checkAuthStatus }) => {
       </VStack>
     </div>
   );
-};
-Login.propTypes = {
-  checkAuthStatus: PropTypes.func.isRequired,
 };
 export default Login;

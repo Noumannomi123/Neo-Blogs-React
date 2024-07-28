@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Pages/Home";
 import Editor from "./components/Editor";
@@ -9,42 +7,21 @@ import NotFoundPage from "./Pages/NotFoundPage";
 import NewBlog from "./Pages/NewBlog";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
-import API_URL from "./config";
+import AuthContext from "./components/AuthContext";
+import { useContext, useEffect } from "react";
 function App() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null);
+  const { handleAuthentication } = useContext(AuthContext);
   useEffect(() => {
     // useEffect only runs when render is finished. so it doesn't cause errors.
-    hanldeAuthentication();
+    handleAuthentication();
   });
-  const hanldeAuthentication = async () => {
-    try {
-      const response = await axios.get(API_URL + "/user/checkAuth", {
-        withCredentials: true,
-      });
-      const data = response.data;
-      const authenticated = data.isAuthenticated;
-      setIsAuthenticated(authenticated);
-      if (authenticated) {
-        setUser(data.user);
-      } else {
-        console.error("Not authenticated");
-      }
-    } catch (error) {
-      console.error("Error while sending authenticating request.");
-    }
-  };
-
   return (
     <Router>
       <Routes>
         <Route path="/" element={<h1>Landing Page</h1>} />
-        <Route
-          path="/users/login"
-          element={<Login checkAuthStatus={hanldeAuthentication} />}
-        />
+        <Route path="/users/login" element={<Login />} />
         <Route path="/Home" element={<Home />} />
-        <Route element={<PrivateRoute isAuthhtenticated={isAuthenticated} />}>
+        <Route element={<PrivateRoute />}>
           <Route path="/editor" element={<Editor />} />
           {/* fix ID */}
           <Route path="/users/:id/posts/new" element={<NewBlog />} />
