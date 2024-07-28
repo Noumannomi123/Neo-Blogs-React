@@ -8,9 +8,11 @@ import Error from "../components/Error";
 import API_URL from "../config";
 import { useContext } from "react";
 import AuthContext from "../components/AuthContext";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
+  const navigate = useNavigate();
   const { handleAuthentication } = useContext(AuthContext);
-  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
@@ -32,7 +34,9 @@ const Login = () => {
         setError(false);
       }
       // check again and save to the props
-      handleAuthentication();
+      await handleAuthentication();
+      navigate("/editor");
+      // TO-FIX: when navigated, renders Home.jsx with true. But on page reload it loses the state.
     } catch (error) {
       setError(true);
       console.log("Error loggin in.");
@@ -40,7 +44,7 @@ const Login = () => {
   };
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
-      <VStack className="stack">
+      <VStack className="stackd">
         <form className="form-signin" onSubmit={hanldeSubmit}>
           <h1 className="h3 mb-3 fw-normal text-center">Login</h1>
 

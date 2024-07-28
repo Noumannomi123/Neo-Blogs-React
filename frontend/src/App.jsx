@@ -7,14 +7,7 @@ import NotFoundPage from "./Pages/NotFoundPage";
 import NewBlog from "./Pages/NewBlog";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
-import AuthContext from "./components/AuthContext";
-import { useContext, useEffect } from "react";
 function App() {
-  const { handleAuthentication } = useContext(AuthContext);
-  useEffect(() => {
-    // useEffect only runs when render is finished. so it doesn't cause errors.
-    handleAuthentication();
-  });
   return (
     <Router>
       <Routes>

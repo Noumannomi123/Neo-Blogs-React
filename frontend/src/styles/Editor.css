@@ -20,16 +20,16 @@
     z-index: 10; /* Ensure it stays on top of other content */
     background-color: white;
   }
-  .btn-light{
+  .op-btn{
     margin-right: 2%;
   }
-  .btn-primary{
+  .op-btn{
     /* background-color: rgba(35, 93, 144, 0.7); */
     background-color: #1666b7;
   }
-  .btn-primary:hover{
+  .op-btn:hover{
     background-color: rgb(112, 140, 206);
   }
-  .btn{
+  .op-btn{
     font-family: sans-serif;
   }

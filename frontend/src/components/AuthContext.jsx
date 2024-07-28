@@ -6,6 +6,10 @@ const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  // useEffect(() => {
+  //   // useEffect only runs when render is finished. so it doesn't cause errors.
+  //   handleAuthentication();
+  // });
   const handleAuthentication = async () => {
     try {
       const response = await axios.get(API_URL + "/user/checkAuth", {
@@ -14,6 +18,7 @@ const AuthProvider = ({ children }) => {
       const data = response.data;
       const authenticated = data.isAuthenticated;
       setIsAuthenticated(authenticated);
+      // console.log("Setting authenticated to: ", authenticated, data.user);
       if (authenticated) {
         setUser(data.user);
       } else {

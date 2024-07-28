@@ -3,7 +3,7 @@ import "../styles/Post.css";
 import PostImage from "./PostImage";
 const Post = ({ id, title, description, image, date, author }) => {
   return (
-    <div className={`row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
+    <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
       <div className={`col-lg-2 col-sm-12 col-md-5 img-container`}>
         <PostImage
           src={

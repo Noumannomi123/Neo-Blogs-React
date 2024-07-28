@@ -1,4 +1,3 @@
-import "../styles/NewBlog.css";
 import { VStack } from "@chakra-ui/react";
 import Editor from "../components/Editor";
 const NewBlog = () => {
