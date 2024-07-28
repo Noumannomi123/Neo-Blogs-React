@@ -9,21 +9,60 @@ const saltRounds = 10;
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.get("/login", (req,res) =>{
-    res.send("Login");
+router.get("/login", (req, res) => {
+    if (req.isAuthenticated()) {
+        res.json({
+            isAuthenticated: true,
+            user: {
+                id: req.user.id,
+                email: req.user.email,
+            }
+        })
+    } else {
+        res.json({ isAuthenticated: false });
+    }
 });
 
 router.get("/all", (req, res) => {
-    res.send("All Users");  
+    res.send("All Users");
 });
 
-router.post(
-    "/login",
-    passport.authenticate("local", {
-        successRedirect: "/",// leads to / insteado /user/
-        failureRedirect: "/user/login",// lead to page 
-    })
-);
+// router.post("/login", (req, res) => {
+//     console.log(req.body);
+//     res.sendStatus(200);
+// });
+router.post("/login", (req, res, next) => {
+    passport.authenticate("local", (err, user, info) => {
+        if (err) {
+            return res.status(500).json({
+                success: false,
+                message: "An error occurred during authentication"
+            });
+        }
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: "Authentication failed"
+            });
+        }
+        req.logIn(user, (err) => {
+            if (err) {
+                return res.status(500).json({
+                    success: false,
+                    message: "An error occurred during login"
+                });
+            }
+            return res.json({
+                success: true,
+                isAuthenticated: true,
+                user: {
+                    id: user.id,
+                    email: user.email,
+                }
+            });
+        });
+    })(req, res, next);
+});
 
 router.post("/register", async (req, res) => {
     const email = req.body.username;
@@ -66,36 +105,44 @@ router.delete("/delete/:id", (req, res) => {
 
 passport.use(
     "local",
-    new Strategy(async function verify(username, password, cb) {
-        try {
-            const result = await db.query("SELECT * FROM users WHERE email = $1",
-                [username]
-            );
-            if (result.rows.length > 0) {
-                const user = result.rows[0];
-                const storedHashedPassword = user.password_hash;
-                bcrypt.compare(password, storedHashedPassword, (err, valid) => {
-                    if (err) {
-                        console.error("Error comparing passwords:");
-                        return cb(err);
-                    } else {
-                        if (valid) {
-                            console.log("User authentication successful.");
-                            return cb(null, user);
+    new Strategy({
+        usernameField: "email",// email
+        passwordField: "password",// password"
+    },
+        async function verify(username, password, cb) {
+            try {
+                username = String(username).trim();
+                password = String(password);
+                const result = await db.query("SELECT * FROM users WHERE email = $1",
+                    [username]
+                );
+                if (result.rows.length > 0) {
+                    const user = result.rows[0];
+                    const storedHashedPassword = user.password_hash;
+                    bcrypt.compare(password, storedHashedPassword, (err, valid) => {
+                        if (err) {
+                            console.error("Error comparing passwords:");
+                            return cb(err);
+                        } else {
+                            if (valid) {
+                                console.log("User authentication successful.");
+                                return cb(null, user);
+                            }
+                            else {
+                                console.log("Incorrect password.");
+                                return cb(null, false);
+                            }
                         }
-                        else {
-                            return cb(null, false);
-                        }
-                    }
-                });
+                    });
+                }
+                else {
+                    console.log("User not found.");
+                    return cb("User not found.");
+                }
+            } catch (error) {
+                console.log("Error while querying the user from database.");
             }
-            else {
-                return cb("User not found.");
-            }
-        } catch (error) {
-            console.log("Error while querying the user from database.");
-        }
-    })
+        })
 )
 
 passport.serializeUser((user, cb) => {

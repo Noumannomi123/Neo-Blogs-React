@@ -30,6 +30,7 @@ app.use(session({
     }
 }))
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(cors({
     origin: "http://localhost:5173", // allow the frontend
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // allow these methods
