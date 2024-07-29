@@ -25,8 +25,18 @@ router.get("/all", (req, res) => {
 });
 
 router.get("/login", (req, res) => {
-    res.status(500).send("Error during authenticating.")
+    res.status(401).send("Unauthorized.")
 });
+
+router.get("/logout", (req, res) => {
+    req.logout((err) => {
+        if (err) return next(err);
+        req.session.destroy((err) => {
+            if (err) return next(err);
+            res.redirect("/user/login");
+        })
+    })
+})
 
 router.post(
     "/login",
@@ -37,15 +47,15 @@ router.post(
 );
 
 router.post("/register", async (req, res) => {
-    const email = req.body.username;
-    const password = req.body.password;
+    const email = req.body.email;
+    const password = String(req.body.password);
     try {
         const checkResult = await db.query("SELECT * FROM users WHERE email = $1",
             [email]
         );
         if (checkResult.rows.length > 0) {// user exists
             console.log("User exists.");
-            res.redirect(`${req.baseUrl}/login`);
+            res.status(409).send("Duplicate user.");
         } else {
             bcrypt.hash(password, saltRounds, async (err, hash) => {
                 if (err) {
@@ -57,7 +67,7 @@ router.post("/register", async (req, res) => {
                     const user = result.rows[0];
                     req.login(user, (err) => {
                         console.log("success");
-                        res.redirect("/");
+                        res.redirect("/user/checkAuth")
                     });
                 }
             })

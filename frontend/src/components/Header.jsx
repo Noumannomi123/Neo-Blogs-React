@@ -3,9 +3,28 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "../styles/Header.css";
 import NavButton from "./NavButton";
+import axios from "axios";
+import API_URL from "../config";
+import { useNavigate } from "react-router-dom";
 const Header = () => {
+  const navigate = useNavigate();
+  const hanldeLogout = async () => {
+    try {
+      await axios.get(API_URL + "/user/logout", {
+        withCredentials: true,
+      });
+      // window.location.href = "/users/login";
+    } catch (error) {
+      if (error.response.status === 401) {
+        navigate("/users/login");
+      }
+    }
+  };
   return (
     <Navbar expand="lg" className="h-auto bg2">
+      <button onClick={hanldeLogout} className="btn btn-secondary mx">
+        Logout
+      </button>
       <Container className="for-container">
         <Navbar.Brand id="brandName" className="text-light" href="/home">
           NeoBlogs

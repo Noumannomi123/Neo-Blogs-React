@@ -1,5 +1,6 @@
 import "../styles/Error.css";
-const Error = () => {
+import PropTypes from  "prop-types";
+const Error = ({message}) => {
   return (
     <div className="error">
       <div className="error__icon">
@@ -16,7 +17,7 @@ const Error = () => {
           />
         </svg>
       </div>
-      <div className="error__title">{`Sorry, couldn't sign in`}</div>
+      <div className="error__title">{message}</div>
       <div className="error__close">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -33,5 +34,7 @@ const Error = () => {
     </div>
   );
 };
-
+Error.propTypes = {
+  message: PropTypes.string,
+};
 export default Error;

@@ -7,15 +7,15 @@ import NotFoundPage from "./Pages/NotFoundPage";
 import NewBlog from "./Pages/NewBlog";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
-import Loader from "./components/Loader";
+import SignUp from "./Pages/Register";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/loader" element={<Loader />} />
         <Route path="/" element={<h1>Landing Page</h1>} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/Home" element={<Home />} />
+        <Route path="/users/register" element={<SignUp />} />
         <Route element={<PrivateRoute />}>
           <Route path="/editor" element={<Editor />} />
           <Route path="/users/:id/posts/new" element={<NewBlog />} />

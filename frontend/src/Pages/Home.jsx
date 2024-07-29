@@ -9,6 +9,7 @@ const Home = () => {
         <Header /> {/* goes as a child*/}
       </Background>
       <AllPosts />
+      
     </>
   );
 };

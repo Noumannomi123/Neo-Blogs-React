@@ -8,16 +8,21 @@ import GoogleSignInButton from "../components/GoogleSignInButton";
 import Error from "../components/Error";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
-const Login = () => {
+const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const hanldeSubmit = async (e) => {
     e.preventDefault();
+    if (password !== confirmPassword) {
+      setError("Passwords do not match.");
+      return;
+    }
     try {
       const response = await axios.post(
-        API_URL + "/user/login",
+        API_URL + "/user/register",
         {
           email,
           password,
@@ -34,13 +39,13 @@ const Login = () => {
       navigate("/editor");
       // TO-FIX: when navigated, renders Home.jsx with true. But on page reload it loses the state.
     } catch (error) {
-      if (error.response.status === 401) setError("Username or password is incorrect.")
-      else setError("Unable to login.");
+      if (error.response.status === 409) setError("User already exists.");
+      else setError("Umable to register at the moment.");
       console.log("Error loggin in.");
     }
   };
   useEffect(() => {
-    const timeoutID = setTimeout(() => setError(false), 3000);
+    const timeoutID = setTimeout(() => setError(""), 3000);
     return () => {
       clearTimeout(timeoutID);
     };
@@ -49,7 +54,7 @@ const Login = () => {
     <div className="vh-100 d-flex justify-content-center align-items-center">
       <VStack className="stackd">
         <form className="form-signin" onSubmit={hanldeSubmit}>
-          <h1 className="h3 mb-3 fw-normal text-center">Login</h1>
+          <h1 className="h3 mb-3 fw-normal text-center">Sign up</h1>
 
           <div className="form-floating mb-4">
             <input
@@ -75,13 +80,26 @@ const Login = () => {
             />
             <label htmlFor="passwordInput">Password</label>
           </div>
+          <div className="form-floating mb-4">
+            <input
+              type="password"
+              className="form-control"
+              id="confirmPasswordInput"
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <label htmlFor="confirmPasswordInput">Confirm Password</label>
+          </div>
           {/* Error singing */}
+          {/* {error && <Error message={"Sorry, coudln't register."} />} */}
           {error.length > 0 && <Error message={error} />}
           <button className="btn btn-primary py-2" type="submit">
             Next
           </button>
           <button>
-            <a href="/users/register">{`Don't have an account? Sign up`}</a>
+            <a href="/users/login">{`Already have an account? Log in`}</a>
           </button>
           <p className="text-center mt-3">Or</p>
           <GoogleSignInButton />
@@ -93,4 +111,4 @@ const Login = () => {
     </div>
   );
 };
-export default Login;
+export default SignUp;
