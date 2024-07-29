@@ -25,6 +25,6 @@ PostImage.propTypes = {
   height: PropTypes.string,
   width: PropTypes.string,
   src: PropTypes.string.isRequired,
-  alt: PropTypes.string.isRequired,
+  alt: PropTypes.string
 };
 export default PostImage;

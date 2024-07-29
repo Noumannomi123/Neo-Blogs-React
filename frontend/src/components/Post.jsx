@@ -11,9 +11,9 @@ const Post = ({ id, title, description, image, date, author }) => {
               ? image
               : `https://fastly.picsum.photos/id/8/5000/3333.jpg?hmac=OeG5ufhPYQBd6Rx1TAldAuF92lhCzAhKQKttGfawWuA`
           }
-          alth="post-image"
-          height={150}
-          width={200}
+          alth={`post-image`}
+          height={`150`}
+          width={`200`}
         />
       </div>
       <div className="col-lg-10 col-sm-12 col-md-7 details">
