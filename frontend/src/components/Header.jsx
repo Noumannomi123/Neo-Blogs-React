@@ -13,7 +13,6 @@ const Header = () => {
       await axios.get(API_URL + "/user/logout", {
         withCredentials: true,
       });
-      // window.location.href = "/users/login";
     } catch (error) {
       if (error.response.status === 401) {
         navigate("/users/login");

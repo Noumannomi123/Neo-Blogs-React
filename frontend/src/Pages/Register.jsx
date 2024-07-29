@@ -8,6 +8,7 @@ import GoogleSignInButton from "../components/GoogleSignInButton";
 import Error from "../components/Error";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
+import mark from "../assets/mark.png";
 const SignUp = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -53,6 +54,9 @@ const SignUp = () => {
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
       <VStack className="stackd">
+        <a href="/home">
+          <img src={mark} alt="logo" width={50} height={50} />
+        </a>
         <form className="form-signin" onSubmit={hanldeSubmit}>
           <h1 className="h3 mb-3 fw-normal text-center">Sign up</h1>
 

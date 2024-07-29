@@ -4,6 +4,7 @@ import { Navigate, Outlet } from "react-router-dom";
 import API_URL from "../config";
 import { useContext } from "react";
 import AuthContext from "../components/AuthContext";
+import Loader from "../components/Loader";
 function ProtectedRoute() {
   const { setUser } = useContext(AuthContext);
   // Outlet is children routes. That is, the route we want on success.
@@ -32,7 +33,7 @@ function ProtectedRoute() {
     };
     checkAuthentication();
   }, [setUser]);
-  if (loading) return <h1>Loading...</h1>;
+  if (loading) return <Loader />;
   return isAuthenticated ? <Outlet /> : <Navigate to="/users/login" />;
 }
 
