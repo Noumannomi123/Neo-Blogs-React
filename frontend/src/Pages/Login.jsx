@@ -36,6 +36,7 @@ const Login = () => {
       // check again and save to the props
       await handleAuthentication();
       navigate("/editor");
+
       // TO-FIX: when navigated, renders Home.jsx with true. But on page reload it loses the state.
     } catch (error) {
       setError(true);

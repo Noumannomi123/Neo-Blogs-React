@@ -16,7 +16,6 @@ function App() {
         <Route path="/Home" element={<Home />} />
         <Route element={<PrivateRoute />}>
           <Route path="/editor" element={<Editor />} />
-          {/* fix ID */}
           <Route path="/users/:id/posts/new" element={<NewBlog />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
