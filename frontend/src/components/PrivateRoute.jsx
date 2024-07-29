@@ -2,7 +2,10 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import API_URL from "../config";
+import { useContext } from "react";
+import AuthContext from "../components/AuthContext";
 function ProtectedRoute() {
+  const { setUser } = useContext(AuthContext);
   // Outlet is children routes. That is, the route we want on success.
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -16,9 +19,11 @@ function ProtectedRoute() {
         const authenticated = data.isAuthenticated;
         setIsAuthenticated(authenticated);
         if (authenticated) {
-          console.log("yeah authenticaed");
+          console.log("yeah authenticaed",data.user);
+          setUser(data.user);
         } else {
           console.error("Not authenticated");
+          setUser(null);
         }
         setLoading(false);
       } catch (error) {
@@ -26,7 +31,7 @@ function ProtectedRoute() {
       }
     };
     checkAuthentication();
-  });
+  },[setUser]);
   if (loading) return <h1>Loading...</h1>;
   return isAuthenticated ? <Outlet /> : <Navigate to="/users/login" />;
 }
