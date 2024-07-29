@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-const PostImage = ({ src, alt, height, width }) => {
+const Image = ({ src, alt, height, width }) => {
   return (
     <div
       style={{
@@ -21,10 +21,10 @@ const PostImage = ({ src, alt, height, width }) => {
   );
 };
 
-PostImage.propTypes = {
+Image.propTypes = {
   height: PropTypes.string,
   width: PropTypes.string,
   src: PropTypes.string.isRequired,
   alt: PropTypes.string
 };
-export default PostImage;
+export default Image;

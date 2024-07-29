@@ -172,7 +172,7 @@ const QuillEditor = () => {
       {previewMode ? (
         <div className="preview">
           <div className="w-100 fs-2 text-center mb-3">
-            <h2>{title}</h2>
+            <h2 id="title">{title}</h2>
           </div>
           <div
             dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
@@ -186,10 +186,10 @@ const QuillEditor = () => {
       ) : (
         <div>
           {/* take title of the post as input */}
-          <div className="w-100 fs-2 text-center mb-3">
+          <div className="w-100 fs-2 text-center mb-3" id="title-container">
             <input
               className={title ? "border-bottom fw-bold w-100 text-center" : ""}
-              id="title"
+              id="title-input"
               type="text"
               placeholder="Add a new title"
               value={title}

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { VStack } from "@chakra-ui/react";
@@ -37,6 +38,12 @@ const Login = () => {
       console.log("Error loggin in.");
     }
   };
+  useEffect(() => {
+    const timeoutID = setTimeout(() => setError(false), 3000);
+    return () => {
+      clearTimeout(timeoutID);
+    };
+  });
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
       <VStack className="stackd">

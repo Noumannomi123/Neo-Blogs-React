@@ -19,7 +19,7 @@ function ProtectedRoute() {
         const authenticated = data.isAuthenticated;
         setIsAuthenticated(authenticated);
         if (authenticated) {
-          console.log("yeah authenticaed",data.user);
+          console.log("Yeah authenticaed", data.user);
           setUser(data.user);
         } else {
           console.error("Not authenticated");
@@ -31,7 +31,7 @@ function ProtectedRoute() {
       }
     };
     checkAuthentication();
-  },[setUser]);
+  }, [setUser]);
   if (loading) return <h1>Loading...</h1>;
   return isAuthenticated ? <Outlet /> : <Navigate to="/users/login" />;
 }

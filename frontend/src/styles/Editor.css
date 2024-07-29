@@ -33,3 +33,7 @@
   .op-btn{
     font-family: sans-serif;
   }
+#title-input{
+  border-radius: 10px;
+  text-align: center;
+}

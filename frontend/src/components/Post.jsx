@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import "../styles/Post.css";
-import PostImage from "./PostImage";
+import PostImage from "./Image";
 const Post = ({ id, title, description, image, date, author }) => {
   return (
     <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
