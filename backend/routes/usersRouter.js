@@ -6,6 +6,7 @@ import passport from "passport";
 const saltRounds = 10;
 const router = express.Router();
 
+
 router.get("/checkAuth", (req, res) => {
     if (req.isAuthenticated()) {
         res.json({

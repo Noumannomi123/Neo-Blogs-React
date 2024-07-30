@@ -26,7 +26,7 @@ app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: true,
+        saveUninitialized: false,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
             secure: false
@@ -39,12 +39,26 @@ app.use(passport.session());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+// const allowedOrigins = ["http://localhost:5173", "http://192.168.0.104:5173", "http://192.168.51.1:5173", "http://192.168.137.1:5173/"];
 app.use(cors({
-    origin: "http://localhost:5173", // allow the frontend
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // allow these methods
-    allowedHeaders: ["Content-Type"], // allow these headers
+    origin: function (origin, callback) {
+        const allowedOrigins = [
+            "http://localhost:5173",
+            "http://192.168.51.1:5173",
+            "http://192.168.137.1:5173",
+            "http://192.168.0.104:5173"
+        ];
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+    allowedHeaders: ["Content-Type"],
     credentials: true
 }));
+
 
 app.use("/user", userRouter);
 app.use("/user/posts", blogRouter);

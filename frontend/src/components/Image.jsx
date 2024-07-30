@@ -3,7 +3,7 @@ const Image = ({ src, alt, height, width }) => {
   return (
     <div
       style={{
-        width: width,
+        width: width  ,
         height: height,
       }}
     >
