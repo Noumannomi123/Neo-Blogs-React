@@ -6,8 +6,12 @@ import NavButton from "./NavButton";
 import axios from "axios";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
+import AuthContext from "./AuthContext";
+import { useContext } from "react";
 const Header = () => {
   const navigate = useNavigate();
+  const { loggedIn, user } = useContext(AuthContext);
+  console.log(loggedIn, user);
   const hanldeLogout = async () => {
     try {
       await axios.get(API_URL + "/user/logout", {

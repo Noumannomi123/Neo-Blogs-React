@@ -14,8 +14,8 @@ function App() {
       <Routes>
         <Route path="/" element={<h1>Landing Page</h1>} />
         <Route path="/users/login" element={<Login />} />
-        <Route path="/Home" element={<Home />} />
         <Route path="/users/register" element={<SignUp />} />
+        <Route path="/Home" element={<Home />} />
         <Route element={<PrivateRoute />}>
           <Route path="/editor" element={<Editor />} />
           <Route path="/users/:id/posts/new" element={<NewBlog />} />

@@ -26,7 +26,7 @@ app.use(
     session({
         secret: process.env.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
             secure: false
@@ -39,7 +39,6 @@ app.use(passport.session());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-// const allowedOrigins = ["http://localhost:5173", "http://192.168.0.104:5173", "http://192.168.51.1:5173", "http://192.168.137.1:5173/"];
 app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
