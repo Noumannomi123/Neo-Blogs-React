@@ -3,26 +3,18 @@
     width: 100%;
     display: flex;
 }
-
-.ch2{
-    position: relative;
-    left: 85%;
-}
-
-.options{
-    background-color: rgb(231, 244, 249);
-}
-
 .navButton{    
     background: inherit;
     color: white;
     border: none;
     border-radius: 15px;
+    padding: 0px;
 }
 .navButton:hover{
     text-decoration: underline;
     background-color: inherit;
 }
+
 .register{
     font-size: 0.8em;
     border: none;
@@ -33,20 +25,9 @@
 .register:hover{
     background-color: rgb(92, 172, 185);
 }
-
-#brandName{
-    font-size: 2rem;
+.logout{
+    color: white
 }
-@media(max-width: 1240px){
-    .navbar{
-        width: 100%;
-        background: inherit;
-    }
-}
-
-@media(max-width: 1500px){
-    .ch2{
-        left: 60%;
-        width: 40%;
-    }
+.logout:hover{
+    color: rgb(224, 182, 111)
 }

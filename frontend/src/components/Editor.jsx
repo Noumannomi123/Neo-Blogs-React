@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Quill } from "react-quill";
@@ -19,12 +19,14 @@ import "@edtr-io/mathquill/build/mathquill.css";
 // mathquill4quill include
 import mathquill4quill from "mathquill4quill";
 import "mathquill4quill/mathquill4quill.css";
+import AuthContext from "./AuthContext";
 Quill.register("modules/imageActions", ImageActions);
 Quill.register("modules/imageFormats", ImageFormats);
 Quill.register("modules/math", mathquill4quill({ Quill, katex }));
 
-
 const QuillEditor = () => {
+  const { loggedIn } = useContext(AuthContext);
+  console.log(loggedIn, "from editor");
   const [editorValue, setEditorValue] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
   const [title, setTitle] = useState("");
