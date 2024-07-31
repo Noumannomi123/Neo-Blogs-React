@@ -40,24 +40,31 @@ const Header = () => {
             />
           </>
         ) : (
-          <>
+          <div className="d-flex align-items-center">
             <NavButton text={user.email} address="/home" />
-            <button onClick={handleLogout} className="btn logout">
+            <button onClick={handleLogout} className="btn logout mx-5">
               Logout
             </button>
-          </>
+          </div>
         )}
       </Nav>
       {loggedIn && (
-        <Dropdown className="d-inline mx-2">
-          <Dropdown.Toggle id="dropdown-autoclose-true">More</Dropdown.Toggle>
+        <>
+          <Nav>
+            <NavButton text={`My blogs`} address={`/users/${user.id}/myblogs`} />
+          </Nav>
+          <Dropdown className="d-flex align-items-center mx-2">
+            <Dropdown.Toggle id="dropdown-autoclose-true">More</Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item href={`/users/${user.id}/posts/new`}>New blog</Dropdown.Item>
-            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            <Dropdown.Menu>
+              <Dropdown.Item href={`/users/${user.id}/posts/new`}>
+                New blog
+              </Dropdown.Item>
+              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+              <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+        </>
       )}
     </div>
   );

@@ -8,6 +8,8 @@ import NewBlog from "./Pages/NewBlog";
 import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import SignUp from "./Pages/Register";
+import MyBlogs from "./Pages/MyBlogs";
+import Blog from "./Pages/Blog";  
 function App() {
   return (
     <Router>
@@ -19,6 +21,8 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/editor" element={<Editor />} />
           <Route path="/users/:id/posts/new" element={<NewBlog />} />
+          <Route path="/users/:id/posts/:id" element={<Blog />} />
+          <Route path="/users/:id/myblogs" element={<MyBlogs />} />
         </Route>
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

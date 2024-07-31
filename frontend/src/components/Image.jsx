@@ -1,9 +1,13 @@
 import PropTypes from "prop-types";
+import lorem from "../assets/lorem.jpg"
 const Image = ({ src, alt, height, width }) => {
+  const handleError = (e) => {
+    e.target.src = lorem;
+  };
   return (
     <div
       style={{
-        width: width  ,
+        width: width,
         height: height,
       }}
     >
@@ -16,6 +20,7 @@ const Image = ({ src, alt, height, width }) => {
         className="img-fluid"
         src={src}
         alt={alt}
+        onError={handleError}
       />
     </div>
   );

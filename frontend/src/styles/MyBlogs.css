@@ -1,0 +1,20 @@
+.blog-card{
+    width: 15%;
+    font-family: sans-serif;
+    box-shadow: 0 0 10px 0px rgba(67, 41, 163,0.4);
+    border: none;
+    text-align: center;
+    margin-bottom: 2%;
+    transition: all 0.3s ease-in-out;
+}
+.blog-card:hover{
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px 0px rgba(67, 41, 163,0.4);
+}
+@media (max-width: 700px){
+    .blog-card{
+        margin-bottom: 5%;
+        min-width: 18rem;
+    }
+}
