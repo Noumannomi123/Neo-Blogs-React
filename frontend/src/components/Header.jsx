@@ -6,10 +6,10 @@ import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "./AuthContext";
 import { useContext } from "react";
+import Dropdown from "react-bootstrap/Dropdown";
 const Header = () => {
   const navigate = useNavigate();
   const { loggedIn, user } = useContext(AuthContext);
-  console.log(loggedIn, user);
   const handleLogout = async () => {
     try {
       await axios.get(API_URL + "/user/logout", {
@@ -42,12 +42,23 @@ const Header = () => {
         ) : (
           <>
             <NavButton text={user.email} address="/home" />
-            <button onClick={handleLogout} className="btn logouth">
+            <button onClick={handleLogout} className="btn logout">
               Logout
             </button>
           </>
         )}
       </Nav>
+      {loggedIn && (
+        <Dropdown className="d-inline mx-2">
+          <Dropdown.Toggle id="dropdown-autoclose-true">More</Dropdown.Toggle>
+
+          <Dropdown.Menu>
+            <Dropdown.Item href={`/users/${user.id}/posts/new`}>New blog</Dropdown.Item>
+            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      )}
     </div>
   );
 };

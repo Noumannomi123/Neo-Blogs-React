@@ -1,6 +1,7 @@
-import { useState, useEffect } from "react";
+import { useEffect, useContext } from "react";
 import loader from "../assets/loader.png";
 import "../styles/Loader.css";
+import AuthContext from "./AuthContext";
 const Loader = () => {
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
@@ -9,10 +10,7 @@ const Loader = () => {
   );
 };
 const HelperLoader = () => {
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    setLoading(false);
-  }, []);
+  const { loading } = useContext(AuthContext);
   return loading;
 };
 export default Loader;

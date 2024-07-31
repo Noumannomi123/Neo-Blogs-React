@@ -60,7 +60,7 @@ app.use(cors({
 
 
 app.use("/user", userRouter);
-app.use("/user/posts", blogRouter);
+app.use("/user/blog", blogRouter);
 
 // routes
 app.get("/", (req, res) => {

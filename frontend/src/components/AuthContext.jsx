@@ -4,11 +4,10 @@ import PropTypes from "prop-types";
 const AuthContext = createContext(null);
 import axios from "axios";
 import API_URL from "../config";
-import Loader from "../components/Loader";
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
@@ -31,8 +30,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkAuthentication();
-  }, [setUser, setLoggedIn]);
-  if (loading) return <Loader />;
+  }, []);
   return (
     <AuthContext.Provider
       value={{
@@ -40,6 +38,7 @@ const AuthProvider = ({ children }) => {
         setUser,
         loggedIn,
         setLoggedIn,
+        loading,
       }}
     >
       {children}
