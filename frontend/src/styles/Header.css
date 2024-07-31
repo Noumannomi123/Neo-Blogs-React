@@ -31,3 +31,15 @@
 .logout:hover{
     color: rgb(224, 182, 111)
 }
+
+.navMobile{
+    background-color: inherit;
+    border: none;
+}
+
+@media (max-width: 1000px){
+    .for-container{
+        justify-content: space-between;
+    }
+}
+
