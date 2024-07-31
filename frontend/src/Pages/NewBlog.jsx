@@ -5,6 +5,7 @@ import { useContext } from "react";
 import AuthContext from "../components/AuthContext";
 import { useParams } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
+import NavBar from "../components/NavBar";
 const NewBlog = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
@@ -12,6 +13,7 @@ const NewBlog = () => {
   if (id != user.id) return <NotFoundPage />;
   return (
     <div>
+      <NavBar />
       <VStack marginTop={10} marginLeft={"10%"} marginRight={"10%"}>
         <h3 className="mb-4">Add a new post</h3>
         <Editor />

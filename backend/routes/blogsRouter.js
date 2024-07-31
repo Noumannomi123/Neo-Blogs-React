@@ -2,7 +2,9 @@ import express from "express";
 const router = express.Router();
 import multer from "multer";
 import { db } from "../index.js";
-const upload = multer({ dest: 'uploads/' })
+const upload = multer({
+    dest: 'uploads/',
+})
 router.post("/new/:id", upload.single('image'), async (req, res) => {
     try {
         const author_id = req.params.id;
