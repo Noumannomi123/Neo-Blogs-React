@@ -209,7 +209,7 @@ const QuillEditor = () => {
 
   return (
     <div className="vh-100 w-100" id="container">
-      <img src={titleImage[0].data_url} alt="" height={300} width={300} />
+      {/* <img src={``} alt="" height={300} width={300} /> */}
       <div className="w-100 d-flex justify-content-center">
         <button onClick={togglePreview} className="btn btn-primary mb-3">
           {previewMode ? "Edit" : "Preview"}
