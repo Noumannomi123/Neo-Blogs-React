@@ -38,7 +38,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
 app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [

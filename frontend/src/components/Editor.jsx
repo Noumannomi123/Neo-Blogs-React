@@ -182,31 +182,34 @@ const QuillEditor = () => {
       return;
     }
     try {
-      const data = [title, titleImage, sanitizedHtml];
-      const file = data[1][0].file;
-      console.log(file, "File by ");
-      setError("");
-      const formData = new FormData();
-      formData.append("image", file);
-      formData.append("title", title);
-      formData.append("content", sanitizedHtml);
-      const response = await axios.post(
+      const data = {
+        title_image: titleImage[0].data_url,
+        title: title,
+        content: sanitizedHtml,
+      };
+      const response = axios.post(
         `${API_URL}/user/blog/new/${user.id}`,
-        formData,
+        data,
         {
           withCredentials: true,
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
         }
       );
-      console.log(response);
+      console.log(response.data);
     } catch (error) {
-      console.error("Error saving post:", error);
+      console.log("Error sending request");
     }
   };
+
+  const myImg = "./1722534687283.jpg";
+  const [imgSrc, setImgSrc] = useState(null);
+  useEffect(() => {
+    // Assuming myImg is a path like '/images/myImage.jpg'
+    setImgSrc(myImg);
+  }, [myImg]);
+
   return (
     <div className="vh-100 w-100" id="container">
+      <img src={titleImage[0].data_url} alt="" height={300} width={300} />
       <div className="w-100 d-flex justify-content-center">
         <button onClick={togglePreview} className="btn btn-primary mb-3">
           {previewMode ? "Edit" : "Preview"}
@@ -244,7 +247,9 @@ const QuillEditor = () => {
             />
             {error && <p className="text-danger text-center">{error}</p>}
             <ImageUploader setTitleImage={setTitleImage} />
-            {errorImage && <p className="text-danger text-center">{errorImage}</p>}
+            {errorImage && (
+              <p className="text-danger text-center">{errorImage}</p>
+            )}
           </div>
 
           <ReactQuill

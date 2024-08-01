@@ -34,10 +34,10 @@ const Header = () => {
             Home
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item href={`/home`}>Home</Dropdown.Item>
-            <Dropdown.Item href={`/users/about`}>About</Dropdown.Item>
-            <Dropdown.Item href={`/users/contact`}>Contact</Dropdown.Item>
-            <Dropdown.Item onClick={handleLogout}>Logout</Dropdown.Item>
+            <Dropdown.Item className="navMobileItems" href={`/home`}>Home</Dropdown.Item>
+            <Dropdown.Item className="navMobileItems" href={`/users/about`}>About</Dropdown.Item>
+            <Dropdown.Item className="navMobileItems" href={`/users/contact`}>Contact</Dropdown.Item>
+            <Dropdown.Item className="navMobileItems" onClick={handleLogout}>Logout</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       ) : (
@@ -57,28 +57,28 @@ const Header = () => {
           ) : (
             <div className="d-flex align-items-center">
               <NavButton text={user.email} address="/home" />
-              <button onClick={handleLogout} className="btn logout mx-5">
-                Logout
-              </button>
               <NavButton
                 text={`My blogs`}
                 address={`/users/${user.id}/myblogs`}
               />
+              <button onClick={handleLogout} className="btn logout mx-2">
+                Logout
+              </button>
             </div>
           )}
         </Nav>
       )}
 
       {loggedIn && (
-        <Dropdown  className="d-flex align-items-center mx-2">
+        <Dropdown  className="d-flex align-items-center">
           <Dropdown.Toggle className="navMobile mx-4" id="dropdown-autoclose-true">More</Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item href={`/users/${user.id}/posts/new`}>
+            <Dropdown.Item className="navMobileItems" href={`/users/${user.id}/posts/new`}>
               New blog
             </Dropdown.Item>
-            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
-            <Dropdown.Item href="#">Menu Item</Dropdown.Item>
+            <Dropdown.Item className="navMobileItems" href="#">Menu Item</Dropdown.Item>
+            <Dropdown.Item className="navMobileItems" href="#">Menu Item</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )}

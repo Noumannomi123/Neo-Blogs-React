@@ -8,7 +8,6 @@ const ImageUploader = ({ setTitleImage }) => {
     setImage(imageList);
     setTitleImage(imageList);
   };
-
   return (
     <div>
       <ImageUploading
