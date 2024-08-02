@@ -37,3 +37,12 @@
   border-radius: 10px;
   text-align: center;
 }
+.alert-image{
+  display: flex;
+  width: 100%;
+  flex-direction: row-reverse;
+  margin-right: 5%;
+  height: 50px;
+  position: fixed;
+  z-index: 100;
+}

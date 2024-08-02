@@ -1,29 +1,10 @@
 import express from "express";
 const router = express.Router();
-import multer from "multer";
 import { db } from "../index.js";
-import path from "path";
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/'); // Set the directory where the file will be uploaded
-    },
-    filename: function (req, file, cb) {
-        // Extract the original file extension
-        const ext = path.extname(file.originalname);
-        // Create a new filename with a timestamp and the original extension
-        cb(null, Date.now() + ext);
-    }
-});
-const upload = multer({
-    storage: storage,
-})
-
 router.get("/:id/all", async (req, res) => {
     try {
         const author_id = req.params.id;
         const result = await db.query("SELECT id,title,title_picture,created_at FROM blog_posts WHERE author_id = $1", [author_id]);
-        // TO-DO: Send the image file. Read docs.
-        // const data = result.rows.map((blog) => blog.title_picture = '');
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)

@@ -5,7 +5,8 @@ import { Quill } from "react-quill";
 import { ImageActions } from "@xeger/quill-image-actions";
 import { ImageFormats } from "@xeger/quill-image-formats";
 import DOMPurify from "dompurify";
-import "../styles/Editor.css";
+import Modal from "./Modal";
+import alert from "../assets/danger.png";
 // KaTeX dependency
 import katex from "katex";
 window.katex = katex;
@@ -29,6 +30,7 @@ import axios from "axios";
 import API_URL from "../config";
 import ImageUploader from "./ImageUploader";
 import AuthContext from "./AuthContext";
+import "../styles/Editor.css";
 const QuillEditor = () => {
   const { user } = useContext(AuthContext);
   const [editorValue, setEditorValue] = useState("");
@@ -37,6 +39,7 @@ const QuillEditor = () => {
   const [titleImage, setTitleImage] = useState([]);
   const [error, setError] = useState("");
   const [errorImage, setErrorImage] = useState("");
+  const [isModalVisible, setModalVisible] = useState(false);
   // TO-DO: Sanitizer needs fixing. Fix image height, width.
   const sanitizedHtml = DOMPurify.sanitize(editorValue, {
     ALLOWED_TAGS: [
@@ -134,9 +137,9 @@ const QuillEditor = () => {
       insertIntoEditor: undefined, // default
     },
   };
-  useEffect(()=>{
+  useEffect(() => {
     setErrorImage("");
-  },[titleImage])
+  }, [titleImage]);
   const formats = [
     "align",
     "background",
@@ -174,8 +177,22 @@ const QuillEditor = () => {
       mathquill4quill({ Quill, katex })(quillEditor);
     }
   }, [quillRef]);
-  
   const handleSavePost = async () => {
+    try {
+      const data = {
+        title_image: titleImage[0].data_url,
+        title: title,
+        content: sanitizedHtml,
+      };
+      axios.post(`${API_URL}/user/blog/new/${user.id}`, data, {
+        withCredentials: true,
+      });
+      setModalVisible(false);
+    } catch (error) {
+      console.log("Error sending request");
+    }
+  };
+  const confirmSavePost = () => {
     if (!title.trim()) {
       setError("Title is required");
       return;
@@ -184,82 +201,28 @@ const QuillEditor = () => {
       setErrorImage("Title image is required");
       return;
     }
-    
-
-    try {
-      const data = {
-        title_image: titleImage[0].data_url,
-        title: title,
-        content: sanitizedHtml,
-      };
-      const response = axios.post(`${API_URL}/user/blog/new/${user.id}`, data, {
-        withCredentials: true,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.log("Error sending request");
-    }
+    setModalVisible(true);
   };
-  console.log(titleImage);
+  const handleConfirm = () => {
+    handleSavePost();
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+  };
   return (
-    <div className="vh-100 w-100 d-flex flex-column" id="container">
-      {previewMode ? (
-        <div className="preview d-flex flex-column">
-          <div className="w-100 d-flex justify-content-center">
-            <button onClick={togglePreview} className="btn btn-primary mb-3">
-              Edit
-            </button>
-          </div>
-          <div className="w-100 fs-2 text-center mb-3">
-            <h2 id="title">{title}</h2>
-          </div>
-          {titleImage.length > 0 && (
-            <img
-              style={{ alignSelf: "center" }}
-              width="200"
-              height="200"
-              src={titleImage[0].data_url}
-              alt=""
-            />
-          )}
-          <div
-            dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
-            style={{
-              border: "1px solid #ddd",
-              padding: "10px",
-              minHeight: "200px",
-            }}
-          />{" "}
-        </div>
-      ) : (
-        <div>
-          <div
-            className="w-100 fs-2 text-center mb-3 d-flex flex-column"
-            id="title-container"
-          >
-            <div className="d-flex flex-row-reverse">
-              <div className="d-flex" style={{ width: "10%" }}>
-                <button onClick={togglePreview} className="btn btn-primary">
-                  Preview
-                </button>
-              </div>
-              <input
-                className={
-                  title ? "border-bottom fw-bold w-100 text-center mb-3" : "mb-3"
-                }
-                style={{ width: "90%" }}
-                id="title-input"
-                type="text"
-                placeholder="Add a new title"
-                value={title}
-                onChange={(e) => {
-                  setError("");
-                  setTitle(e.target.value);
-                }}
-                required
-              />
+    <>
+      <div className="vh-100 w-100 d-flex flex-column" id="container">
+        {previewMode ? (
+          <div className="preview d-flex flex-column">
+            <div className="w-100 d-flex justify-content-center">
+              <button onClick={togglePreview} className="btn btn-primary mb-3">
+                Edit
+              </button>
             </div>
-            {error && <p className="text-danger text-center">{error}</p>}
+            <div className="w-100 fs-2 text-center mb-3">
+              <h2 id="title">{title}</h2>
+            </div>
             {titleImage.length > 0 && (
               <img
                 style={{ alignSelf: "center" }}
@@ -269,30 +232,97 @@ const QuillEditor = () => {
                 alt=""
               />
             )}
-
-            <ImageUploader setTitleImage={setTitleImage} images={titleImage}/>
-            {errorImage && (
-              <p className="text-danger text-center">{errorImage}</p>
-            )}
+            <div
+              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+              style={{
+                border: "1px solid #ddd",
+                padding: "10px",
+                minHeight: "200px",
+              }}
+            />
           </div>
+        ) : (
+          <div>
+            <div
+              className="w-100 fs-2 text-center mb-3 d-flex flex-column"
+              id="title-container"
+            >
+              <div className="d-flex flex-row-reverse">
+                <div className="d-flex" style={{ width: "10%" }}>
+                  <button onClick={togglePreview} className="btn btn-primary">
+                    Preview
+                  </button>
+                </div>
+                <input
+                  className={
+                    title
+                      ? "border-bottom fw-bold w-100 text-center mb-3"
+                      : "mb-3"
+                  }
+                  style={{ width: "90%" }}
+                  id="title-input"
+                  type="text"
+                  placeholder="Add a new title"
+                  value={title}
+                  onChange={(e) => {
+                    setError("");
+                    setTitle(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+              {error && <p className="text-danger text-center">{error}</p>}
+              {titleImage.length > 0 && (
+                <img
+                  style={{ alignSelf: "center" }}
+                  width="200"
+                  height="200"
+                  src={titleImage[0].data_url}
+                  alt=""
+                />
+              )}
 
-          <ReactQuill
-            ref={quillRef}
-            value={editorValue}
-            onChange={setEditorValue}
-            modules={modules}
-            formats={formats}
-            theme="snow"
-          />
-          <div className="w-100 d-flex flex-row-reverse mt-3">
-            <button onClick={handleSavePost} className="px-4 btn btn-primary">
-              Save
-            </button>
-            <button className="px-4 btn btn-light">Cancel</button>
+              <ImageUploader
+                setTitleImage={setTitleImage}
+                images={titleImage}
+              />
+              {errorImage && (
+                <p className="text-danger text-center">{errorImage}</p>
+              )}
+            </div>
+
+            <ReactQuill
+              ref={quillRef}
+              value={editorValue}
+              onChange={setEditorValue}
+              modules={modules}
+              formats={formats}
+              theme="snow"
+            />
+            <div className="w-100 d-flex flex-row-reverse mt-3">
+              <button
+                onClick={confirmSavePost}
+                className="px-4 btn btn-primary"
+              >
+                Save
+              </button>
+              <Modal
+                isVisible={isModalVisible}
+                message="Are you sure you want to save this post?"
+                onConfirm={handleConfirm}
+                onCancel={handleCancel}
+              />
+              <button className="px-4 btn btn-light">Cancel</button>
+            </div>
           </div>
+        )}
+      </div>
+      {(error || errorImage) && (
+        <div className="alert-image">
+          <img src={alert} alt="danger" width={50} />
         </div>
       )}
-    </div>
+    </>
   );
 };
 
