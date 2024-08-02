@@ -29,4 +29,14 @@ router.post("/new/:id", async (req, res) => {
 
 })
 
+router.get("/:id", async (req, res) => {
+    try {
+        const id = req.params.id;
+        const result = await db.query("SELECT content,id,title,title_picture FROM blog_posts WHERE id = $1", [id]);
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error fetching blog from the database.", error)
+        res.status(500).json({ message: "Error fetching blog." })
+    }
+})
 export default router;

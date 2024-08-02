@@ -11,6 +11,7 @@ import AuthContext from "../components/AuthContext";
 import API_URL from "../config";
 import { useParams } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
+import Image from "../components/Image";
 const MyBlogs = () => {
   const { user } = useContext(AuthContext);
   // const blogs = [
@@ -55,32 +56,33 @@ const MyBlogs = () => {
         const response = await axios.get(`${API_URL}/user/blog/${user.id}/all`);
         setBlogs(response.data);
         setLoading(false);
-        console.log(response.data);
       } catch (error) {
         console.log("Error reqtrieving blogs.");
       }
     };
     getBlogs();
   }, [user.id]);
-
   const showBlogs = (blog) => {
     return (
-      <Card
-        direction="horizontal"
-        key={blog.id}
-        style={{ width: "15rem", maxHeight: "100%" }}
-        className="px-2 blog-card"
-      >
-        <Card.Img
-          variant="top"
-          src={blog.title_picture || lorem}
-          onError={(e) => (e.target.src = lorem)}
-        />
-        <Card.Body id={blog.id}>
-          <small className="mt-1">{blog.created_at}</small>
-          <h4 className="mt-2">{blog.title}</h4>
-        </Card.Body>
-      </Card>
+      <div className="card-container" key={blog.id}>
+        <a href={`/users/${user.id}/posts/${blog.id}`}>
+          <Card
+            direction="horizontal"
+            style={{ width: "18rem", maxHeight: "90%" }}
+            className="px-2 blog-card"
+          >
+            <Image
+              src={blog.title_picture || lorem}
+              width={"270px"}
+              height={"150px"}
+            />
+            <Card.Body>
+              <small className="mt-1">{blog.created_at.slice(0, 10)}</small>
+              <p className="mt-2 fw-bold">{blog.title}</p>
+            </Card.Body>
+          </Card>
+        </a>
+      </div>
     );
   };
   if (id != user.id) return <NotFoundPage />;
