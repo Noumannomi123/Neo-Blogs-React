@@ -35,6 +35,8 @@ const QuillEditor = () => {
   const [previewMode, setPreviewMode] = useState(false);
   const [title, setTitle] = useState("");
   const [titleImage, setTitleImage] = useState([]);
+  const [error, setError] = useState("");
+  const [errorImage, setErrorImage] = useState("");
   // TO-DO: Sanitizer needs fixing. Fix image height, width.
   const sanitizedHtml = DOMPurify.sanitize(editorValue, {
     ALLOWED_TAGS: [
@@ -132,7 +134,9 @@ const QuillEditor = () => {
       insertIntoEditor: undefined, // default
     },
   };
-
+  useEffect(()=>{
+    setErrorImage("");
+  },[titleImage])
   const formats = [
     "align",
     "background",
@@ -170,8 +174,7 @@ const QuillEditor = () => {
       mathquill4quill({ Quill, katex })(quillEditor);
     }
   }, [quillRef]);
-  const [error, setError] = useState("");
-  const [errorImage, setErrorImage] = useState("");
+  
   const handleSavePost = async () => {
     if (!title.trim()) {
       setError("Title is required");
@@ -181,45 +184,44 @@ const QuillEditor = () => {
       setErrorImage("Title image is required");
       return;
     }
+    
+
     try {
       const data = {
         title_image: titleImage[0].data_url,
         title: title,
         content: sanitizedHtml,
       };
-      const response = axios.post(
-        `${API_URL}/user/blog/new/${user.id}`,
-        data,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = axios.post(`${API_URL}/user/blog/new/${user.id}`, data, {
+        withCredentials: true,
+      });
       console.log(response.data);
     } catch (error) {
       console.log("Error sending request");
     }
   };
-
-  const myImg = "./1722534687283.jpg";
-  const [imgSrc, setImgSrc] = useState(null);
-  useEffect(() => {
-    // Assuming myImg is a path like '/images/myImage.jpg'
-    setImgSrc(myImg);
-  }, [myImg]);
-
+  console.log(titleImage);
   return (
-    <div className="vh-100 w-100" id="container">
-      {/* <img src={``} alt="" height={300} width={300} /> */}
-      <div className="w-100 d-flex justify-content-center">
-        <button onClick={togglePreview} className="btn btn-primary mb-3">
-          {previewMode ? "Edit" : "Preview"}
-        </button>
-      </div>
+    <div className="vh-100 w-100 d-flex flex-column" id="container">
       {previewMode ? (
-        <div className="preview">
+        <div className="preview d-flex flex-column">
+          <div className="w-100 d-flex justify-content-center">
+            <button onClick={togglePreview} className="btn btn-primary mb-3">
+              Edit
+            </button>
+          </div>
           <div className="w-100 fs-2 text-center mb-3">
             <h2 id="title">{title}</h2>
           </div>
+          {titleImage.length > 0 && (
+            <img
+              style={{ alignSelf: "center" }}
+              width="200"
+              height="200"
+              src={titleImage[0].data_url}
+              alt=""
+            />
+          )}
           <div
             dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
             style={{
@@ -231,22 +233,44 @@ const QuillEditor = () => {
         </div>
       ) : (
         <div>
-          {/* take title of the post as input */}
-          <div className="w-100 fs-2 text-center mb-3" id="title-container">
-            <input
-              className={title ? "border-bottom fw-bold w-100 text-center" : ""}
-              id="title-input"
-              type="text"
-              placeholder="Add a new title"
-              value={title}
-              onChange={(e) => {
-                setError("");
-                setTitle(e.target.value);
-              }}
-              required
-            />
+          <div
+            className="w-100 fs-2 text-center mb-3 d-flex flex-column"
+            id="title-container"
+          >
+            <div className="d-flex flex-row-reverse">
+              <div className="d-flex" style={{ width: "10%" }}>
+                <button onClick={togglePreview} className="btn btn-primary">
+                  Preview
+                </button>
+              </div>
+              <input
+                className={
+                  title ? "border-bottom fw-bold w-100 text-center mb-3" : "mb-3"
+                }
+                style={{ width: "90%" }}
+                id="title-input"
+                type="text"
+                placeholder="Add a new title"
+                value={title}
+                onChange={(e) => {
+                  setError("");
+                  setTitle(e.target.value);
+                }}
+                required
+              />
+            </div>
             {error && <p className="text-danger text-center">{error}</p>}
-            <ImageUploader setTitleImage={setTitleImage} />
+            {titleImage.length > 0 && (
+              <img
+                style={{ alignSelf: "center" }}
+                width="200"
+                height="200"
+                src={titleImage[0].data_url}
+                alt=""
+              />
+            )}
+
+            <ImageUploader setTitleImage={setTitleImage} images={titleImage}/>
             {errorImage && (
               <p className="text-danger text-center">{errorImage}</p>
             )}
