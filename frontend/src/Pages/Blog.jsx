@@ -26,10 +26,9 @@ const Blog = () => {
     loadBlog();
   }, [blog_id]);
 
-  if (user.id != id) return <NotFoundPage />;
+  if (user.id != id) return <NotFoundPage msg={`Unauthorized`}/>;
   if (HelperLoader()) return <Loader />;
   if (loading) return <Loader />;
-
   return (
     <>
       <NavBar />

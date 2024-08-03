@@ -1,9 +1,8 @@
+import Loader from "./Loader";
 import { useState, useRef, useEffect, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Quill } from "react-quill";
-import { ImageActions } from "@xeger/quill-image-actions";
-import { ImageFormats } from "@xeger/quill-image-formats";
 import DOMPurify from "dompurify";
 import Modal from "./Modal";
 import alert from "../assets/danger.png";
@@ -19,29 +18,29 @@ import "@edtr-io/mathquill/build/mathquill.css";
 // mathquill4quill include
 import mathquill4quill from "mathquill4quill";
 import "mathquill4quill/mathquill4quill.css";
-Quill.register("modules/imageActions", ImageActions);
-Quill.register("modules/imageFormats", ImageFormats);
-Quill.register("modules/math", mathquill4quill({ Quill, katex }));
-
-import ImageCompress from "quill-image-compress";
-Quill.register("modules/imageCompress", ImageCompress);
 
 import axios from "axios";
 import API_URL from "../config";
 import ImageUploader from "./ImageUploader";
 import AuthContext from "./AuthContext";
 import "../styles/Editor.css";
-const QuillEditor = () => {
+import { useParams } from "react-router-dom";
+const BlogEditor = () => {
   const { user } = useContext(AuthContext);
-  const [editorValue, setEditorValue] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
-  const [title, setTitle] = useState("");
-  const [titleImage, setTitleImage] = useState([]);
+  //   const [editorValue, setEditorValue] = useState("");
+  //   const [title, setTitle] = useState("");
+  //   const [titleImage, setTitleImage] = useState([]);
+  const [blog, setBlog] = useState({
+    title: "",
+    editorValue: "",
+    titleImage: [],
+  });
   const [error, setError] = useState("");
   const [errorImage, setErrorImage] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   // TO-DO: Sanitizer needs fixing. Fix image height, width.
-  const sanitizedHtml = DOMPurify.sanitize(editorValue, {
+  const sanitizedHtml = DOMPurify.sanitize(blog.editorValue, {
     ALLOWED_TAGS: [
       "b",
       "i",
@@ -102,9 +101,9 @@ const QuillEditor = () => {
       "data-qa",
     ],
     ALLOWED_URI_REGEXP: /^(?:https?:\/\/|data:)/i,
-  });
+  }); //----
   const quillRef = useRef(null);
-  // console.log(editorValue, "Original");
+  // console.log(blog.editorValue, "Original");
   const modules = {
     toolbar: {
       container: [
@@ -126,6 +125,8 @@ const QuillEditor = () => {
     formula: true,
     imageActions: {},
     imageFormats: {},
+    // imageActions: {},
+    // imageFormats: {},
     imageCompress: {
       quality: 0.7, // default
       maxWidth: 1000, // default
@@ -139,7 +140,7 @@ const QuillEditor = () => {
   };
   useEffect(() => {
     setErrorImage("");
-  }, [titleImage]);
+  }, [blog.titleImage]); //----
   const formats = [
     "align",
     "background",
@@ -178,15 +179,20 @@ const QuillEditor = () => {
     }
   }, [quillRef]);
   const handleSavePost = async () => {
+    /////--------
     try {
       const data = {
-        title_image: titleImage[0].data_url,
-        title: title,
+        title_image: blog.titleImage[0].data_url,
+        title: blog.title,
         content: sanitizedHtml,
       };
-      axios.post(`${API_URL}/user/blog/new/${user.id}`, data, {
-        withCredentials: true,
-      });
+      axios.put(
+        `${API_URL}/user/blog/new/${user.id}?blog_id=${blog_id}`,
+        data,
+        {
+          withCredentials: true, // TO-DO, check if required
+        }
+      );
     } catch (error) {
       console.log("Error sending request");
     } finally {
@@ -194,16 +200,16 @@ const QuillEditor = () => {
     }
   };
   const confirmSavePost = () => {
-    if (!title.trim()) {
+    if (!blog.title.trim()) {
       setError("Title is required");
       return;
     }
-    if (titleImage.length == 0) {
+    if (blog.titleImage.length == 0) {
       setErrorImage("Title image is required");
       return;
     }
     setModalVisible(true);
-  };
+  }; //----------
   const handleConfirm = () => {
     handleSavePost();
   };
@@ -211,6 +217,26 @@ const QuillEditor = () => {
   const handleCancel = () => {
     setModalVisible(false);
   };
+  const { blog_id } = useParams();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const loadBlog = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/user/blog/${blog_id}`);
+        const data = response.data;
+        setBlog({
+          ...data,
+          editorValue: data.content,
+          titleImage: [{ data_url: data.title_picture }],
+        });
+        setLoading(false);
+      } catch (error) {
+        console.log("Error loading blog", error);
+      }
+    };
+    loadBlog();
+  }, [blog_id]);
+  if (loading) return <Loader />;
   return (
     <>
       <div className="vh-100 w-100 d-flex flex-column" id="container">
@@ -222,14 +248,14 @@ const QuillEditor = () => {
               </button>
             </div>
             <div className="w-100 fs-2 text-center mb-3">
-              <h2 id="title">{title}</h2>
+              <h2 id="title">{blog.title}</h2>
             </div>
-            {titleImage.length > 0 && (
+            {blog.titleImage.length > 0 && (
               <img
                 style={{ alignSelf: "center" }}
                 width="200"
                 height="200"
-                src={titleImage[0].data_url}
+                src={blog.titleImage[0].data_url}
                 alt=""
               />
             )}
@@ -256,7 +282,7 @@ const QuillEditor = () => {
                 </div>
                 <input
                   className={
-                    title
+                    blog.title
                       ? "border-bottom fw-bold w-100 text-center mb-3"
                       : "mb-3"
                   }
@@ -264,28 +290,29 @@ const QuillEditor = () => {
                   id="title-input"
                   type="text"
                   placeholder="Add a new title"
-                  value={title}
-                  onChange={(e) => {
-                    setError("");
-                    setTitle(e.target.value);
-                  }}
+                  value={blog.title}
+                  onChange={(title) =>
+                    setBlog((prevState) => ({ ...prevState, title: title }))
+                  }
                   required
                 />
               </div>
               {error && <p className="text-danger text-center">{error}</p>}
-              {titleImage.length > 0 && (
+              {blog.titleImage.length > 0 && (
                 <img
                   style={{ alignSelf: "center" }}
                   width="200"
                   height="200"
-                  src={titleImage[0].data_url}
+                  src={blog.titleImage[0].data_url}
                   alt=""
                 />
               )}
 
               <ImageUploader
-                setTitleImage={setTitleImage}
-                images={titleImage}
+                setTitleImage={(images) =>
+                  setBlog((prevState) => ({ ...prevState, titleImage: images }))
+                }
+                images={blog.titleImage}
               />
               {errorImage && (
                 <p className="text-danger text-center">{errorImage}</p>
@@ -294,8 +321,10 @@ const QuillEditor = () => {
 
             <ReactQuill
               ref={quillRef}
-              value={editorValue}
-              onChange={setEditorValue}
+              value={blog.editorValue}
+              onChange={(content) =>
+                setBlog((prevState) => ({ ...prevState, editorValue: content }))
+              }
               modules={modules}
               formats={formats}
               theme="snow"
@@ -327,4 +356,4 @@ const QuillEditor = () => {
   );
 };
 
-export default QuillEditor;
+export default BlogEditor;

@@ -1,12 +1,12 @@
 import { VStack } from "@chakra-ui/react";
-import Editor from "../components/Editor";
 import Loader, { HelperLoader } from "../components/Loader";
 import { useContext } from "react";
 import AuthContext from "../components/AuthContext";
 import { useParams } from "react-router-dom";
 import NotFoundPage from "./NotFoundPage";
 import NavBar from "../components/NavBar";
-const NewBlog = () => {
+import BlogEditor from "../components/BlogEditor";
+const EditBlog = () => {
   const { user } = useContext(AuthContext);
   const { id } = useParams();
   if (HelperLoader()) return <Loader />;
@@ -15,11 +15,13 @@ const NewBlog = () => {
     <div>
       <NavBar />
       <VStack marginTop={10} marginLeft={"10%"} marginRight={"10%"}>
-        <h2 className="mb-3">Add a new Blog</h2>
-        <Editor />
+        <h2 className="mb-3">Edit your blog</h2>
+        {/* <Editor /> */}
+        {/* TO-DO: Add custom component for editing */}
+        <BlogEditor />
       </VStack>
     </div>
   );
 };
 
-export default NewBlog;
+export default EditBlog;

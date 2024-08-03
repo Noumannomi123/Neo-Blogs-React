@@ -22,6 +22,7 @@ const ImageUploader = ({ setTitleImage, images }) => {
         {({
           imageList,
           onImageUpload,
+          onImageUpdate,
           onImageRemove,
           isDragging,
           dragProps,
@@ -40,7 +41,7 @@ const ImageUploader = ({ setTitleImage, images }) => {
               <>
                 <button
                   style={isDragging ? { color: "red" } : null}
-                  onClick={() => onImageUpload(imageList[0])}
+                  onClick={() => onImageUpdate(imageList[0])}
                   {...dragProps}
                   className="fw-normal mx-5"
                 >

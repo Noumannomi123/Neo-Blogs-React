@@ -16,7 +16,7 @@ const Modal = ({ isVisible, message, onConfirm, onCancel }) => {
   );
 };
 Modal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
+  isVisible: PropTypes.oneOfType([PropTypes.bool, PropTypes.string]).isRequired,
   message: PropTypes.string.isRequired,
   onConfirm: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,

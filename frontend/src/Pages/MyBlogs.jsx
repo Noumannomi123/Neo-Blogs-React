@@ -9,9 +9,13 @@ import { useContext } from "react";
 import axios from "axios";
 import AuthContext from "../components/AuthContext";
 import API_URL from "../config";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { HStack } from "@chakra-ui/react";
 import NotFoundPage from "./NotFoundPage";
 import Image from "../components/Image";
+import edit from "../assets/edit.png";
+import { Link } from "react-router-dom";
+import trash from "../assets/delete.png";
 const MyBlogs = () => {
   const { user } = useContext(AuthContext);
   // const blogs = [
@@ -49,7 +53,7 @@ const MyBlogs = () => {
   const [blogs, setBlogs] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const getBlogs = async () => {
       try {
@@ -62,10 +66,22 @@ const MyBlogs = () => {
     };
     getBlogs();
   }, [user.id]);
+  // const [modal, setIsModal] = useState(false);
+  const handleBlogDelete = async (blog_id) => {
+    // setIsModal(true);
+    window.confirm("Are you sure you want to delete this blog?");
+    if (!window.confirm) return;
+    try {
+      await axios.delete(`${API_URL}/user/blog//${blog_id}`);
+      setBlogs(blogs.filter((blog) => blog.id != blog_id));
+    } catch (error) {
+      console.log("Error deleting blog", error);
+    }
+  };
   const showBlogs = (blog) => {
     return (
       <div className="card-container" key={blog.id}>
-        <a href={`/users/${user.id}/posts/${blog.id}`}>
+        <Link to={`/users/${user.id}/posts/${blog.id}`}>
           <Card
             direction="horizontal"
             style={{ width: "18rem", maxHeight: "90%" }}
@@ -73,15 +89,40 @@ const MyBlogs = () => {
           >
             <Image
               src={blog.title_picture || lorem}
-              width={"270px"}
+              width={"265px"}
               height={"150px"}
             />
             <Card.Body>
-              <small className="mt-1">{blog.created_at.slice(0, 10)}</small>
+              <HStack spacing={130}>
+                <small className="mt-1">{blog.created_at.slice(0, 10)}</small>
+                <HStack>
+                  <img
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate(`/users/${user.id}/posts/${blog.id}/edit`);
+                    }}
+                    height={15}
+                    width={15}
+                    src={edit}
+                    alt="Edit blog"
+                  />
+                  <img
+                    onClick={(e) => {
+                      e.preventDefault(); // avoid navigating to parent element. i,e; Link
+                      handleBlogDelete(blog.id);
+                    }}
+                    height={15}
+                    width={15}
+                    src={trash}
+                    alt="Edit blog"
+                  />
+                </HStack>
+              </HStack>
+
               <p className="mt-2 fw-bold">{blog.title}</p>
             </Card.Body>
           </Card>
-        </a>
+        </Link>
       </div>
     );
   };
