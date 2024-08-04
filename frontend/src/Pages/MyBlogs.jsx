@@ -65,7 +65,7 @@ const MyBlogs = () => {
       }
     };
     getBlogs();
-  }, [user.id]);
+  }, [user.id,blogs]);
   // const [modal, setIsModal] = useState(false);
   const handleBlogDelete = async (blog_id) => {
     // setIsModal(true);

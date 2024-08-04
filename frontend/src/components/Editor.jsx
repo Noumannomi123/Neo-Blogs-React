@@ -36,10 +36,12 @@ const QuillEditor = () => {
   const [editorValue, setEditorValue] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
   const [title, setTitle] = useState("");
+  const [summary, setSummary] = useState("");
   const [titleImage, setTitleImage] = useState([]);
   const [error, setError] = useState("");
   const [errorImage, setErrorImage] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [errorSummary, setErrorSummary] = useState(false);
   // TO-DO: Sanitizer needs fixing. Fix image height, width.
   const sanitizedHtml = DOMPurify.sanitize(editorValue, {
     ALLOWED_TAGS: [
@@ -183,6 +185,7 @@ const QuillEditor = () => {
         title_image: titleImage[0].data_url,
         title: title,
         content: sanitizedHtml,
+        summary: summary,
       };
       axios.post(`${API_URL}/user/blog/new/${user.id}`, data, {
         withCredentials: true,
@@ -200,6 +203,10 @@ const QuillEditor = () => {
     }
     if (titleImage.length == 0) {
       setErrorImage("Title image is required");
+      return;
+    }
+    if (!summary.trim()) {
+      setErrorSummary("Summary is required");
       return;
     }
     setModalVisible(true);
@@ -300,6 +307,27 @@ const QuillEditor = () => {
               formats={formats}
               theme="snow"
             />
+            <div>
+              {/* label and input for summary field */}
+              <label className="fw-bold display-6" htmlFor="summary">
+                Summary
+              </label>
+              <input
+                className="w-100 mt-3 border rounded"
+                type="text"
+                id="summary"
+                placeholder="Write down your summary here."
+                value={summary}
+                onChange={(e) => {
+                  setErrorSummary("");
+                  setSummary(e.target.value);
+                }}
+                required
+              />
+              {errorSummary && (
+                <p className="text-danger text-center">{errorSummary}</p>
+              )}
+            </div>
             <div className="w-100 d-flex flex-row-reverse mt-3">
               <button
                 onClick={confirmSavePost}

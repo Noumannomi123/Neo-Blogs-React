@@ -1,6 +1,17 @@
 import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
+
+router.get("/all", async (req, res) => {
+    try {
+        const result = await db.query("SELECT id,content, title, title_picture, created_at FROM blog_posts");
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.log("Error fetching blogs from the database.", error)
+        res.status(500).json({ message: "Error fetching blogs." })
+    }
+})
+
 router.get("/:id/all", async (req, res) => {
     try {
         const author_id = req.params.id;
@@ -17,8 +28,9 @@ router.post("/new/:id", async (req, res) => {
         const title = req.body.title;
         const title_picture = req.body.title_image;
         const content = req.body.content;
-        await db.query("INSERT INTO blog_posts (author_id, title, title_picture, content) VALUES ($1, $2, $3, $4)",
-            [author_id, title, title_picture, content]
+        const summary = req.body.summary
+        await db.query("INSERT INTO blog_posts (author_id, title, title_picture, content, summary) VALUES ($1, $2, $3, $4,$5)",
+            [author_id, title, title_picture, content, summary]
         )
         console.log("Blog created successfully.");
         res.status(200).json({ message: "Blog created successfully." });

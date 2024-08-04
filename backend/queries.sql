@@ -15,3 +15,5 @@ CREATE TABLE blog_posts (
     FOREIGN KEY (author_id) REFERENCES users(id) ON DELETE cASCADE
 );
 
+ALTER TABLE blog_posts
+ADD COLUMN summary TEXT;
