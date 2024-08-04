@@ -1,3 +1,4 @@
+import TextareaAutosize from "react-textarea-autosize";
 import { useState, useRef, useEffect, useContext } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -308,21 +309,23 @@ const QuillEditor = () => {
             />
             <div>
               {/* label and input for summary field */}
-              <label className="fw-bold display-6" htmlFor="summary">
+              <label className="fw-bold fs-2" htmlFor="summary">
                 Summary
               </label>
-              <input
-                className="w-100 mt-3 border rounded"
-                type="text"
-                id="summary"
-                placeholder="Write down your summary here."
-                value={summary}
-                onChange={(e) => {
-                  setErrorSummary("");
-                  setSummary(e.target.value);
-                }}
-                required
-              />
+              <div className="border mt-3" style={{ padding: "0.8%" }}>
+                <TextareaAutosize
+                  className="w-100 summary"
+                  id="summary"
+                  placeholder="Write down your summary here."
+                  value={summary}
+                  onChange={(e) => {
+                    setErrorSummary("");
+                    setSummary(e.target.value);
+                  }}
+                  required
+                />
+              </div>
+
               {errorSummary && (
                 <p className="text-danger text-center">{errorSummary}</p>
               )}
@@ -345,7 +348,7 @@ const QuillEditor = () => {
           </div>
         )}
       </div>
-      {(error || errorImage) && (
+      {(error || errorImage || errorSummary) && (
         <div className="alert-image">
           <img src={alert} alt="danger" width={50} />
         </div>

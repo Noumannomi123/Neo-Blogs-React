@@ -1,3 +1,4 @@
+import TextareaAutosize from "react-textarea-autosize";
 import Loader from "./Loader";
 import { useState, useRef, useEffect, useContext } from "react";
 import ReactQuill from "react-quill";
@@ -208,6 +209,10 @@ const BlogEditor = () => {
       setErrorImage("Title image is required");
       return;
     }
+    if (!blog.summary.trim()) {
+      setErrorSummary("Summary is required");
+      return;
+    }
     setModalVisible(true);
   }; //----------
   const handleConfirm = () => {
@@ -335,24 +340,25 @@ const BlogEditor = () => {
             />
             <div>
               {/* label and input for summary field */}
-              <label className="fw-bold display-6" htmlFor="summary">
+              <label className="fw-bold fs-2" htmlFor="summary">
                 Summary
               </label>
-              <input
-                className="w-100 mt-3 border rounded"
-                type="text"
-                id="summary"
-                placeholder="Write down your summary here."
-                value={blog.summary}
-                onChange={(e) => {
-                  setBlog((prevState) => ({
-                    ...prevState,
-                    summary: e.target.value,
-                  }));
-                  setErrorSummary("");
-                }}
-                required
-              />
+              <div className="border mt-3" style={{padding: "0.8%"}}>
+                <TextareaAutosize
+                  className="w-100 summary"
+                  id="summary"
+                  placeholder="Write down your summary here."
+                  value={blog.summary}
+                  onChange={(e) => {
+                    setErrorSummary("");
+                    setBlog((prevState) => ({
+                      ...prevState,
+                      summary: e.target.value,
+                    }));
+                  }}
+                  required
+                />
+              </div>
               {errorSummary && (
                 <p className="text-danger text-center">{errorSummary}</p>
               )}
@@ -375,7 +381,7 @@ const BlogEditor = () => {
           </div>
         )}
       </div>
-      {(error || errorImage) && (
+      {(error || errorImage || errorSummary) && (
         <div className="alert-image">
           <img src={alert} alt="danger" width={50} />
         </div>

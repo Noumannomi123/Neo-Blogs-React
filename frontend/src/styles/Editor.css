@@ -46,3 +46,12 @@
   position: fixed;
   z-index: 100;
 }
+.ql-editor,.summary {
+  font-size: 1.2rem; /* Change this value to your desired font size */
+}
+
+textarea:focus {
+  border-color: white; /* Border color when focused */
+  outline: none; /* Removes the default focus outline */
+  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Optional: adds a subtle glow effect */
+}
