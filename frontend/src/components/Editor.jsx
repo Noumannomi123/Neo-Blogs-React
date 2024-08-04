@@ -36,11 +36,11 @@ const QuillEditor = () => {
   const [editorValue, setEditorValue] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
   const [title, setTitle] = useState("");
-  const [summary, setSummary] = useState("");
   const [titleImage, setTitleImage] = useState([]);
   const [error, setError] = useState("");
   const [errorImage, setErrorImage] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [summary, setSummary] = useState("");
   const [errorSummary, setErrorSummary] = useState(false);
   // TO-DO: Sanitizer needs fixing. Fix image height, width.
   const sanitizedHtml = DOMPurify.sanitize(editorValue, {
@@ -214,7 +214,6 @@ const QuillEditor = () => {
   const handleConfirm = () => {
     handleSavePost();
   };
-
   const handleCancel = () => {
     setModalVisible(false);
   };

@@ -17,9 +17,11 @@ const Post = ({ id, title, description, image, date, author }) => {
         />
       </div>
       <div className="col-lg-10 col-sm-12 col-md-7 details">
-        <h2>{title}</h2>
+        <h2 className="fs-4">{title}</h2>
         <small>{author}</small>
-        <small className="px-3">{date}</small>
+        <small className="px-3 text-start">
+          {new Date(date).toDateString()}
+        </small>
         <p className="mt-3">{description}</p>
       </div>
     </div>

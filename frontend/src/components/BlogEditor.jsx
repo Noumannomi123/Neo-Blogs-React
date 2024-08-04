@@ -28,17 +28,16 @@ import { useParams } from "react-router-dom";
 const BlogEditor = () => {
   const { user } = useContext(AuthContext);
   const [previewMode, setPreviewMode] = useState(false);
-  //   const [editorValue, setEditorValue] = useState("");
-  //   const [title, setTitle] = useState("");
-  //   const [titleImage, setTitleImage] = useState([]);
   const [blog, setBlog] = useState({
     title: "",
     editorValue: "",
+    summary: "",
     titleImage: [],
   });
   const [error, setError] = useState("");
   const [errorImage, setErrorImage] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
+  const [errorSummary, setErrorSummary] = useState(false);
   // TO-DO: Sanitizer needs fixing. Fix image height, width.
   const sanitizedHtml = DOMPurify.sanitize(blog.editorValue, {
     ALLOWED_TAGS: [
@@ -184,6 +183,7 @@ const BlogEditor = () => {
       const data = {
         title_image: blog.titleImage[0].data_url,
         title: blog.title,
+        summary: blog.summary,
         content: sanitizedHtml,
       };
       axios.put(
@@ -213,7 +213,6 @@ const BlogEditor = () => {
   const handleConfirm = () => {
     handleSavePost();
   };
-
   const handleCancel = () => {
     setModalVisible(false);
   };
@@ -227,9 +226,11 @@ const BlogEditor = () => {
         setBlog({
           ...data,
           editorValue: data.content,
+          summary: data.summary,
           titleImage: [{ data_url: data.title_picture }],
         });
         setLoading(false);
+        console.log(data.summary);
       } catch (error) {
         console.log("Error loading blog", error);
       }
@@ -291,8 +292,11 @@ const BlogEditor = () => {
                   type="text"
                   placeholder="Add a new title"
                   value={blog.title}
-                  onChange={(title) =>
-                    setBlog((prevState) => ({ ...prevState, title: title }))
+                  onChange={(e) =>
+                    setBlog((prevState) => ({
+                      ...prevState,
+                      title: e.target.value,
+                    }))
                   }
                   required
                 />
@@ -329,6 +333,30 @@ const BlogEditor = () => {
               formats={formats}
               theme="snow"
             />
+            <div>
+              {/* label and input for summary field */}
+              <label className="fw-bold display-6" htmlFor="summary">
+                Summary
+              </label>
+              <input
+                className="w-100 mt-3 border rounded"
+                type="text"
+                id="summary"
+                placeholder="Write down your summary here."
+                value={blog.summary}
+                onChange={(e) => {
+                  setBlog((prevState) => ({
+                    ...prevState,
+                    summary: e.target.value,
+                  }));
+                  setErrorSummary("");
+                }}
+                required
+              />
+              {errorSummary && (
+                <p className="text-danger text-center">{errorSummary}</p>
+              )}
+            </div>
             <div className="w-100 d-flex flex-row-reverse mt-3">
               <button
                 onClick={confirmSavePost}

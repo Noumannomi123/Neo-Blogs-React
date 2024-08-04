@@ -4,7 +4,7 @@ import { db } from "../index.js";
 
 router.get("/all", async (req, res) => {
     try {
-        const result = await db.query("SELECT id,content, title, title_picture, created_at FROM blog_posts");
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at FROM blog_posts");
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)
@@ -48,10 +48,11 @@ router.put("/new/:id", async (req, res) => {
         const title = req.body.title;
         const title_picture = req.body.title_image;
         const content = req.body.content;
+        const summary = req.body.summary;
         console.log(author_id, postId, title)
         await db.query(
-            "UPDATE blog_posts SET author_id = $1, title = $2, title_picture = $3, content = $4 WHERE id = $5",
-            [author_id, title, title_picture, content, postId]
+            "UPDATE blog_posts SET author_id = $1, title = $2, title_picture = $3, content = $4, summary = $5 WHERE id = $6",
+            [author_id, title, title_picture, content, summary, postId]
         );
         console.log("Blog updated successfully.");
         res.status(200).json({ message: "Blog created successfully." });
@@ -78,7 +79,7 @@ router.delete("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await db.query("SELECT content,id,title,title_picture FROM blog_posts WHERE id = $1", [id]);
+        const result = await db.query("SELECT summary, content,id,title,title_picture FROM blog_posts WHERE id = $1", [id]);
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.log("Error fetching blog from the database.", error)

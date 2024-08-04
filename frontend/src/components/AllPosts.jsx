@@ -1,27 +1,23 @@
 import axios from "axios";
-import { useEffect, useContext, useState } from "react";
+import { useEffect, useState } from "react";
 import Post from "../components/Post";
 import { VStack } from "@chakra-ui/react";
-import Loader, { HelperLoader } from "./Loader";
+import Loader from "./Loader";
 import API_URL from "../config";
-import AuthContext from "../components/AuthContext";
-import { Navigate } from "react-router-dom";
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
-  const { user } = useContext(AuthContext);
-
-  // useEffect(() => {
-  //   const getBlogs = async () => {
-  //     try {
-  //       const response = await axios.get(`${API_URL}/user/blog/all`);
-  //       setPosts(response.data);
-  //       console.log(response.data);
-  //     } catch (error) {
-  //       console.log("Error reqtrieving blogs.");
-  //     }
-  //   };
-  //   getBlogs();
-  // }, [posts]);
+  useEffect(() => {
+    const getBlogs = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/user/blog/all`);
+        setPosts(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error reqtrieving blogs.");
+      }
+    };
+    getBlogs();
+  }, []);
   function showPost(post) {
     return (
       <Post
@@ -29,11 +25,9 @@ const AllPosts = () => {
         id={post.id}
         title={post.title}
         description={
-          post.content.substring(
+          post.summary.substring(
             0,
-            post.description.length > 200
-              ? 200
-              : Math.ceil(post.description.length / 2)
+            post.summary.length > 200 ? 200 : Math.ceil(post.summary.length / 2)
           ) + "..."
         }
         image={post.title_picture}
