@@ -28,7 +28,7 @@ router.post("/new/:id", async (req, res) => {
         const title = req.body.title;
         const title_picture = req.body.title_image;
         const content = req.body.content;
-        const summary = req.body.summary
+        const summary = req.body.summary;
         await db.query("INSERT INTO blog_posts (author_id, title, title_picture, content, summary) VALUES ($1, $2, $3, $4,$5)",
             [author_id, title, title_picture, content, summary]
         )

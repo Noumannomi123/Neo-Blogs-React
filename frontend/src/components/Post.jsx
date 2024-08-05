@@ -6,6 +6,7 @@ import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
 const Post = ({ id, title, description, image, date, author }) => {
   const { user } = useContext(AuthContext);
+  
   return (
     <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
       <div className={`col-lg-2 col-sm-12 col-md-5 img-container`}>

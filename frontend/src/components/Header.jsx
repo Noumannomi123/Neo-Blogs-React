@@ -29,17 +29,47 @@ const Header = () => {
         <a href="/home">NeoBlogs</a>
       </h2>
       {isMobile ? (
-        <Dropdown>
-          <Dropdown.Toggle className="navMobile" id="dropdown-autoclose-true">
-            Home
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <Dropdown.Item className="navMobileItems" href={`/home`}>Home</Dropdown.Item>
-            <Dropdown.Item className="navMobileItems" href={`/users/about`}>About</Dropdown.Item>
-            <Dropdown.Item className="navMobileItems" href={`/users/contact`}>Contact</Dropdown.Item>
-            <Dropdown.Item className="navMobileItems" onClick={handleLogout}>Logout</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+        <>
+          <Dropdown>
+            <Dropdown.Toggle className="navMobile" id="dropdown-autoclose-true">
+              Home
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item className="navMobileItems" href={`/home`}>
+                Home
+              </Dropdown.Item>
+              <Dropdown.Item className="navMobileItems" href={`/users/about`}>
+                About
+              </Dropdown.Item>
+              <Dropdown.Item className="navMobileItems" href={`/users/contact`}>
+                Contact
+              </Dropdown.Item>
+              {!loggedIn ? (
+                <>
+                  <Dropdown.Item
+                    className="navMobileItems"
+                    href={`/users/login`}
+                  >
+                    Login
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="navMobileItems"
+                    href={`/users/register`}
+                  >
+                    Register
+                  </Dropdown.Item>
+                </>
+              ) : (
+                <Dropdown.Item
+                  className="navMobileItems"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Dropdown.Item>
+              )}
+            </Dropdown.Menu>
+          </Dropdown>
+        </>
       ) : (
         <Nav className="mx-5 nav-desktop">
           <NavButton text={`Home`} address="/home" />
@@ -70,15 +100,27 @@ const Header = () => {
       )}
 
       {loggedIn && (
-        <Dropdown  className="d-flex align-items-center">
-          <Dropdown.Toggle className="navMobile mx-4" id="dropdown-autoclose-true">More</Dropdown.Toggle>
+        <Dropdown className="d-flex align-items-center">
+          <Dropdown.Toggle
+            className="navMobile mx-4"
+            id="dropdown-autoclose-true"
+          >
+            More
+          </Dropdown.Toggle>
 
           <Dropdown.Menu>
-            <Dropdown.Item className="navMobileItems" href={`/users/${user.id}/posts/new`}>
+            <Dropdown.Item
+              className="navMobileItems"
+              href={`/users/${user.id}/posts/new`}
+            >
               New blog
             </Dropdown.Item>
-            <Dropdown.Item className="navMobileItems" href="#">Menu Item</Dropdown.Item>
-            <Dropdown.Item className="navMobileItems" href="#">Menu Item</Dropdown.Item>
+            <Dropdown.Item
+              className="navMobileItems"
+              href={`/users/${user.id}/myblogs`}
+            >
+              My Blogs
+            </Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       )}
