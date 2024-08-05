@@ -42,55 +42,55 @@ const Post = ({ id, title, description, image, date, author }) => {
           <small>{new Date(date).toDateString()}</small>
           <p className="mt-3">{description}</p>
         </Link>
-        <HStack marginTop={5} marginBottom={5} spacing={4}>
-          <HStack padding={0} margin={0} spacing={1}>
-            <button
-              // onClick={()=>setCommentsShow()}
-              style={{
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
-              <img height={24} width={24} src={chat} alt="comments" />
+        <HStack marginTop={5} marginBottom={5} spacing={3}>
+          <button
+            // onClick={}
+            style={{
+              border: "none",
+              background: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <HStack padding={0} margin={0} spacing={1}>
+              <img height={20} width={20} src={chat} alt="comments" />
               <small style={{ marginLeft: 4 }}>{comments.length}</small>
-            </button>
-          </HStack>
-          <HStack padding={0} margin={0} spacing={1}>
-            <button // onClick={()=>setCommentsShow()}
-              style={{
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            </HStack>
+          </button>
+          <button // onClick={}
+            style={{
+              border: "none",
+              background: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <HStack padding={0} margin={0} spacing={1}>
               <small>
-                <img height={24} width={24} src={like} alt="likes" />
+                <img height={20} width={20} src={like} alt="likes" />
               </small>
               <small>{likes}</small>
-            </button>
-          </HStack>
-          <HStack padding={0} margin={0} spacing={1}>
-            <button
-              // onClick={()=>setCommentsShow()}
-              style={{
-                border: "none",
-                background: "none",
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-              }}
-            >
+            </HStack>
+          </button>
+          <button
+            // onClick={}
+            style={{
+              border: "none",
+              background: "none",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <HStack padding={0} margin={0} spacing={1}>
               <small>
-                <img height={24} width={24} src={share} alt="likes" />
+                <img height={20} width={20} src={share} alt="likes" />
               </small>
-              <small>{likes}</small>
-            </button>
-          </HStack>
+              <small>Share</small>
+            </HStack>
+          </button>
         </HStack>
         <Comments comments={comments} />
       </div>
