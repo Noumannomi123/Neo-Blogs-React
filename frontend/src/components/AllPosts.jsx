@@ -11,13 +11,13 @@ const AllPosts = () => {
       try {
         const response = await axios.get(`${API_URL}/user/blog/all`);
         setPosts(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log("Error reqtrieving blogs.");
       }
     };
     getBlogs();
   }, []);
+  if (posts.length === 0) return <Loader />;
   function showPost(post) {
     return (
       <Post
@@ -27,7 +27,9 @@ const AllPosts = () => {
         description={
           post.summary.substring(
             0,
-            post.summary.length > 200 ? 200 : Math.ceil(post.summary.length / 2)
+            post.summary.length > 200
+              ? 200
+              : Math.ceil(post.nummary.length / 2)
           ) + "..."
         }
         image={post.title_picture}
@@ -36,7 +38,6 @@ const AllPosts = () => {
       />
     );
   }
-  if (posts.length === 0) return <Loader />;
   return (
     <VStack spacing={10} marginLeft="15%" marginRight="15%" className="mt-5">
       {posts.map(showPost)}
