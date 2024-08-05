@@ -7,6 +7,7 @@ import Loader, { HelperLoader } from "../components/Loader";
 import NotFoundPage from "./NotFoundPage";
 import API_URL from "../config";
 import NavBar from "../components/NavBar";
+import Image from "../components/Image";
 import "../styles/Blog.css";
 const Blog = () => {
   const [loading, setLoading] = useState(true);
@@ -26,24 +27,37 @@ const Blog = () => {
     loadBlog();
   }, [blog_id]);
 
-  if (user.id != id) return <NotFoundPage msg={`Unauthorized`}/>;
+  if (user.id != id) return <NotFoundPage msg={`Unauthorized`} />;
   if (HelperLoader()) return <Loader />;
   if (loading) return <Loader />;
   return (
     <>
       <NavBar />
-      <div className="vh-100 d-flex flex-column blog-container mt-3">
+      <div className="d-flex flex-column blog-container mt-3">
         <div>
           <h1 className="text-center mb-4">{blog.title}</h1>
         </div>
-        <div
-          dangerouslySetInnerHTML={{ __html: blog.content }}
-          style={{
-            border: "1px solid #ddd",
-            padding: "10px",
-            minHeight: "200px",
-          }}
-        />
+        <div className="w-100 d-flex justify-content-center mb-3">
+          <Image
+            src={blog.title_picture}
+            alt={`blog-image`}
+            height={`150px`}
+            width={`200px`}
+          />
+        </div>
+      </div>
+      <div
+        dangerouslySetInnerHTML={{ __html: blog.content }}
+        style={{
+          border: "1px solid #ddd",
+          padding: "10px",
+          minHeight: "200px",
+          margin: "0px 6% 0px 6%",
+        }}
+      />
+      <div className="mt-2 border" style={{ margin: "0px 6% 0px 6%" }}>
+        <h3 className="mx-2">Summary</h3>
+        <p className="mx-2">{blog.summary}</p>
       </div>
     </>
   );

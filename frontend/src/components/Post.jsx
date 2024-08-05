@@ -1,7 +1,11 @@
 import PropTypes from "prop-types";
 import "../styles/Post.css";
 import PostImage from "./Image";
+import { useContext } from "react";
+import AuthContext from "./AuthContext";
+import { Link } from "react-router-dom";
 const Post = ({ id, title, description, image, date, author }) => {
+  const { user } = useContext(AuthContext);
   return (
     <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
       <div className={`col-lg-2 col-sm-12 col-md-5 img-container`}>
@@ -16,14 +20,18 @@ const Post = ({ id, title, description, image, date, author }) => {
           width={`200px`}
         />
       </div>
-      <div className="col-lg-10 col-sm-12 col-md-7 details">
+
+      <Link
+        className="col-lg-10 col-sm-12 col-md-7"
+        to={`/users/${user.id}/posts/${id}`}
+      >
         <h2 className="fs-4">{title}</h2>
         <small>{author}</small>
         <small className="px-3 text-start">
           {new Date(date).toDateString()}
         </small>
         <p className="mt-3">{description}</p>
-      </div>
+      </Link>
     </div>
   );
 };
