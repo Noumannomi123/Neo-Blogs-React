@@ -12,11 +12,12 @@ p{
 .blog-row{
     width: 100%;
     box-shadow: 0px 00px 10px 0px rgba(184, 156, 156, 0.6);
+    margin: 0px;
 }
 
 @media(max-width: 767px){
         .blog-row{
-        width: 125%;
+        width: 100%;
     }
     .img-container{
         justify-content: center;
@@ -33,6 +34,6 @@ p{
 
 .img-container{
     padding: 0px;
+    margin: 0px;
     display: flex;
 }
-

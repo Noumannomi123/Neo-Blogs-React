@@ -4,11 +4,19 @@ import PostImage from "./Image";
 import { useContext } from "react";
 import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
+import Comments from "./Comments";
 import { HStack } from "@chakra-ui/react";
 import chat from "../assets/chat.png";
+import like from "../assets/like.png";
+import share from "../assets/share.png";
 const Post = ({ id, title, description, image, date, author }) => {
   const { user } = useContext(AuthContext);
-
+  const comments = [
+    "This is a comment",
+    "This is another comment",
+    "This is a third comment",
+  ];
+  const likes = 10;
   return (
     <div>
       <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
@@ -34,13 +42,58 @@ const Post = ({ id, title, description, image, date, author }) => {
           <small>{new Date(date).toDateString()}</small>
           <p className="mt-3">{description}</p>
         </Link>
+        <HStack marginTop={5} marginBottom={5} spacing={4}>
+          <HStack padding={0} margin={0} spacing={1}>
+            <button
+              // onClick={()=>setCommentsShow()}
+              style={{
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <img height={24} width={24} src={chat} alt="comments" />
+              <small style={{ marginLeft: 4 }}>{comments.length}</small>
+            </button>
+          </HStack>
+          <HStack padding={0} margin={0} spacing={1}>
+            <button // onClick={()=>setCommentsShow()}
+              style={{
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <small>
+                <img height={24} width={24} src={like} alt="likes" />
+              </small>
+              <small>{likes}</small>
+            </button>
+          </HStack>
+          <HStack padding={0} margin={0} spacing={1}>
+            <button
+              // onClick={()=>setCommentsShow()}
+              style={{
+                border: "none",
+                background: "none",
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <small>
+                <img height={24} width={24} src={share} alt="likes" />
+              </small>
+              <small>{likes}</small>
+            </button>
+          </HStack>
+        </HStack>
+        <Comments comments={comments} />
       </div>
-      {/* TO-DO: Add a div as its parent and add border */}
-      <HStack marginTop={2} spacing={5}>
-        <small>
-          <img height={23} width={23} src={chat} alt="" />
-        </small>
-      </HStack>
     </div>
   );
 };
