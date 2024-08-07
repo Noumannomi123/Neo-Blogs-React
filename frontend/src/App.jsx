@@ -9,7 +9,7 @@ import Login from "./Pages/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import SignUp from "./Pages/Register";
 import MyBlogs from "./Pages/MyBlogs";
-import Blog from "./Pages/Blog";  
+import Blog from "./Pages/Blog";
 import EditBlog from "./Pages/EditBlog";
 function App() {
   return (
@@ -22,10 +22,11 @@ function App() {
         <Route element={<PrivateRoute />}>
           <Route path="/editor" element={<Editor />} />
           <Route path="/users/:id/posts/new" element={<NewBlog />} />
-          <Route path="/users/:id/posts/:blog_id" element={<Blog />} />
           <Route path="/users/:id/posts/:blog_id/edit" element={<EditBlog />} />
           <Route path="/users/:id/myblogs" element={<MyBlogs />} />
         </Route>
+        <Route path="/users/posts/:blog_id" element={<Blog />} />
+        {/*read blog*/}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>

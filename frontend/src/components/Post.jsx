@@ -1,8 +1,6 @@
 import PropTypes from "prop-types";
 import "../styles/Post.css";
 import PostImage from "./Image";
-import { useContext } from "react";
-import AuthContext from "./AuthContext";
 import { Link } from "react-router-dom";
 import Comments from "./Comments";
 import { HStack } from "@chakra-ui/react";
@@ -10,7 +8,6 @@ import chat from "../assets/chat.png";
 import like from "../assets/like.png";
 import share from "../assets/share.png";
 const Post = ({ id, title, description, image, date, author }) => {
-  const { user } = useContext(AuthContext);
   const comments = [
     "This is a comment",
     "This is another comment",
@@ -18,7 +15,7 @@ const Post = ({ id, title, description, image, date, author }) => {
   ];
   const likes = 10;
   return (
-    <div>
+    <div className="mt-5">
       <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
         <div className={`col-lg-2 col-sm-12 col-md-5 img-container`}>
           <PostImage
@@ -35,7 +32,7 @@ const Post = ({ id, title, description, image, date, author }) => {
 
         <Link
           className="col-lg-10 col-sm-12 col-md-7"
-          to={`/users/${user.id}/posts/${id}`}
+          to={`/users/posts/${id}`}
         >
           <h2 className="fs-4">{title}</h2>
           <small>{author}</small>

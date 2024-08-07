@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
-import lorem from "../assets/lorem.jpg"
-const Image = ({ src, alt, height, width }) => {
+import lorem from "../assets/lorem.jpg";
+const Image = ({ src, alt, height, width, className }) => {
   const handleError = (e) => {
     e.target.src = lorem;
   };
@@ -17,7 +17,7 @@ const Image = ({ src, alt, height, width }) => {
           height: "100%",
           objectFit: "cover",
         }}
-        className="img-fluid"
+        className={`img-fluid ${className}`}
         src={src}
         alt={alt}
         onError={handleError}
@@ -30,6 +30,7 @@ Image.propTypes = {
   height: PropTypes.string,
   width: PropTypes.string,
   src: PropTypes.string.isRequired,
-  alt: PropTypes.string
+  alt: PropTypes.string,
+  className: PropTypes.string,
 };
 export default Image;

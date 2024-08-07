@@ -1,11 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import Post from "../components/Post";
-import { VStack } from "@chakra-ui/react";
 import Loader from "./Loader";
 import API_URL from "../config";
+import useMedia from "use-media";
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
+  const isMobile = useMedia({ maxWidth: "1000px" });
   useEffect(() => {
     const getBlogs = async () => {
       try {
@@ -27,9 +28,7 @@ const AllPosts = () => {
         description={
           post.summary.substring(
             0,
-            post.summary.length > 200
-              ? 200
-              : Math.ceil(post.nummary.length / 2)
+            post.summary.length > 200 ? 200 : Math.ceil(post.nummary.length / 2)
           ) + "..."
         }
         image={post.title_picture}
@@ -38,10 +37,15 @@ const AllPosts = () => {
       />
     );
   }
+
   return (
-    <VStack spacing={10} marginLeft="10%" marginRight="10%" className="mt-5">
-      {posts.map(showPost)}
-    </VStack>
+    <div className="d-flex justify-content-center">
+      {isMobile ? (
+        <div style={{ width: "90%" }}>{posts.map(showPost)}</div>
+      ) : (
+        <div style={{ width: "75%" }}>{posts.map(showPost)}</div>
+      )}
+    </div>
   );
 };
 

@@ -1,18 +1,15 @@
 import { useEffect } from "react";
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import AuthContext from "../components/AuthContext";
 import Loader, { HelperLoader } from "../components/Loader";
-import NotFoundPage from "./NotFoundPage";
 import API_URL from "../config";
 import NavBar from "../components/NavBar";
 import Image from "../components/Image";
 import "../styles/Blog.css";
 const Blog = () => {
   const [loading, setLoading] = useState(true);
-  const { id, blog_id } = useParams();
-  const { user } = useContext(AuthContext);
+  const { blog_id } = useParams();
   const [blog, setBlog] = useState();
   useEffect(() => {
     const loadBlog = async () => {
@@ -27,7 +24,6 @@ const Blog = () => {
     loadBlog();
   }, [blog_id]);
 
-  if (user.id != id) return <NotFoundPage msg={`Unauthorized`} />;
   if (HelperLoader()) return <Loader />;
   if (loading) return <Loader />;
   return (
