@@ -86,7 +86,7 @@ const Header = () => {
             </>
           ) : (
             <div className="d-flex align-items-center">
-              <NavButton text={user.email} address="/home" />
+              <NavButton text={user.email} address={`/users/${user.id}/profile`} />
               <NavButton
                 text={`My blogs`}
                 address={`/users/${user.id}/myblogs`}

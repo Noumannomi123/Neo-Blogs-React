@@ -11,6 +11,7 @@ import SignUp from "./Pages/Register";
 import MyBlogs from "./Pages/MyBlogs";
 import Blog from "./Pages/Blog";
 import EditBlog from "./Pages/EditBlog";
+import Profile from "./Pages/Profile";
 function App() {
   return (
     <Router>
@@ -24,6 +25,7 @@ function App() {
           <Route path="/users/:id/posts/new" element={<NewBlog />} />
           <Route path="/users/:id/posts/:blog_id/edit" element={<EditBlog />} />
           <Route path="/users/:id/myblogs" element={<MyBlogs />} />
+          <Route path={`/users/:id/profile`} element={<Profile />} />
         </Route>
         <Route path="/users/posts/:blog_id" element={<Blog />} />
         {/*read blog*/}

@@ -1,12 +1,13 @@
 import PropTypes from "prop-types";
 import lorem from "../assets/lorem.jpg";
-const Image = ({ src, alt, height, width, className }) => {
+const Image = ({ src, alt, height, width, className,styles }) => {
   const handleError = (e) => {
     e.target.src = lorem;
   };
   return (
     <div
       style={{
+        ...styles,
         width: width,
         height: height,
       }}
@@ -32,5 +33,6 @@ Image.propTypes = {
   src: PropTypes.string.isRequired,
   alt: PropTypes.string,
   className: PropTypes.string,
+  styles: PropTypes.object,
 };
 export default Image;
