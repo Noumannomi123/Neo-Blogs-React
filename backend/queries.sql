@@ -17,3 +17,19 @@ CREATE TABLE blog_posts (
 
 ALTER TABLE blog_posts
 ADD COLUMN summary TEXT;
+
+CREATE TABLE user_profile (
+  id INT, -- Reference the user's ID from users
+  email VARCHAR(255) NOT NULL UNIQUE, -- Reference the user's email from users
+  name VARCHAR(50) NOT NULL, 
+  phone VARCHAR(20),
+  gender VARCHAR(7) NOT NULL,
+  date_of_birth DATE,
+  address TEXT,
+  facebook_link TEXT,
+  twitter_link TEXT,
+  instagram_link TEXT,
+  PRIMARY KEY (id, email),
+  FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE,
+  FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
+);
