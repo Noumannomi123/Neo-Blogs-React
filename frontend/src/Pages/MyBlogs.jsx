@@ -65,7 +65,7 @@ const MyBlogs = () => {
       }
     };
     getBlogs();
-  }, [user.id,blogs]);
+  }, [user.id, blogs]);
   // const [modal, setIsModal] = useState(false);
   const handleBlogDelete = async (blog_id) => {
     // setIsModal(true);
@@ -133,9 +133,13 @@ const MyBlogs = () => {
     <>
       <NavBar />
       <h1 className="text-center mt-4 fw-normal">Explore your blogs here</h1>
-      <div className="d-flex flex-row justify-content-center flex-wrap mx-3 mt-5">
-        {blogs.map((blog) => showBlogs(blog))}
-      </div>
+      {blogs.length === 0 ? (
+        <h1 className="text-center mt-5 fw-lighter">No blogs found</h1>
+      ) : (
+        <div className="d-flex flex-row justify-content-center flex-wrap mx-3 mt-5">
+          {blogs.map((blog) => showBlogs(blog))}
+        </div>
+      )}
     </>
   );
 };

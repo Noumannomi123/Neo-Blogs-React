@@ -27,6 +27,7 @@ const Post = ({ id, title, description, image, date, author }) => {
             alt={`post-image`}
             height={`150px`}
             width={`200px`}
+            className={"rounded"}
           />
         </div>
 

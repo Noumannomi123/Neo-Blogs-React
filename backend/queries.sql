@@ -19,17 +19,16 @@ ALTER TABLE blog_posts
 ADD COLUMN summary TEXT;
 
 CREATE TABLE user_profile (
-  id INT, -- Reference the user's ID from users
+  id INT PRIMARY KEY, -- Reference the user's ID from users
   email VARCHAR(255) NOT NULL UNIQUE, -- Reference the user's email from users
-  name VARCHAR(50) NOT NULL, 
-  phone VARCHAR(20),
-  gender VARCHAR(7) NOT NULL,
-  date_of_birth VARCHAR(10),
-  address TEXT,
-  facebook_link TEXT,
-  twitter_link TEXT,
-  instagram_link TEXT,
-  PRIMARY KEY (id, email),
+  name VARCHAR(50) DEFAULT '',
+  phone VARCHAR(20) DEFAULT '',
+  gender VARCHAR (7) DEFAULT '',
+  date_of_birth VARCHAR(10) DEFAULT '',
+  address TEXT DEFAULT '',
+  facebook_link TEXT DEFAULT '',
+  twitter_link TEXT DEFAULT '',
+  instagram_link TEXT DEFAULT '',
   FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );

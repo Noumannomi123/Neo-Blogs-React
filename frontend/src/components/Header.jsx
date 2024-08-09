@@ -26,11 +26,22 @@ const Header = () => {
   };
   const isMobile = useMedia({ maxWidth: "1000px" });
   return (
-    <div className="for-container align-items-center">
-      <Image className={"border rounded-circle"} styles={{marginRight: "1%"}} src={logo} height={"30px"} width={"30px"} alt={"Logo"} />
-      <h2 className="text-light fw-normal">
-        <a href="/home">NeoBlogs</a>
-      </h2>
+    <div className="for-container">
+      <a href="/home" className="d-flex align-items-center">
+        <Image
+          className={"border rounded-circle"}
+          src={logo}
+          height={"30px"}
+          width={"30px"}
+          alt={"Logo"}
+        />
+        <div className="mx-2">
+          <h2 style={{ fontSize: "1.5rem", fontFamily: "Pacifico" }} className="text-light fw-normal">
+            NeoBlogs
+          </h2>
+        </div>
+      </a>
+
       {isMobile ? (
         <>
           <Dropdown>
