@@ -33,6 +33,9 @@ CREATE TABLE user_profile (
   FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );
+<<<<<<< HEAD
 
 ALTER TABLE user_profile
 MODIFY COLUMN date_of_birth VARCHAR(10);
+=======
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
