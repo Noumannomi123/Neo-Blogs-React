@@ -8,6 +8,8 @@ import AuthContext from "./AuthContext";
 import { useContext } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import useMedia from "use-media";
+import logo from "../assets/logoLarge.png";
+import Image from "../components/Image";
 const Header = () => {
   const navigate = useNavigate();
   const { loggedIn, user } = useContext(AuthContext);
@@ -24,7 +26,8 @@ const Header = () => {
   };
   const isMobile = useMedia({ maxWidth: "1000px" });
   return (
-    <div className="for-container">
+    <div className="for-container align-items-center">
+      <Image className={"border rounded-circle"} styles={{marginRight: "1%"}} src={logo} height={"30px"} width={"30px"} alt={"Logo"} />
       <h2 className="text-light fw-normal">
         <a href="/home">NeoBlogs</a>
       </h2>
@@ -86,7 +89,10 @@ const Header = () => {
             </>
           ) : (
             <div className="d-flex align-items-center">
-              <NavButton text={user.email} address={`/users/${user.id}/profile`} />
+              <NavButton
+                text={user.email}
+                address={`/users/${user.id}/profile`}
+              />
               <NavButton
                 text={`My blogs`}
                 address={`/users/${user.id}/myblogs`}
