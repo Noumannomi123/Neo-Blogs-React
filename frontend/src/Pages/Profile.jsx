@@ -1,5 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { useState, useContext, useEffect } from "react";
+=======
+import { useState } from "react";
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
 =======
 import { useState } from "react";
 >>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
@@ -14,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import Image from "../components/Image";
 import editProfile from "../assets/editProfile.png";
+<<<<<<< HEAD
 <<<<<<< HEAD
 import close from "../assets/close.png";
 import axios from "axios";
@@ -37,12 +42,22 @@ const Profile = () => {
   const { user } = useContext(AuthContext);
   const [profile, setProfile] = useState({});
 >>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
+=======
+import { useContext, useEffect } from "react";
+import axios from "axios";
+import AuthContext from "../components/AuthContext";
+import API_URL from "../config";
+const Profile = () => {
+  const { user } = useContext(AuthContext);
+  const [profile, setProfile] = useState({});
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
   const circleColon = "\uFE55";
 
   const handleEditProfile = () => {
     setIsEditing(!isEditing);
     setEditProfileData({ ...profile });
   };
+<<<<<<< HEAD
 <<<<<<< HEAD
 
   const handleChange = (e) => {
@@ -65,10 +80,15 @@ const Profile = () => {
   useEffect(() => {
     // hit the route API_URL//profile/:id"
 >>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
+=======
+  useEffect(() => {
+    // hit the route API_URL//profile/:id"
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
     const getProfile = async () => {
       try {
         const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
         setProfile(response.data);
+<<<<<<< HEAD
 <<<<<<< HEAD
       } catch (error) {
         console.log("Error fetching user profile from the database.", error);
@@ -79,14 +99,22 @@ const Profile = () => {
       } catch (error) {
         console.log("Error fetching user profile from the database.", error);
 >>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
+=======
+        console.log(response.data);
+      } catch (error) {
+        console.log("Error fetching user profile from the database.", error);
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
       }
     };
     getProfile();
   }, [user.id]);
 <<<<<<< HEAD
+<<<<<<< HEAD
 
   if (loading) return <Loader />;
 
+=======
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
 =======
 >>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
   return (
@@ -281,6 +309,9 @@ const Profile = () => {
               </HStack>
               <p className="dot fs-5 fw-bolder">Connect with me: </p>
               <p>{`${profile.facebook_link}, ${profile.twitter_link}, ${profile.instagram_link}`}</p>
+<<<<<<< HEAD
+>>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
+=======
 >>>>>>> 26d6aee3d8296c3cb5bd57c16e121261285855d1
             </div>
             <div className="mx-3">
