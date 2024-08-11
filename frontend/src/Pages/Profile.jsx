@@ -119,6 +119,7 @@ const Profile = () => {
                       <FormLabel>Phone</FormLabel>
                       <Input
                         name="phone"
+                        type="number"
                         value={editProfileData.phone}
                         onChange={handleChange}
                       />
@@ -130,9 +131,9 @@ const Profile = () => {
                         onChange={handleChange}
                       >
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                       </Select>
                       <FormLabel>Date of Birth</FormLabel>
                       <Input
@@ -302,6 +303,7 @@ const Profile = () => {
                       <FormLabel>Phone</FormLabel>
                       <Input
                         name="phone"
+                        type="number"
                         value={editProfileData.phone}
                         onChange={handleChange}
                       />
@@ -313,9 +315,9 @@ const Profile = () => {
                         onChange={handleChange}
                       >
                         <option value="">Select Gender</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                        <option value="other">Other</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
                       </Select>
                       <FormLabel>Date of Birth</FormLabel>
                       <Input
