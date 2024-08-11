@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import mark from "../assets/mark.png";
 const SignUp = () => {
   const navigate = useNavigate();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -36,9 +37,7 @@ const SignUp = () => {
       if (response.status === 200) {
         setError("");
       }
-      // navigate("/home"); !!!!!!!
-      navigate("/editor");
-      // TO-FIX: when navigated, renders Home.jsx with true. But on page reload it loses the state.
+      navigate("/home");
     } catch (error) {
       if (error.response.status === 409) setError("User already exists.");
       else setError("Umable to register at the moment.");
@@ -53,13 +52,24 @@ const SignUp = () => {
   });
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
-      <VStack className="stackd">
+      <VStack width={"100%"}>
         <a href="/home">
           <img src={mark} alt="logo" width={50} height={50} />
         </a>
         <form className="form-signin" onSubmit={hanldeSubmit}>
           <h1 className="h3 mb-3 fw-normal text-center">Sign up</h1>
-
+          <div className="form-floating mb-4">
+            <input
+              type="text"
+              className="form-control"
+              id="floatingInput"
+              placeholder="Name"
+              required
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+            <label htmlFor="floatingInput">Name</label>
+          </div>
           <div className="form-floating mb-4">
             <input
               type="email"

@@ -5,9 +5,9 @@ import "../styles/MyBlogs.css";
 import Card from "react-bootstrap/Card";
 import lorem from "../assets/logoLarge.png";
 import NavBar from "../components/NavBar";
-import { useContext } from "react";
+
 import axios from "axios";
-import AuthContext from "../components/AuthContext";
+
 import API_URL from "../config";
 import { useNavigate, useParams } from "react-router-dom";
 import { HStack } from "@chakra-ui/react";
@@ -17,39 +17,11 @@ import edit from "../assets/edit.png";
 import { Link } from "react-router-dom";
 import trash from "../assets/delete.png";
 const MyBlogs = () => {
-  const { user } = useContext(AuthContext);
-  // const blogs = [
-  //   {
-  //     id: 1,
-  //     date: "2024-01-04",
-  //     title: "Exploring the wonders of world.",
-  //     titleImage: "4",
-  //   },
-  //   {
-  //     id: 2,
-  //     date: "2024-01-04",
-  //     title: "Exploring the wonders of world.",
-  //     titleImage: "4",
-  //   },
-  //   {
-  //     id: 3,
-  //     date: "2024-01-04",
-  //     title: "Exploring the wonders of world.",
-  //     titleImage: "4",
-  //   },
-  //   {
-  //     id: 4,
-  //     date: "2024-01-04",
-  //     title: "Exploring the wonders of world.",
-  //     titleImage: "4",
-  //   },
-  //   {
-  //     id: 5,
-  //     date: "2024-01-04",
-  //     title: "Exploring the wonders of world.",
-  //     titleImage: "4",
-  //   },
-  // ];
+  const user = {
+    id: localStorage.getItem("id"),
+    email: localStorage.getItem("email"),
+  };
+  
   const [blogs, setBlogs] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -65,7 +37,7 @@ const MyBlogs = () => {
       }
     };
     getBlogs();
-  }, [user.id, blogs]);
+  }, [user.id]);
   // const [modal, setIsModal] = useState(false);
   const handleBlogDelete = async (blog_id) => {
     // setIsModal(true);
@@ -81,7 +53,7 @@ const MyBlogs = () => {
   const showBlogs = (blog) => {
     return (
       <div className="card-container" key={blog.id}>
-        <Link to={`/users/${user.id}/posts/${blog.id}`}>
+        <Link to={`/users/posts/${blog.id}`}>
           <Card
             direction="horizontal"
             style={{ width: "18rem", maxHeight: "90%" }}

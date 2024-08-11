@@ -1,5 +1,5 @@
 import TextareaAutosize from "react-textarea-autosize";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Quill } from "react-quill";
@@ -30,10 +30,12 @@ Quill.register("modules/imageCompress", ImageCompress);
 import axios from "axios";
 import API_URL from "../config";
 import ImageUploader from "./ImageUploader";
-import AuthContext from "./AuthContext";
 import "../styles/Editor.css";
 const QuillEditor = () => {
-  const { user } = useContext(AuthContext);
+  const user = {
+    id: localStorage.getItem("id"),
+    email: localStorage.getItem("email"),
+  };
   const [editorValue, setEditorValue] = useState("");
   const [previewMode, setPreviewMode] = useState(false);
   const [title, setTitle] = useState("");

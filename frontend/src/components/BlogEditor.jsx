@@ -1,6 +1,6 @@
 import TextareaAutosize from "react-textarea-autosize";
 import Loader from "./Loader";
-import { useState, useRef, useEffect, useContext } from "react";
+import { useState, useRef, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Quill } from "react-quill";
@@ -23,11 +23,13 @@ import "mathquill4quill/mathquill4quill.css";
 import axios from "axios";
 import API_URL from "../config";
 import ImageUploader from "./ImageUploader";
-import AuthContext from "./AuthContext";
 import "../styles/Editor.css";
 import { useParams } from "react-router-dom";
 const BlogEditor = () => {
-  const { user } = useContext(AuthContext);
+  const user = {
+    id: localStorage.getItem("id"),
+    email: localStorage.getItem("email"),
+  };
   const [previewMode, setPreviewMode] = useState(false);
   const [blog, setBlog] = useState({
     title: "",
@@ -235,7 +237,6 @@ const BlogEditor = () => {
           titleImage: [{ data_url: data.title_picture }],
         });
         setLoading(false);
-        console.log(data.summary);
       } catch (error) {
         console.log("Error loading blog", error);
       }
@@ -343,7 +344,7 @@ const BlogEditor = () => {
               <label className="fw-bold fs-2" htmlFor="summary">
                 Summary
               </label>
-              <div className="border mt-3" style={{padding: "0.8%"}}>
+              <div className="border mt-3" style={{ padding: "0.8%" }}>
                 <TextareaAutosize
                   className="w-100 summary"
                   id="summary"

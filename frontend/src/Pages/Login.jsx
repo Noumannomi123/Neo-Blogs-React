@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { VStack } from "@chakra-ui/react";
@@ -9,11 +9,13 @@ import Error from "../components/Error";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
 import mark from "../assets/mark.png";
+import AuthContext from "../components/AuthContext";
 const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const { setUser, setLoggedIn } = useContext(AuthContext);
   const hanldeSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -31,10 +33,13 @@ const Login = () => {
       if (response.status === 200) {
         setError("");
       }
-      // navigate("/home"); !!!!!!!
-      navigate("/editor");
-      // TO-FIX: when navigated, renders Home.jsx with true. But on page reload it loses the state.
+      localStorage.setItem("email", response.data.user.email);
+      localStorage.setItem("id", response.data.user.id);
+      setUser(response.data.user);
+      setLoggedIn(true);
+      navigate("/home");
     } catch (error) {
+      localStorage.setItem("email", null);
       if (error.response.status === 401)
         setError("Username or password is incorrect.");
       else setError("Unable to login.");
@@ -49,7 +54,7 @@ const Login = () => {
   });
   return (
     <div className="vh-100 d-flex justify-content-center align-items-center">
-      <VStack className="stackd">
+      <VStack width={"100%"}>
         <a href="/home">
           <img src={mark} alt="logo" width={50} height={50} />
         </a>

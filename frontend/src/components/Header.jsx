@@ -1,23 +1,28 @@
+import { useContext, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import "../styles/Header.css";
 import NavButton from "./NavButton";
 import axios from "axios";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
-import AuthContext from "./AuthContext";
-import { useContext } from "react";
 import Dropdown from "react-bootstrap/Dropdown";
 import useMedia from "use-media";
 import logo from "../assets/logoLarge.png";
 import Image from "../components/Image";
+import { useEffect } from "react";
+import AuthContext from "./AuthContext";
+import Loader from "../components/Loader";
 const Header = () => {
   const navigate = useNavigate();
-  const { loggedIn, user } = useContext(AuthContext);
+
+  const [user, setUser] = useState(null);
   const handleLogout = async () => {
     try {
       await axios.get(API_URL + "/user/logout", {
         withCredentials: true,
       });
+      setUser(null);
+      localStorage.removeItem("email");
     } catch (error) {
       if (error.response.status === 401) {
         navigate("/users/login");
@@ -25,6 +30,24 @@ const Header = () => {
     }
   };
   const isMobile = useMedia({ maxWidth: "1000px" });
+  const { loggedIn } = useContext(AuthContext);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    if (!loggedIn) {
+      setUser(null);
+    } else {
+      if (localStorage.getItem("email") === null) {
+        setUser(null);
+      } else {
+        setUser({
+          id: localStorage.getItem("id"),
+          email: localStorage.getItem("email"),
+        });
+      }
+    }
+    setLoading(false);
+  }, [loggedIn]);
+  if (loading) return <Loader />;
   return (
     <div className="for-container">
       <a href="/home" className="d-flex align-items-center">
@@ -36,7 +59,10 @@ const Header = () => {
           alt={"Logo"}
         />
         <div className="mx-2">
-          <h2 style={{ fontSize: "1.5rem", fontFamily: "Pacifico" }} className="text-light fw-normal">
+          <h2
+            style={{ fontSize: "1.5rem", fontFamily: "Pacifico" }}
+            className="text-light fw-normal"
+          >
             NeoBlogs
           </h2>
         </div>
@@ -58,7 +84,7 @@ const Header = () => {
               <Dropdown.Item className="navMobileItems" href={`/users/contact`}>
                 Contact
               </Dropdown.Item>
-              {!loggedIn ? (
+              {!user ? (
                 <>
                   <Dropdown.Item
                     className="navMobileItems"
@@ -89,7 +115,7 @@ const Header = () => {
           <NavButton text={`Home`} address="/home" />
           <NavButton text={`About`} address="/about" />
           <NavButton text={`Contact`} address="/contact" />
-          {!loggedIn ? (
+          {!user ? (
             <>
               <NavButton text={`Login`} address="/users/login" />
               <NavButton
@@ -100,10 +126,7 @@ const Header = () => {
             </>
           ) : (
             <div className="d-flex align-items-center">
-              <NavButton
-                text={user.email}
-                address={`/users/${user.id}/profile`}
-              />
+              <NavButton text={user.email} address={`/users/${user.id}/profile`} />
               <NavButton
                 text={`My blogs`}
                 address={`/users/${user.id}/myblogs`}
@@ -116,7 +139,7 @@ const Header = () => {
         </Nav>
       )}
 
-      {loggedIn && (
+      {user && (
         <Dropdown className="d-flex align-items-center">
           <Dropdown.Toggle
             className="navMobile mx-4"

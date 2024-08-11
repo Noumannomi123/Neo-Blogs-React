@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
 import NavBar from "../components/NavBar";
 import {
   VStack,
@@ -13,12 +13,14 @@ import Image from "../components/Image";
 import editProfile from "../assets/editProfile.png";
 import close from "../assets/close.png";
 import axios from "axios";
-import AuthContext from "../components/AuthContext";
 import API_URL from "../config";
 import Loader from "../components/Loader";
 import { useMedia } from "use-media";
 const Profile = () => {
-  const { user } = useContext(AuthContext);
+  const user = {
+    id: localStorage.getItem("id"),
+    email: localStorage.getItem("email"),
+  };
   const [profile, setProfile] = useState({
     name: "",
     email: "",
@@ -109,7 +111,11 @@ const Profile = () => {
                         disabled
                       />
                       <FormLabel>Email</FormLabel>
-                      <Input name="email" value={editProfileData.email} disabled />
+                      <Input
+                        name="email"
+                        value={editProfileData.email}
+                        disabled
+                      />
                       <FormLabel>Phone</FormLabel>
                       <Input
                         name="phone"

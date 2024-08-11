@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
         setLoggedIn(authenticated);
         if (authenticated) {
           console.log("Yeah authenticaed", data.user);
-          setUser(data.user);
+          // setUser(data.user);
         } else {
           console.error("Not authenticated");
           setUser(null);
@@ -30,7 +30,7 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkAuthentication();
-  }, []);
+  }, [user]);
   return (
     <AuthContext.Provider
       value={{
