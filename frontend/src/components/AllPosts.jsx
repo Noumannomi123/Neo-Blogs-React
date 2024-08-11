@@ -33,7 +33,7 @@ const AllPosts = () => {
         }
         image={post.title_picture}
         date={post.created_at}
-        author={post.author_id}
+        author={post.author_name}
       />
     );
   }

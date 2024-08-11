@@ -4,7 +4,7 @@ import { db } from "../index.js";
 
 router.get("/all", async (req, res) => {
     try {
-        const result = await db.query("SELECT id,summary, title, title_picture, created_at FROM blog_posts");
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts");
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)

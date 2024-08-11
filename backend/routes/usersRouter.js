@@ -11,7 +11,7 @@ router.put("/profile/:id", async (req, res) => {
         const id = req.params.id;
         const { name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link } = req.body;
         const result = await db.query(
-            "UPDATE user_profile SET name = $1, phone = $2, gender = $3, date_of_birth = $4, address = $5, facebook_link = $6, twitter_link = $7, instagram_link = $8 WHERE id = $9 RETURNING *",
+            "UPDATE user_profile SET username = $1, phone = $2, gender = $3, date_of_birth = $4, address = $5, facebook_link = $6, twitter_link = $7, instagram_link = $8 WHERE id = $9 RETURNING *",
             [name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, id]
         );
         if (result.rows.length === 0) {
@@ -28,24 +28,7 @@ router.get("/profile/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const result = await db.query(
-            "SELECT id, email, name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link FROM user_profile WHERE id = $1",
-            [id]
-        );
-        if (result.rows.length === 0) {
-            return res.status(404).json({ message: "User Profile Not Found" });
-        }
-        res.status(200).json(result.rows[0]);
-    } catch (error) {
-        console.log("Error fetching user profile from the database.", error);
-        res.status(500).json({ message: "Error fetching user profile." });
-    }
-});
-
-router.get("/profile/:id", async (req, res) => {
-    try {
-        const id = req.params.id;
-        const result = await db.query(
-            "SELECT id, email, name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link FROM user_profile WHERE id = $1",
+            "SELECT id, email, username as name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link FROM user_profile WHERE id = $1",
             [id]
         );
         if (result.rows.length === 0) {

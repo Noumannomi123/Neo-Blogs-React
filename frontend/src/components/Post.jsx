@@ -36,8 +36,10 @@ const Post = ({ id, title, description, image, date, author }) => {
           to={`/users/posts/${id}`}
         >
           <h2 className="fs-4">{title}</h2>
-          <small>{author}</small>
-          <small>{new Date(date).toDateString()}</small>
+          <HStack spacing={5}>
+            <small>{author}</small>
+            <small>{new Date(date).toDateString()}</small>
+          </HStack>
           <p className="mt-3">{description}</p>
         </Link>
         <HStack marginTop={5} marginBottom={5} spacing={3}>
