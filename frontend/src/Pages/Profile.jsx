@@ -18,6 +18,7 @@ import Loader from "../components/Loader";
 import { useMedia } from "use-media";
 import ImageUploader from "../components/ImageUploader";
 const Profile = () => {
+  const dummyProfile = `https://picsum.photos/seed/picsum/200/300`;
   const user = {
     id: localStorage.getItem("id"),
     email: localStorage.getItem("email"),
@@ -52,29 +53,34 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
-      await axios.put(`${API_URL}/user/profile/${user.id}`, editProfileData);
-      setProfile(editProfileData);
+      if (profile.pic.length === 0){
+        profile.pic = [{...profile.pic[0], data_url: dummyProfile}];
+      }
+      const data = { ...editProfileData, pic: profile.pic[0].data_url };
+      const response = await axios.put(`${API_URL}/user/profile/${user.id}`, data, {
+        withCredentials: true,
+      });
+      setProfile({ ...response.data, pic: [{ data_url: response.data.pic }] });
       setIsEditing(false);
     } catch (error) {
-      console.log("Error updating user profile.", error);
+      console.error("Error updating user profile.", error);
     }
   };
-
   useEffect(() => {
     const getProfile = async () => {
       try {
         const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
-        setProfile(response.data);
-        console.log(response.data);
+        setProfile({
+          ...response.data,
+          pic: [{ data_url: response.data.pic }],
+        });
+        setLoading(false);
       } catch (error) {
         console.log("Error fetching user profile from the database.", error);
-      } finally {
-        setLoading(false);
       }
     };
     getProfile();
   }, [user.id]);
-
   if (loading) return <Loader />;
   return (
     <div>
@@ -257,16 +263,17 @@ const Profile = () => {
                 )}
               </div>
               <div className="mx-3 mb-3">
+                {/* TO-FIX: use images instead */}
                 {profile.pic.length > 0 ? (
                   <Image
-                    src={profile.pic[0]}
+                    src={profile.pic[0].data_url}
                     className={"rounded-circle"}
                     width={"250px"}
                     height={"250px"}
                   />
                 ) : (
                   <Image
-                    src={`https://picsum.photos/seed/picsum/200/300`}
+                    src={dummyProfile}
                     className={"rounded-circle"}
                     width={"250px"}
                     height={"250px"}
@@ -275,10 +282,8 @@ const Profile = () => {
 
                 <div className="w-100 mt-3 d-flex justify-content-center mx-auto">
                   <ImageUploader
-                    setTitleImage={(image) =>
-                      setProfile((prevState) => {
-                        ({ ...prevState, pic: image });
-                      })
+                    setTitleImage={(images) =>
+                      setProfile({ ...profile, pic: images })
                     }
                     images={profile.pic}
                     msg={`Profile Picture. Click or Drop here.`}
@@ -467,26 +472,24 @@ const Profile = () => {
           </VStack>
           {profile.pic.length > 0 ? (
             <Image
-              src={profile.pic[0]}
+              src={profile.pic[0].data_url}
               className={"rounded-circle"}
-              width={"175px"}
-              height={"175px"}
+              width={"160px"}
+              height={"160px"}
             />
           ) : (
             <Image
               src={`https://picsum.photos/seed/picsum/200/300`}
               className={"rounded-circle"}
-              width={"175px"}
-              height={"175px"}
+              width={"160px"}
+              height={"160px"}
             />
           )}
 
           <div className="w-100 mt-3 d-flex justify-content-center mx-auto">
             <ImageUploader
-              setTitleImage={(image) =>
-                setProfile((prevState) => {
-                  ({ ...prevState, pic: image });
-                })
+              setTitleImage={(images) =>
+                setProfile({ ...profile, pic: images })
               }
               images={profile.pic}
               msg={`Profile Picture. Click or Drop here.`}

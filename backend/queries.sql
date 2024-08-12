@@ -13,11 +13,11 @@ CREATE TABLE user_profile (
   phone VARCHAR(20) DEFAULT '',
   gender VARCHAR (7) DEFAULT '',
   date_of_birth VARCHAR(10) DEFAULT '',
-  address TEXT DEFAULT '',
+  address TEXT DEFAULT '',;
   facebook_link TEXT DEFAULT '',
   twitter_link TEXT DEFAULT '',
   instagram_link TEXT DEFAULT '',
-  pic TEXT DEFAULT NULL,
+  pic TEXT,
   FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );
