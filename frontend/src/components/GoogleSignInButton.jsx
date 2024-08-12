@@ -1,7 +1,16 @@
-
+import axios from "axios";
+import API_URL from "../config";
 const GoogleSignInButton = () => {
+  const handleLogin = async () => {
+    try {
+      const response = await axios.get(`${API_URL}/user/auth/google`);
+      console.log(response.data);
+    } catch (error) {
+      console.log("Error occured while loggin in.", error)
+    }
+  };
   return (
-    <button className="btn-google">
+    <button onClick={handleLogin} className="btn-google">
       <svg
         xmlSpace="preserve"
         style={{ enableBackground: "new 0 0 512 512" }}

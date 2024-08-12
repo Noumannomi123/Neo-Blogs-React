@@ -59,7 +59,7 @@ const Login = () => {
           <img src={mark} alt="logo" width={50} height={50} />
         </a>
 
-        <form className="form-signin" onSubmit={hanldeSubmit}>
+        <form className="form-signin">
           <h1 className="h3 mb-3 fw-normal text-center">Login</h1>
 
           <div className="form-floating mb-4">
@@ -88,8 +88,8 @@ const Login = () => {
           </div>
           {/* Error singing */}
           {error.length > 0 && <Error message={error} />}
-          <button className="btn btn-primary py-2" type="submit">
-            Next
+          <button onClick={hanldeSubmit} className="btn btn-primary py-2" type="submit">
+            Sign in
           </button>
           <button>
             <a href="/users/register">{`Don't have an account? Sign up`}</a>

@@ -45,7 +45,8 @@ app.use(cors({
             "http://localhost:5173",
             "http://192.168.51.1:5173",
             "http://192.168.137.1:5173",
-            "http://192.168.0.104:5173"
+            "http://192.168.0.104:5173",
+            "https://accounts.google.com",
         ];
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);
@@ -57,7 +58,6 @@ app.use(cors({
     allowedHeaders: ["Content-Type"],
     credentials: true
 }));
-
 
 app.use("/user", userRouter);
 app.use("/user/blog", blogRouter);
