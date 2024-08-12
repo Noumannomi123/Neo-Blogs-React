@@ -1,3 +1,12 @@
 .comment-container{
     width: 60%;
 }
+.comment-area{
+    resize: none;
+    overflow: hidden;
+    height: 50px;
+    border: 2px solid rgba(0, 0, 0, 0.1);
+}
+.comment-area:focus{
+    border: 2px solid rgb(0, 0, 0, 0.35);
+}

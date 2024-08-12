@@ -7,17 +7,23 @@ import { HStack } from "@chakra-ui/react";
 import chat from "../assets/chat.png";
 import like from "../assets/like.png";
 import share from "../assets/share.png";
-const Post = ({ id, title, description, image, date, author }) => {
+const Post = ({ id, title, description, image, date, author, index }) => {
   const comments = [
     "This is a comment",
     "This is another comment",
     "This is a third comment",
   ];
   const likes = 10;
+
   return (
     <div className="mt-5">
-      <div className={`row blog-row ${id % 2 !== 0 ? `blog-direction` : ``}`}>
-        <div className={`col-lg-2 col-sm-12 col-md-5 img-container`}>
+      <div
+        className={`row blog-row ${index % 2 !== 0 ? `blog-direction` : ``}`}
+      >
+        <Link
+          to={`/users/posts/${id}`}
+          className={`col-lg-2 col-sm-12 col-md-5 img-container`}
+        >
           <PostImage
             src={
               image
@@ -29,7 +35,7 @@ const Post = ({ id, title, description, image, date, author }) => {
             width={`200px`}
             className={"rounded"}
           />
-        </div>
+        </Link>
 
         <Link
           className="col-lg-10 col-sm-12 col-md-7"
@@ -106,6 +112,7 @@ Post.propTypes = {
   date: PropTypes.string,
   author: PropTypes.string,
   likes: PropTypes.number,
+  index: PropTypes.number,
   comments: PropTypes.arrayOf(PropTypes.string),
 };
 export default Post;

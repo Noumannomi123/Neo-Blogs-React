@@ -16,8 +16,7 @@ const Comments = ({ comments }) => {
               style={{ width: "40px", height: "40px" }}
             />
             <TextAreaAutoSize
-              style={{ resize: "none", overflow: "hidden", height: "50px" }}
-              className="w-100 border px-2 pt-2 pb-2 shadow-sm bg-white rounded"
+              className="comment-area w-100 px-2 pt-2 pb-2 shadow-sm bg-white rounded"
               id="comment-field"
               placeholder="Add your comment here..."
               value={comment}
@@ -34,9 +33,7 @@ const Comments = ({ comments }) => {
             />
 
             <VStack width={"100%"}>
-              <HStack>
-                
-              </HStack>
+              <HStack></HStack>
               <p className="w-100">{`This is a long comment and i want to be tripple dooted so i want to keep writing still is...`}</p>
             </VStack>
           </HStack>

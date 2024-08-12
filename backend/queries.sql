@@ -17,6 +17,7 @@ CREATE TABLE user_profile (
   facebook_link TEXT DEFAULT '',
   twitter_link TEXT DEFAULT '',
   instagram_link TEXT DEFAULT '',
+  pic TEXT DEFAULT NULL,
   FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
 );

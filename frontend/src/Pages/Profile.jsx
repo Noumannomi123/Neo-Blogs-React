@@ -16,6 +16,7 @@ import axios from "axios";
 import API_URL from "../config";
 import Loader from "../components/Loader";
 import { useMedia } from "use-media";
+import ImageUploader from "../components/ImageUploader";
 const Profile = () => {
   const user = {
     id: localStorage.getItem("id"),
@@ -31,6 +32,7 @@ const Profile = () => {
     facebook_link: "",
     instagram_link: "",
     twitter_link: "",
+    pic: [],
   });
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
@@ -63,6 +65,7 @@ const Profile = () => {
       try {
         const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
         setProfile(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log("Error fetching user profile from the database.", error);
       } finally {
@@ -253,13 +256,34 @@ const Profile = () => {
                   </div>
                 )}
               </div>
-              <div className="mx-3">
-                <Image
-                  src=""
-                  className={"rounded-circle"}
-                  width={"250px"}
-                  height={"250px"}
-                />
+              <div className="mx-3 mb-3">
+                {profile.pic.length > 0 ? (
+                  <Image
+                    src={profile.pic[0]}
+                    className={"rounded-circle"}
+                    width={"250px"}
+                    height={"250px"}
+                  />
+                ) : (
+                  <Image
+                    src={`https://picsum.photos/seed/picsum/200/300`}
+                    className={"rounded-circle"}
+                    width={"250px"}
+                    height={"250px"}
+                  />
+                )}
+
+                <div className="w-100 mt-3 d-flex justify-content-center mx-auto">
+                  <ImageUploader
+                    setTitleImage={(image) =>
+                      setProfile((prevState) => {
+                        ({ ...prevState, pic: image });
+                      })
+                    }
+                    images={profile.pic}
+                    msg={`Profile Picture. Click or Drop here.`}
+                  />
+                </div>
               </div>
             </div>
           </VStack>
@@ -441,12 +465,31 @@ const Profile = () => {
               </div>
             </div>
           </VStack>
-          <div className="w-100 d-flex justify-content-center mt-3">
+          {profile.pic.length > 0 ? (
             <Image
-              src=""
+              src={profile.pic[0]}
               className={"rounded-circle"}
               width={"175px"}
               height={"175px"}
+            />
+          ) : (
+            <Image
+              src={`https://picsum.photos/seed/picsum/200/300`}
+              className={"rounded-circle"}
+              width={"175px"}
+              height={"175px"}
+            />
+          )}
+
+          <div className="w-100 mt-3 d-flex justify-content-center mx-auto">
+            <ImageUploader
+              setTitleImage={(image) =>
+                setProfile((prevState) => {
+                  ({ ...prevState, pic: image });
+                })
+              }
+              images={profile.pic}
+              msg={`Profile Picture. Click or Drop here.`}
             />
           </div>
         </div>

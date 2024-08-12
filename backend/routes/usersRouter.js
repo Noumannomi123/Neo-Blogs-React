@@ -36,7 +36,7 @@ router.get("/profile/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const result = await db.query(
-            "SELECT id, email, username as name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link FROM user_profile WHERE id = $1",
+            "SELECT id, email, username as name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link,pic FROM user_profile WHERE id = $1",
             [id]
         );
         if (result.rows.length === 0) {

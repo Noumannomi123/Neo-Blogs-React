@@ -2,7 +2,7 @@ import ImageUploading from "react-images-uploading";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/ImageUploader.css";
-const ImageUploader = ({ setTitleImage, images }) => {
+const ImageUploader = ({ setTitleImage, images, msg }) => {
   const [image, setImage] = useState(images);
   const onChange = (imageList) => {
     setImage(imageList);
@@ -35,7 +35,7 @@ const ImageUploader = ({ setTitleImage, images }) => {
                 onClick={onImageUpload}
                 {...dragProps}
               >
-                {`Title Image. Click or Drop here.`}
+                {msg || `Title Image. Click or Drop here.`}
               </button>
             ) : (
               <>
@@ -65,5 +65,6 @@ const ImageUploader = ({ setTitleImage, images }) => {
 ImageUploader.propTypes = {
   setTitleImage: PropTypes.func.isRequired,
   images: PropTypes.array.isRequired,
+  msg: PropTypes.string,
 };
 export default ImageUploader;

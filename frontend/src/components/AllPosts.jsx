@@ -19,7 +19,7 @@ const AllPosts = () => {
     getBlogs();
   }, []);
   if (posts.length === 0) return <Loader />;
-  function showPost(post) {
+  function showPost(post,index) {
     return (
       <Post
         key={post.id}
@@ -34,6 +34,7 @@ const AllPosts = () => {
         image={post.title_picture}
         date={post.created_at}
         author={post.author_name}
+        index={index}
       />
     );
   }
