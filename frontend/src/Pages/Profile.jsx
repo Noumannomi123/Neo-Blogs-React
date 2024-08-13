@@ -53,14 +53,21 @@ const Profile = () => {
 
   const handleSave = async () => {
     try {
-      if (profile.pic.length === 0){
-        profile.pic = [{...profile.pic[0], data_url: dummyProfile}];
+      if (profile.pic.length === 0) {
+        profile.pic = [{ ...profile.pic[0], data_url: dummyProfile }];
       }
       const data = { ...editProfileData, pic: profile.pic[0].data_url };
-      const response = await axios.put(`${API_URL}/user/profile/${user.id}`, data, {
-        withCredentials: true,
+      const response = await axios.put(
+        `${API_URL}/user/profile/${user.id}`,
+        data,
+        {
+          withCredentials: true,
+        }
+      );
+      setProfile({
+        ...response.data,
+        pic: [{ data_url: response.data.pic || dummyProfile }],
       });
-      setProfile({ ...response.data, pic: [{ data_url: response.data.pic || dummyProfile }] });
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating user profile.", error);
@@ -72,7 +79,7 @@ const Profile = () => {
         const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
         setProfile({
           ...response.data,
-          pic: [{ data_url: response.data.pic || dummyProfile}],
+          pic: [{ data_url: response.data.pic || dummyProfile }],
         });
         setLoading(false);
       } catch (error) {
@@ -263,7 +270,6 @@ const Profile = () => {
                 )}
               </div>
               <div className="mx-3 mb-3">
-                {/* TO-FIX: use images instead */}
                 {profile.pic.length > 0 ? (
                   <Image
                     src={profile.pic[0].data_url}
