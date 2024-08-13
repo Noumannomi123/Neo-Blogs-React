@@ -60,6 +60,7 @@ const MyBlogs = () => {
             className="px-2 blog-card"
           >
             <Image
+              styles={{alignSelf: "center"}}
               src={blog.title_picture || lorem}
               width={"265px"}
               height={"150px"}

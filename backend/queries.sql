@@ -1,11 +1,11 @@
 CREATE TABLE users (
     id SERIAL PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL, 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- SIGN IN page change
 CREATE TABLE user_profile (
   id INT PRIMARY KEY, -- Reference the user's ID from users
   email VARCHAR(255) NOT NULL UNIQUE, -- Reference the user's email from users
@@ -20,6 +20,7 @@ CREATE TABLE user_profile (
   pic TEXT,
   FOREIGN KEY (id) REFERENCES users(id) ON DELETE CASCADE,
   FOREIGN KEY (email) REFERENCES users(email) ON DELETE CASCADE
+  FOREIGN KEY (username) REFERENCES users(username) ON DELETE CASCADE
 );
 
 CREATE TABLE blog_posts (

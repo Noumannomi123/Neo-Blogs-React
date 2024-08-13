@@ -60,7 +60,7 @@ const Profile = () => {
       const response = await axios.put(`${API_URL}/user/profile/${user.id}`, data, {
         withCredentials: true,
       });
-      setProfile({ ...response.data, pic: [{ data_url: response.data.pic }] });
+      setProfile({ ...response.data, pic: [{ data_url: response.data.pic || dummyProfile }] });
       setIsEditing(false);
     } catch (error) {
       console.error("Error updating user profile.", error);
@@ -72,7 +72,7 @@ const Profile = () => {
         const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
         setProfile({
           ...response.data,
-          pic: [{ data_url: response.data.pic }],
+          pic: [{ data_url: response.data.pic || dummyProfile}],
         });
         setLoading(false);
       } catch (error) {
@@ -80,7 +80,7 @@ const Profile = () => {
       }
     };
     getProfile();
-  }, [user.id]);
+  }, [user.id, dummyProfile]);
   if (loading) return <Loader />;
   return (
     <div>

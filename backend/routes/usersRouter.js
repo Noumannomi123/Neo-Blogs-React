@@ -20,7 +20,7 @@ router.put("/profile/:id", async (req, res) => {
         const { name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, pic } = req.body;
         const result = await db.query(
             "UPDATE user_profile SET username = $1, phone = $2, gender = $3, date_of_birth = $4, address = $5, facebook_link = $6, twitter_link = $7, instagram_link = $8, pic = $9 WHERE id = $10 RETURNING *",
-            [name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link,pic, id]
+            [name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, pic, id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ message: "User Profile Not Found" });
@@ -181,7 +181,6 @@ passport.use(
         },
         async (accessToken, refreshToken, profile, cb) => {
             try {
-                console.log(profile);
                 const result = await db.query("SELECT * FROM users WHERE email = $1", [
                     profile.email,
                 ]);

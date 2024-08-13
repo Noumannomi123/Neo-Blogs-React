@@ -33,10 +33,13 @@ const Login = () => {
       if (response.status === 200) {
         setError("");
       }
+      // localStorage.setItem("token", response.data.token);
+      localStorage.setItem("name", response.data.user.name);
       localStorage.setItem("email", response.data.user.email);
       localStorage.setItem("id", response.data.user.id);
       setUser(response.data.user);
       setLoggedIn(true);
+      console.log(response.data.user);
       navigate("/home");
     } catch (error) {
       localStorage.setItem("email", null);
