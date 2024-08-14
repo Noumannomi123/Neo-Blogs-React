@@ -7,19 +7,21 @@ import useMedia from "use-media";
 const AllPosts = () => {
   const [posts, setPosts] = useState([]);
   const isMobile = useMedia({ maxWidth: "1000px" });
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const getBlogs = async () => {
       try {
         const response = await axios.get(`${API_URL}/user/blog/all`);
         setPosts(response.data);
+        setLoading(false);
       } catch (error) {
         console.log("Error reqtrieving blogs.");
       }
     };
     getBlogs();
   }, []);
-  if (posts.length === 0) return <Loader />;
-  function showPost(post,index) {
+
+  function showPost(post, index) {
     return (
       <Post
         key={post.id}
@@ -38,7 +40,8 @@ const AllPosts = () => {
       />
     );
   }
-
+  if (loading) return <Loader />;
+  if (posts.length === 0) return <h3>Sorry no blogs to show.</h3>;
   return (
     <div className="d-flex justify-content-center">
       {isMobile ? (

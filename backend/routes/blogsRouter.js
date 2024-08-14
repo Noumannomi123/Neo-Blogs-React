@@ -4,7 +4,7 @@ import { db } from "../index.js";
 
 router.get("/all", async (req, res) => {
     try {
-        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts");
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC");
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)
@@ -29,14 +29,16 @@ router.post("/new/:id", async (req, res) => {
         const title_picture = req.body.title_image;
         const content = req.body.content;
         const summary = req.body.summary;
-        await db.query("INSERT INTO blog_posts (author_id, title, title_picture, content, summary) VALUES ($1, $2, $3, $4,$5)",
-            [author_id, title, title_picture, content, summary]
+        const author_name = req.body.author_name;
+        console.log(author_name);
+        await db.query("INSERT INTO blog_posts (author_id, title, title_picture, content, summary, author_name) VALUES ($1, $2, $3, $4, $5, $6)",
+            [author_id, title, title_picture, content, summary,author_name]
         )
         console.log("Blog created successfully.");
         res.status(200).json({ message: "Blog created successfully." });
     } catch (error) {
-        console.log("Error writing blog to the database.", error)
-        res.status(500).json({ message: "Error creating blog." })
+        console.log("Error writing blog to the database.");
+        res.status(500).json({ message: "Error creating blog." });
     }
 
 })

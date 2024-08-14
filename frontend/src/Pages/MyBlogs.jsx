@@ -57,7 +57,7 @@ const MyBlogs = () => {
           <Card
             direction="horizontal"
             style={{ width: "18rem", maxHeight: "90%" }}
-            className="px-2 blog-card"
+            className="mx-2 blog-card"
           >
             <Image
               styles={{alignSelf: "center"}}

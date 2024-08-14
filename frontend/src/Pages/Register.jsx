@@ -62,7 +62,7 @@ const SignUp = () => {
             <input
               type="text"
               className="form-control"
-              id="floatingInput"
+              id="nameInput"
               placeholder="Name"
               required
               value={name}
@@ -106,9 +106,9 @@ const SignUp = () => {
             />
             <label htmlFor="confirmPasswordInput">Confirm Password</label>
           </div>
-          {/* Error singing */}
-          {/* {error && <Error message={"Sorry, coudln't register."} />} */}
-          {error.length > 0 && <Error message={error} />}
+          {error.length > 0 && (
+            <Error message={error} clickAction={() => setError("")} />
+          )}
           <button className="btn btn-primary py-2" type="submit">
             Next
           </button>

@@ -29,7 +29,6 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data, "returned by server.");
       if (response.status === 200) {
         setError("");
       }
@@ -39,7 +38,6 @@ const Login = () => {
       localStorage.setItem("id", response.data.user.id);
       setUser(response.data.user);
       setLoggedIn(true);
-      console.log(response.data.user);
       navigate("/home");
     } catch (error) {
       localStorage.setItem("email", null);

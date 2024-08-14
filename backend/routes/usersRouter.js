@@ -55,6 +55,7 @@ router.get("/checkAuth", (req, res) => {
             isAuthenticated: true,
             user: {
                 id: req.user.id,
+                name: req.user.username,
                 email: req.user.email,
             }
         })
@@ -203,7 +204,7 @@ passport.use(
 passport.serializeUser((user, cb) => {
     cb(null, user);
 });
-passport.deserializeUser((user, cb) => {
+passport.deserializeUser(async (user, cb) => {
     cb(null, user);
 });
 export default router;

@@ -8,9 +8,15 @@
     justify-content: start;
     background: #EF665B;
     border-radius: 8px;
-    box-shadow: 0px 0px 5px -3px #111;
+    box-shadow: 0px 0px 10px -3px #111;
+    opacity: 1;
+    animation: fadeIn 0.2s ease-in; 
   }
-  
+  @keyframes fadeIn{
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
   .error__icon {
     width: 20px;
     height: 20px;

@@ -14,7 +14,6 @@ const Post = ({ id, title, description, image, date, author, index }) => {
     "This is a third comment",
   ];
   const likes = 10;
-
   return (
     <div className="mt-5">
       <div
@@ -44,10 +43,27 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           <h2 className="fs-4">{title}</h2>
           <HStack spacing={5}>
             <small>{author}</small>
-            <small>{new Date(date).toDateString()}</small>
+            <small>
+              {(() => {
+                const now = new Date();
+                const givenDate = new Date(date);
+                if (now.toDateString() === givenDate.toDateString()) {
+                  const hoursDiff = Math.floor(
+                    (now - givenDate) / (1000 * 60 * 60)
+                  );
+                  return `${hoursDiff}h ago`;
+                } else {
+                  const daysDiff = Math.floor(
+                    (now - givenDate) / (1000 * 60 * 60 * 24)
+                  );
+                  return `${daysDiff}d ago`;
+                }
+              })()}
+            </small>
           </HStack>
           <p className="mt-3">{description}</p>
         </Link>
+        {/* Buttons for comments, likes, and shares */}
         <HStack marginTop={5} marginBottom={5} spacing={3}>
           <button
             // onClick={}

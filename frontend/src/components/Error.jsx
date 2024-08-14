@@ -1,6 +1,6 @@
 import "../styles/Error.css";
 import PropTypes from  "prop-types";
-const Error = ({message}) => {
+const Error = ({message, clickAction}) => {
   return (
     <div className="error">
       <div className="error__icon">
@@ -18,7 +18,7 @@ const Error = ({message}) => {
         </svg>
       </div>
       <div className="error__title">{message}</div>
-      <div className="error__close">
+      <div className="error__close" onClick={clickAction}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -36,5 +36,6 @@ const Error = ({message}) => {
 };
 Error.propTypes = {
   message: PropTypes.string,
+  clickAction: PropTypes.func,
 };
 export default Error;

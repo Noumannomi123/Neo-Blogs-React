@@ -189,6 +189,7 @@ const QuillEditor = () => {
         title: title,
         content: sanitizedHtml,
         summary: summary,
+        author_name: localStorage.getItem("name"),
       };
       axios.post(`${API_URL}/user/blog/new/${user.id}`, data, {
         withCredentials: true,
@@ -264,11 +265,7 @@ const QuillEditor = () => {
                   </button>
                 </div>
                 <input
-                  className={
-                    title
-                      ? "border-bottom fw-bold w-100 text-center mb-3"
-                      : "mb-3"
-                  }
+                  className={`${title ? (`fw-bold w-100 text-center mb-3 mx-2`):(`mb-3 mx-2`)} `}
                   style={{ width: "90%" }}
                   id="title-input"
                   type="text"
