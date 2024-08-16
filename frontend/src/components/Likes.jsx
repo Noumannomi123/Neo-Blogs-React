@@ -6,7 +6,6 @@ import API_URL from "../config";
 import PropTypes from "prop-types";
 const Likes = ({ blog_id }) => {
   const [likes, setLikes] = useState(0);
-  console.log(blog_id);
   useEffect(() => {
     const getLikes = async () => {
       const res = await axios.get(`${API_URL}/user/blog/likes/${blog_id}`);

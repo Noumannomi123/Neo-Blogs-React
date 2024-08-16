@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PropTypes from "prop-types";
 import "../styles/Post.css";
 import PostImage from "./Image";
@@ -7,13 +8,32 @@ import { HStack } from "@chakra-ui/react";
 import chat from "../assets/chat.png";
 import Likes from "../components/Likes";
 import share from "../assets/share.png";
+import { useState } from "react";
+import axios from "axios";
+import API_URL from "../config";
 const Post = ({ id, title, description, image, date, author, index }) => {
-  const comments = [
-    "This is a comment",
-    "This is another comment",
-    "This is a third comment",
-  ];
-  const likes = 10;
+  const [comments, setComments] = useState([
+    {
+      profile_pic: "",
+      author: "dummyNouman",
+      created_at: "",
+      // likes: 0,
+      // replies: [],
+      content:
+        "This is a long comment. Making it long enough to test the overflow behavior. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+    },
+  ]);
+  useEffect(() => {
+    const getComments = async () => {
+      try {
+        const response = await axios.get(`${API_URL}/user/blog/comments/${id}`);
+        setComments(response.data);
+      } catch (error) {
+        console.error("Error fetching comments:");
+      }
+    };
+    getComments();
+  }, [id]);
   return (
     <div className="mt-5">
       <div
@@ -53,7 +73,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
                   );
                   return `${hoursDiff}h ago`;
                 } else {
-                  const daysDiff = Math.floor(
+                  const daysDiff = Math.ceil(
                     (now - givenDate) / (1000 * 60 * 60 * 24)
                   );
                   return `${daysDiff}d ago`;

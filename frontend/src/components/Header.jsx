@@ -31,6 +31,7 @@ const Header = () => {
   };
   const isMobile = useMedia({ maxWidth: "1000px" });
   const { loggedIn } = useContext(AuthContext);
+
   useEffect(() => {
     if (!loggedIn) {
       setUser(null);
@@ -57,8 +58,9 @@ const Header = () => {
         console.error("Error fetching profile picture:");
       }
     };
-    getProfilePic();
+    if (loggedIn) getProfilePic();
   }, [user]);
+
   return (
     <div className="for-container">
       <a href="/home" className="d-flex align-items-center">
