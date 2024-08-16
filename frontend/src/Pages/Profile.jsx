@@ -17,8 +17,8 @@ import API_URL from "../config";
 import Loader from "../components/Loader";
 import { useMedia } from "use-media";
 import ImageUploader from "../components/ImageUploader";
+import dummyProfile from "../assets/dummyProfile.png";
 const Profile = () => {
-  const dummyProfile = `https://picsum.photos/seed/picsum/200/300`;
   const user = {
     id: localStorage.getItem("id"),
     email: localStorage.getItem("email"),
@@ -485,7 +485,7 @@ const Profile = () => {
             />
           ) : (
             <Image
-              src={`https://picsum.photos/seed/picsum/200/300`}
+              src={dummyProfile}
               className={"rounded-circle"}
               width={"160px"}
               height={"160px"}

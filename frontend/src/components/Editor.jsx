@@ -217,6 +217,7 @@ const QuillEditor = () => {
   };
   const handleConfirm = () => {
     handleSavePost();
+    window.location.reload();
   };
   const handleCancel = () => {
     setModalVisible(false);
@@ -269,7 +270,7 @@ const QuillEditor = () => {
                   style={{ width: "90%" }}
                   id="title-input"
                   type="text"
-                  placeholder="Add a new title"
+                  placeholder="Title"
                   value={title}
                   onChange={(e) => {
                     setError("");

@@ -5,6 +5,7 @@ import { VStack, HStack } from "@chakra-ui/react";
 import TextAreaAutoSize from "react-textarea-autosize";
 import Image from "../components/Image";
 import { Button } from "@chakra-ui/react";
+import dummyProfile from "../assets/dummyProfile.png";
 const Comments = ({ comments }) => {
   const [comment, setComment] = useState("");
   return (
@@ -41,7 +42,7 @@ const Comments = ({ comments }) => {
           </HStack>
           <HStack spacing={3} width={"100%"} alignSelf={"flex-start"}>
             <Image
-              src={""}
+              src={dummyProfile}
               className={`rounded-circle`}
               height={"40px"}
               width={"40px"}

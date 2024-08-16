@@ -21,7 +21,7 @@ const MyBlogs = () => {
     id: localStorage.getItem("id"),
     email: localStorage.getItem("email"),
   };
-  
+
   const [blogs, setBlogs] = useState([]);
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ const MyBlogs = () => {
             className="mx-2 blog-card"
           >
             <Image
-              styles={{alignSelf: "center"}}
+              styles={{ alignSelf: "center" }}
               src={blog.title_picture || lorem}
               width={"265px"}
               height={"150px"}
@@ -92,7 +92,9 @@ const MyBlogs = () => {
                 </HStack>
               </HStack>
 
-              <p className="mt-2 fw-bold">{blog.title}</p>
+              <p className="mt-2 fw-bold">
+                {blog.title.length > 55 ? blog.title.slice(0, 55) + `...` : blog.title}
+              </p>
             </Card.Body>
           </Card>
         </Link>
