@@ -11,7 +11,7 @@ import logo from "../assets/logoLarge.png";
 import Image from "../components/Image";
 import { useEffect } from "react";
 import AuthContext from "./AuthContext";
-import Loader from "../components/Loader";
+import dummyProfile from "../assets/dummyProfile.png";
 const Header = () => {
   const navigate = useNavigate();
 
@@ -31,7 +31,6 @@ const Header = () => {
   };
   const isMobile = useMedia({ maxWidth: "1000px" });
   const { loggedIn } = useContext(AuthContext);
-  const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (!loggedIn) {
       setUser(null);
@@ -45,9 +44,21 @@ const Header = () => {
         });
       }
     }
-    setLoading(false);
   }, [loggedIn]);
-  if (loading) return <Loader />;
+  const [profilePic, setProfilePic] = useState(null);
+  useEffect(() => {
+    const getProfilePic = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/user/profile/pic/${user.id}`
+        );
+        setProfilePic(response.data.pic);
+      } catch (error) {
+        console.error("Error fetching profile picture:");
+      }
+    };
+    getProfilePic();
+  }, [user]);
   return (
     <div className="for-container">
       <a href="/home" className="d-flex align-items-center">
@@ -126,7 +137,10 @@ const Header = () => {
             </>
           ) : (
             <div className="d-flex align-items-center">
-              <NavButton text={user.email} address={`/users/${user.id}/profile`} />
+              <NavButton
+                text={user.email}
+                address={`/users/${user.id}/profile`}
+              />
               <NavButton
                 text={`My blogs`}
                 address={`/users/${user.id}/myblogs`}
@@ -140,29 +154,39 @@ const Header = () => {
       )}
 
       {user && (
-        <Dropdown className="d-flex align-items-center">
-          <Dropdown.Toggle
-            className="navMobile mx-4"
-            id="dropdown-autoclose-true"
-          >
-            More
-          </Dropdown.Toggle>
+        <>
+          <Dropdown className="d-flex align-items-center">
+            <Dropdown.Toggle
+              className="navMobile mx-4"
+              id="dropdown-autoclose-true"
+            >
+              More
+            </Dropdown.Toggle>
 
-          <Dropdown.Menu>
-            <Dropdown.Item
-              className="navMobileItems"
-              href={`/users/${user.id}/posts/new`}
-            >
-              New blog
-            </Dropdown.Item>
-            <Dropdown.Item
-              className="navMobileItems"
-              href={`/users/${user.id}/myblogs`}
-            >
-              My Blogs
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                className="navMobileItems"
+                href={`/users/${user.id}/posts/new`}
+              >
+                New blog
+              </Dropdown.Item>
+              <Dropdown.Item
+                className="navMobileItems"
+                href={`/users/${user.id}/myblogs`}
+              >
+                My Blogs
+              </Dropdown.Item>
+            </Dropdown.Menu>
+          </Dropdown>
+          <div className="d-flex align-items-center flex-grow-1 flex-end justify-content-end mx-5">
+            <Image
+              className={"rounded-circle"}
+              src={profilePic || dummyProfile}
+              width={"30px"}
+              height={"30px"}
+            />
+          </div>
+        </>
       )}
     </div>
   );

@@ -14,6 +14,19 @@ router.get("/auth/google",
     })
 );
 
+router.get("/profile/pic/:id", async (req,res)=>{
+    try {
+        const id = req.params.id;
+        const result = await db.query("SELECT pic FROM user_profile WHERE id = $1", [id]);
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: "User Profile Not Found" });
+        }
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error fetching user profile from the database.", error);
+        res.status(500).json({ message: "Error fetching user profile." });
+    }
+})
 router.put("/profile/:id", async (req, res) => {
     try {
         const id = req.params.id;
