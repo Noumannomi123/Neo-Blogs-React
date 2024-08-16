@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Comments from "./Comments";
 import { HStack } from "@chakra-ui/react";
 import chat from "../assets/chat.png";
-import like from "../assets/like.png";
+import Likes from "../components/Likes";
 import share from "../assets/share.png";
 const Post = ({ id, title, description, image, date, author, index }) => {
   const comments = [
@@ -80,22 +80,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
               <small style={{ marginLeft: 4 }}>{comments.length}</small>
             </HStack>
           </button>
-          <button // onClick={}
-            style={{
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
-            <HStack padding={0} margin={0} spacing={1}>
-              <small>
-                <img height={20} width={20} src={like} alt="likes" />
-              </small>
-              <small>{likes}</small>
-            </HStack>
-          </button>
+          <Likes blog_id={id} />
           <button
             // onClick={}
             style={{

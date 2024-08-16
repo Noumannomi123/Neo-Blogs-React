@@ -2,6 +2,18 @@ import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
 
+// get number of likes
+router.get("/likes/:id", async (req, res) => {
+    try {
+        const blog_id = req.params.id;
+        const result = await db.query("SELECT count(*) FROM likes WHERE post_id = $1", [blog_id]);
+        res.status(200).send(result.rows[0].count);
+    } catch (error) {
+        console.log("Error fetching likes from the database.", error)
+        res.status(500).json({ message: "Error fetching likes." })
+    }
+})
+
 router.get("/all", async (req, res) => {
     try {
         const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC");
