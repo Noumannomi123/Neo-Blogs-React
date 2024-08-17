@@ -12,10 +12,11 @@ import AuthContext from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../config";
-const Comments = ({ comments, setComments, blog_id }) => {
+const Comments = ({ comments, setComments, loadComments, blog_id }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setIsExpanded] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   useEffect(() => {
     const { state } = location;
     if (state) {
@@ -24,9 +25,10 @@ const Comments = ({ comments, setComments, blog_id }) => {
       if (id == blog_id) {
         if (comment) setNewComment(comment);
       }
+      // reset state
+      navigate(location.pathname, { replace: true });
     }
-  }, [location, blog_id]);
-  const navigate = useNavigate();
+  }, [location, blog_id, navigate]);
   const { loggedIn } = useContext(AuthContext);
   const handleCommentSubmit = async () => {
     if (!loggedIn) {
@@ -86,7 +88,11 @@ const Comments = ({ comments, setComments, blog_id }) => {
           </HStack>
 
           {/* All comments */}
-          <AllComments expanded={expanded} comments={comments} />
+          {!loadComments ? (
+            <AllComments expanded={expanded} comments={comments} />
+          ) : (
+            <p>Loading...</p>
+          )}
         </VStack>
 
         {/* more comments */}
@@ -99,5 +105,6 @@ Comments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
   setComments: PropTypes.func,
   blog_id: PropTypes.number,
+  loadComments: PropTypes.bool,
 };
 export default Comments;

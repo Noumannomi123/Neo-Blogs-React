@@ -60,9 +60,11 @@ const AllComments = ({ expanded, comments }) => {
       </HStack>
     );
   };
+  console.log("comments length", comments.length)
+  console.table(comments);
   return (
     <>
-      {expanded
+      {comments.length > 0 && expanded
         ? comments.map(showComment)
         : comments[0].content.length > 80
         ? showComment({
