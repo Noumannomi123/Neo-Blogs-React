@@ -62,16 +62,14 @@ const AllComments = ({ expanded, comments }) => {
   };
   return (
     <>
-      {expanded ? (
-        comments.map(showComment)
-      ) : comments[0].content.length > 80 ? (
-        showComment({
-          ...comments[0],
-          content: `${comments[0].content.slice(0, 80)}...`,
-        })
-      ) : (
-        <p>{comments[0].content}</p>
-      )}
+      {expanded
+        ? comments.map(showComment)
+        : comments[0].content.length > 80
+        ? showComment({
+            ...comments[0],
+            content: `${comments[0].content.slice(0, 80)}...`,
+          })
+        : showComment(comments[0])}
     </>
   );
 };

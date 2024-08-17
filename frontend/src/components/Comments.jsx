@@ -35,24 +35,22 @@ const Comments = ({ comments, setComments, blog_id }) => {
       navigate("/users/login", {
         state: { comment: newComment, blog_id: blog_id },
       });
-    } else {
-      try {
-        const response = await axios.post(
-          `${API_URL}/user/blog/comment/${blog_id}`,
-          {
-            user_id: localStorage.getItem("id"),
-            content: newComment,
-          }
-        );
-        console.table(response.data);
-        // setComments([...comments, response.data]);
-      } catch (error) {
-        console.log("Error adding comment to the database.");
-      }
-      setNewComment("");
+      return;
     }
+    try {
+      const response = await axios.post(
+        `${API_URL}/user/blog/comment/${blog_id}`,
+        {
+          user_id: localStorage.getItem("id"),
+          content: newComment,
+        }
+      );
+      setComments([response.data, ...comments]);
+    } catch (error) {
+      console.log("Error adding comment to the database.");
+    }
+    setNewComment("");
   };
-  console.log(comments);
   return (
     <div className="d-flex justify-content-center">
       <div className="comment-container">
