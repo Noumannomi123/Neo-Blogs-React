@@ -2,6 +2,7 @@ import Image from "../components/Image";
 import dummyProfile from "../assets/dummyProfile.png";
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import timeConverter from "../utils/timeConverter";
 const AllComments = ({ expanded, comments }) => {
   const showComment = (comment, index) => {
     const { content, created_at, pic, username } = comment;
@@ -23,7 +24,7 @@ const AllComments = ({ expanded, comments }) => {
           <HStack width={"100%"} spacing={5}>
             {/* comment.author, comment.createdAt */}
             <small>{username}</small>
-            <small>{created_at}</small>
+            <small>{timeConverter(created_at)}</small>
           </HStack>
           {/* comment.text */}
           <p className="w-100">{content}</p>
@@ -64,7 +65,10 @@ const AllComments = ({ expanded, comments }) => {
       {expanded ? (
         comments.map(showComment)
       ) : comments[0].content.length > 80 ? (
-        showComment({ ...comments[0], content: `${comments[0].content.slice(0,80)}...` })
+        showComment({
+          ...comments[0],
+          content: `${comments[0].content.slice(0, 80)}...`,
+        })
       ) : (
         <p>{comments[0].content}</p>
       )}

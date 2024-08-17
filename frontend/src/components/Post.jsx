@@ -11,6 +11,7 @@ import share from "../assets/share.png";
 import { useState } from "react";
 import axios from "axios";
 import API_URL from "../config";
+import timeConverter from "../utils/timeConverter";
 const Post = ({ id, title, description, image, date, author, index }) => {
   const [comments, setComments] = useState([
     {
@@ -64,21 +65,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           <HStack spacing={5}>
             <small>{author}</small>
             <small>
-              {(() => {
-                const now = new Date();
-                const givenDate = new Date(date);
-                if (now.toDateString() === givenDate.toDateString()) {
-                  const hoursDiff = Math.floor(
-                    (now - givenDate) / (1000 * 60 * 60)
-                  );
-                  return `${hoursDiff}h ago`;
-                } else {
-                  const daysDiff = Math.ceil(
-                    (now - givenDate) / (1000 * 60 * 60 * 24)
-                  );
-                  return `${daysDiff}d ago`;
-                }
-              })()}
+              {timeConverter(date)}
             </small>
           </HStack>
           <p className="mt-3">{description}</p>
