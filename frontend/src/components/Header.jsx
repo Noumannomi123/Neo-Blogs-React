@@ -43,6 +43,7 @@ const Header = () => {
           id: localStorage.getItem("id"),
           email: localStorage.getItem("email"),
         });
+        
       }
     }
   }, [loggedIn]);
@@ -59,7 +60,7 @@ const Header = () => {
       }
     };
     if (loggedIn) getProfilePic();
-  }, [user]);
+  }, [user, loggedIn]);
 
   return (
     <div className="for-container">

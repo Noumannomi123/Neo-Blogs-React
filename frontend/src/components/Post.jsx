@@ -106,7 +106,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
             </HStack>
           </button>
         </HStack>
-        <Comments comments={comments} />
+        <Comments comments={comments} setComments={setComments}/>
       </div>
     </div>
   );

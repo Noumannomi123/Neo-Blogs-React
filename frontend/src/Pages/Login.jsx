@@ -7,7 +7,7 @@ import "../components/GoogleSignInButton";
 import GoogleSignInButton from "../components/GoogleSignInButton";
 import Error from "../components/Error";
 import API_URL from "../config";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import mark from "../assets/mark.png";
 import AuthContext from "../components/AuthContext";
 const Login = () => {
@@ -16,6 +16,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { setUser, setLoggedIn } = useContext(AuthContext);
+  const location = useLocation();
   const hanldeSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -38,7 +39,19 @@ const Login = () => {
       localStorage.setItem("id", response.data.user.id);
       setUser(response.data.user);
       setLoggedIn(true);
-      navigate("/home");
+      // TO-DO
+      if (localStorage.getItem("redirectUrl") != null) {
+        switch (localStorage.getItem("redirectUrl")) {
+          case "/home":
+            navigate("/home", {state: location.state});
+            break;
+          default:
+            navigate(localStorage.getItem("redirectUrl"));
+            break;
+        }
+      } else {
+        navigate("/home");
+      }
     } catch (error) {
       localStorage.setItem("email", null);
       if (error.response.status === 401)
@@ -89,7 +102,11 @@ const Login = () => {
           </div>
           {/* Error singing */}
           {error.length > 0 && <Error message={error} />}
-          <button onClick={hanldeSubmit} className="btn btn-primary py-2" type="submit">
+          <button
+            onClick={hanldeSubmit}
+            className="btn btn-primary py-2"
+            type="submit"
+          >
             Sign in
           </button>
           <button>

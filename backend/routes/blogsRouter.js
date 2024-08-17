@@ -2,6 +2,19 @@ import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
 
+router.post("/comment/:id", async (req,res)=>{
+    try {
+        const post_id = req.params.id;
+        const user_id = req.body.user_id;
+        const content = req.body.content;
+        const result = await db.query("INSERT INTO comments (post_id, user_id, content) VALUES ($1, $2, $3)", [post_id, user_id, content]);
+        res.status(200).json(result);
+    } catch (error) {
+        console.log("Error adding comment to the database.", error)
+        res.status(500).json({ message: "Error adding comment." })
+    }
+})
+
 router.get("/comments/:id", async (req, res) => {
     try {
         const post_id = req.params.id;

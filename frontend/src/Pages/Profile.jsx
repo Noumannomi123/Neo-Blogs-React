@@ -87,7 +87,7 @@ const Profile = () => {
       }
     };
     getProfile();
-  }, [user.id, dummyProfile]);
+  }, [user.id]);
   if (loading) return <Loader />;
   return (
     <div>
@@ -331,10 +331,14 @@ const Profile = () => {
                       <Input
                         name="name"
                         value={editProfileData.name}
-                        onChange={handleChange}
+                        disabled
                       />
                       <FormLabel>Email</FormLabel>
-                      <Input name="email" value={user.email} disblaed />
+                      <Input
+                        name="email"
+                        value={editProfileData.email}
+                        disabled
+                      />
                       <FormLabel>Phone</FormLabel>
                       <Input
                         name="phone"
