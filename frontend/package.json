@@ -18,6 +18,7 @@
     "@xeger/quill-image-formats": "^0.7.2",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "compressorjs": "^1.2.1",
     "dompurify": "^3.1.6",
     "framer-motion": "^11.3.12",
     "jquery": "3.6.1",

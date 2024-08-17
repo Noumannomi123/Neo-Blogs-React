@@ -70,7 +70,7 @@ const Profile = () => {
       });
       setIsEditing(false);
     } catch (error) {
-      console.error("Error updating user profile.", error);
+      console.error("Error updating user profile.");
     }
   };
   useEffect(() => {

@@ -2,11 +2,31 @@ import ImageUploading from "react-images-uploading";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/ImageUploader.css";
+import Compressor from "compressorjs";
 const ImageUploader = ({ setTitleImage, images, msg }) => {
   const [image, setImage] = useState(images);
+  const compressionQuality = 0.65;
   const onChange = (imageList) => {
-    setImage(imageList);
-    setTitleImage(imageList);
+    const image = imageList[0];
+    new Compressor(image.file, {
+      quality: 0.5,
+      success: (compressedResult) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const compressedDataURL = reader.result;
+          setImage([
+            { ...image, file: compressedResult, data_url: compressedDataURL },
+          ]);
+          setTitleImage([
+            { ...image, file: compressedResult, data_url: compressedDataURL },
+          ]);
+        };
+        reader.readAsDataURL(compressedResult);
+      },
+      error: (err) => {
+        console.log("Error compressing image.", err.message);
+      },
+    });
   };
   return (
     <div>
@@ -18,6 +38,8 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
         dataURLKey="data_url"
         acceptType={["jpg", "png", "gif"]}
         maxFileSize={5242880} // 5 MB
+        resolutionType="ratio"
+        imageCompressionQuality={compressionQuality}
       >
         {({
           imageList,
@@ -36,6 +58,7 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
                 {...dragProps}
               >
                 {msg || `Title Image. Click or Drop here.`}
+                
               </button>
             ) : (
               <>
