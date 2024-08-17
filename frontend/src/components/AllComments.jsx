@@ -59,7 +59,17 @@ const AllComments = ({ expanded, comments }) => {
       </HStack>
     );
   };
-  return <>{expanded ? comments.map(showComment) : showComment(comments[0])}</>;
+  return (
+    <>
+      {expanded ? (
+        comments.map(showComment)
+      ) : comments[0].content.length > 80 ? (
+        showComment({ ...comments[0], content: `${comments[0].content.slice(0,80)}...` })
+      ) : (
+        <p>{comments[0].content}</p>
+      )}
+    </>
+  );
 };
 AllComments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
