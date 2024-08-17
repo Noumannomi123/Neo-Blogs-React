@@ -2,13 +2,20 @@ import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
 
-router.post("/comment/:id", async (req,res)=>{
+router.post("/comment/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
         const user_id = req.body.user_id;
         const content = req.body.content;
-        const result = await db.query("INSERT INTO comments (post_id, user_id, content) VALUES ($1, $2, $3)", [post_id, user_id, content]);
-        res.status(200).json(result);
+        const result = await db.query("INSERT INTO comments (post_id, user_id, content) VALUES ($1, $2, $3) RETURNING id", [post_id, user_id, content]);
+        const commentResult = await db.query(
+            `SELECT u.username, u.pic, c.content, c.created_at 
+             FROM user_profile u 
+             INNER JOIN comments c ON u.id = c.user_id 
+             WHERE c.id = $1`,
+            [result.rows[0].id]
+        );
+        res.status(200).json(commentResult.rows[0]);
     } catch (error) {
         console.log("Error adding comment to the database.", error)
         res.status(500).json({ message: "Error adding comment." })

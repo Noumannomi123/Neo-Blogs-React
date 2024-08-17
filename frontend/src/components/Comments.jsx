@@ -12,7 +12,7 @@ import AuthContext from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../config";
-const Comments = ({ comments, setComments }) => {
+const Comments = ({ comments, setComments, blog_id }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setIsExpanded] = useState(false);
   const location = useLocation();
@@ -20,27 +20,39 @@ const Comments = ({ comments, setComments }) => {
     const { state } = location;
     if (state) {
       const comment = state.comment;
-      if (comment) setNewComment(comment);
+      const id = state.blog_id;
+      if (id == blog_id) {
+        if (comment) setNewComment(comment);
+      }
     }
-  }, [location]);
+  }, [location, blog_id]);
   const navigate = useNavigate();
   const { loggedIn } = useContext(AuthContext);
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = async () => {
     if (!loggedIn) {
       const currentUrl = `${location.pathname}${location.search}${location.hash}`;
       localStorage.setItem("redirectUrl", currentUrl);
       navigate("/users/login", {
-        state: { comment: newComment },
+        state: { comment: newComment, blog_id: blog_id },
       });
+    } else {
+      try {
+        const response = await axios.post(
+          `${API_URL}/user/blog/comment/${blog_id}`,
+          {
+            user_id: localStorage.getItem("id"),
+            content: newComment,
+          }
+        );
+        console.table(response.data);
+        // setComments([...comments, response.data]);
+      } catch (error) {
+        console.log("Error adding comment to the database.");
+      }
+      setNewComment("");
     }
-    // try {
-    //   const response = axios.post(
-    //     `${API_URL}/user/blog/comment/:id`
-    // } catch (error) {
-      
-    // }
-    // setNewComment("");
   };
+  console.log(comments);
   return (
     <div className="d-flex justify-content-center">
       <div className="comment-container">
@@ -88,5 +100,6 @@ const Comments = ({ comments, setComments }) => {
 Comments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
   setComments: PropTypes.func,
+  blog_id: PropTypes.number,
 };
 export default Comments;
