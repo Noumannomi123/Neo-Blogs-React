@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/Comments.css";
-import { VStack, HStack } from "@chakra-ui/react";
+import { VStack, HStack, SkeletonCircle } from "@chakra-ui/react";
 import TextAreaAutoSize from "react-textarea-autosize";
 
 import { Button } from "@chakra-ui/react";
@@ -12,6 +12,8 @@ import AuthContext from "./AuthContext";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import API_URL from "../config";
+import { SkeletonText } from "@chakra-ui/react";
+
 const Comments = ({ comments, setComments, loadComments, blog_id }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setIsExpanded] = useState(false);
@@ -91,7 +93,32 @@ const Comments = ({ comments, setComments, loadComments, blog_id }) => {
           {!loadComments ? (
             <AllComments expanded={expanded} comments={comments} />
           ) : (
-            <p>Loading...</p>
+            <HStack width={"100%"}>
+              <SkeletonCircle alignSelf={"start"} size={"10"} />
+              <VStack width={"100%"}>
+                <HStack spacing={4} width={"100%"} marginBottom={"10px"}>
+                  <SkeletonText
+                    animation={"wave"}
+                    noOfLines={1}
+                    skeletonHeight={2}
+                    w={"10%"}
+                  />
+                  <SkeletonText
+                    animation={"wave"}
+                    noOfLines={1}
+                    skeletonHeight={2}
+                    w={"5%"}
+                  />
+                </HStack>
+                <SkeletonText
+                  animation={"wave"}
+                  noOfLines={2}
+                  spacing="4"
+                  skeletonHeight={2}
+                  w={"100%"}
+                />
+              </VStack>
+            </HStack>
           )}
         </VStack>
 
