@@ -25,7 +25,7 @@ router.post("/comment/:id", async (req, res) => {
 router.get("/comments/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
-        const response = await db.query(`SELECT u.username, u.pic, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where c.post_id = $1 order by c.created_at desc`, [post_id])
+        const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where c.post_id = $1 order by c.created_at desc`, [post_id])
         res.status(200).json(response.rows);
     } catch (error) {
         console.log("Error fetching comments from the database.")

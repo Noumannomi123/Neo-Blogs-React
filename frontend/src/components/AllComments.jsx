@@ -1,18 +1,23 @@
+import { useState } from "react";
 import Image from "../components/Image";
 import dummyProfile from "../assets/dummyProfile.png";
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
+
+import TextAreaAutoSize from "react-textarea-autosize";
 const AllComments = ({ expanded, comments }) => {
-  const showComment = (comment, index) => {
-    const { content, created_at, pic, username } = comment;
+  const [replyComment, setReplyComment] = useState({});
+  const handlReplyComment = (commentId) => {
+    setReplyComment({ [commentId]: true });
+  };
+  const handleCancelClick = (commentId) => {
+    setReplyComment({ [commentId]: false });
+  };
+  const showComment = (comment) => {
+    const { id, content, created_at, pic, username } = comment;
     return (
-      <HStack
-        key={comment.id || index}
-        spacing={3}
-        width={"100%"}
-        alignSelf={"flex-start"}
-      >
+      <HStack key={id} spacing={3} width={"100%"} alignSelf={"flex-start"}>
         <Image
           styles={{ alignSelf: "start", marginTop: "10px" }}
           src={pic || dummyProfile}
@@ -44,6 +49,7 @@ const AllComments = ({ expanded, comments }) => {
             </small>
             <small>
               <Button
+                onClick={() => handlReplyComment(id)}
                 fontWeight={"inherit"}
                 backgroundColor={"inherit"}
                 size={"sm"}
@@ -56,6 +62,25 @@ const AllComments = ({ expanded, comments }) => {
               </Button>
             </small>
           </HStack>
+          {replyComment[id] && (
+            <VStack width={"95%"} marginTop={2} alignSelf={"end"}>
+              <TextAreaAutoSize
+                className="comment-area w-100 px-2 pt-2 pb-2 shadow-sm bg-white rounded"
+                id="comment-field"
+                placeholder="Add your reply here..."
+                maxRows={3}
+              />
+              <HStack alignSelf={"end"} spacing={8}>
+                <Button
+                  onClick={() => handleCancelClick(id)}
+                  backgroundColor={"white"}
+                >
+                  Cancel
+                </Button>
+                <Button>Submit</Button>
+              </HStack>
+            </VStack>
+          )}
         </VStack>
       </HStack>
     );

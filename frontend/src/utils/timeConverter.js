@@ -5,6 +5,7 @@ const timeConverter = (date) => {
         (now - givenDate) / (1000 * 60 * 60)
     );
     const hours = `${hoursDiff}h ago`;
+    if (hoursDiff == 0) return "Some minutes ago";
     if (hoursDiff < 24) return hours;
     else {
         const daysDiff = Math.floor(
