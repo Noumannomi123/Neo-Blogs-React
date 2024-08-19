@@ -15,6 +15,7 @@ import timeConverter from "../utils/timeConverter";
 const Post = ({ id, title, description, image, date, author, index }) => {
   const [comments, setComments] = useState([]);
   const [loadComments, setLoadComments] = useState(true);
+  const [showComments, setShowComments] = useState(false);
   useEffect(() => {
     const getComments = async () => {
       try {
@@ -61,9 +62,10 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           <p className="mt-3">{description}</p>
         </Link>
         {/* Buttons for comments, likes, and shares */}
-        <HStack marginTop={5} marginBottom={5} spacing={3}>
+        <HStack marginTop={5} marginBottom={5} spacing={8}>
+          <Likes blog_id={id} />
           <button
-            // onClick={}
+            onClick={() => setShowComments(!showComments)}
             style={{
               border: "none",
               background: "none",
@@ -75,9 +77,10 @@ const Post = ({ id, title, description, image, date, author, index }) => {
             <HStack padding={0} margin={0} spacing={1}>
               <img height={20} width={20} src={chat} alt="comments" />
               <small style={{ marginLeft: 4 }}>{comments.length}</small>
+              <small className="fw-light">Comments</small>
             </HStack>
           </button>
-          <Likes blog_id={id} />
+
           <button
             // onClick={}
             style={{
@@ -92,12 +95,21 @@ const Post = ({ id, title, description, image, date, author, index }) => {
               <small>
                 <img height={20} width={20} src={share} alt="likes" />
               </small>
-              <small>Share</small>
+              <small className="fw-light">Share</small>
             </HStack>
           </button>
         </HStack>
 
-        <Comments comments={comments} setComments={setComments} loadComments={loadComments} blog_id={id} />
+        {showComments && (
+          <div id="comment-container">
+            <Comments
+              comments={comments}
+              setComments={setComments}
+              loadComments={loadComments}
+              blog_id={id}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
