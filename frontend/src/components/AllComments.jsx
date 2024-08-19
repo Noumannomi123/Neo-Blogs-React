@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
 import TextAreaAutoSize from "react-textarea-autosize";
+import Replies from "./Replies";
 const AllComments = ({ expanded, comments }) => {
   const [replyComment, setReplyComment] = useState({});
   const handlReplyComment = (commentId) => {
@@ -33,35 +34,37 @@ const AllComments = ({ expanded, comments }) => {
           </HStack>
           {/* comment.text */}
           <p className="w-100">{content}</p>
-          <HStack alignSelf={"start"} spacing={0}>
-            <small>
-              <Button
-                fontWeight={"inherit"}
-                backgroundColor={"inherit"}
-                size={"sm"}
-                _hover={{
-                  backgroundColor: "rgba(45, 103, 160,0.8)",
-                  color: "white",
-                }}
-              >
-                Like
-              </Button>
-            </small>
-            <small>
-              <Button
-                onClick={() => handlReplyComment(id)}
-                fontWeight={"inherit"}
-                backgroundColor={"inherit"}
-                size={"sm"}
-                _hover={{
-                  backgroundColor: "rgba(45, 103, 160,0.8)",
-                  color: "white",
-                }}
-              >
-                Reply
-              </Button>
-            </small>
-          </HStack>
+          {expanded && (
+            <HStack alignSelf={"start"} spacing={0}>
+              <small>
+                <Button
+                  fontWeight={"inherit"}
+                  backgroundColor={"inherit"}
+                  size={"sm"}
+                  _hover={{
+                    backgroundColor: "rgba(45, 103, 160,0.8)",
+                    color: "white",
+                  }}
+                >
+                  Like
+                </Button>
+              </small>
+              <small>
+                <Button
+                  onClick={() => handlReplyComment(id)}
+                  fontWeight={"inherit"}
+                  backgroundColor={"inherit"}
+                  size={"sm"}
+                  _hover={{
+                    backgroundColor: "rgba(45, 103, 160,0.8)",
+                    color: "white",
+                  }}
+                >
+                  Reply
+                </Button>
+              </small>
+            </HStack>
+          )}
           {replyComment[id] && (
             <VStack width={"95%"} marginTop={2} alignSelf={"end"}>
               <TextAreaAutoSize
@@ -70,17 +73,30 @@ const AllComments = ({ expanded, comments }) => {
                 placeholder="Add your reply here..."
                 maxRows={3}
               />
-              <HStack alignSelf={"end"} spacing={8}>
+              <HStack alignSelf={"end"} spacing={3}>
                 <Button
                   onClick={() => handleCancelClick(id)}
-                  backgroundColor={"white"}
+                  backgroundColor={"inherit"}
+                  size={"sm"}
+                  _hover={{
+                    backgroundColor: "rgba(45, 103, 160,0.3)",
+                    color: "white",
+                  }}
                 >
                   Cancel
                 </Button>
-                <Button>Submit</Button>
+                <Button
+                  backgroundColor={`rgba(45, 103, 160,0.8)`}
+                  size={"sm"}
+                  color={`white`}
+                  _hover={{}}
+                >
+                  Submit
+                </Button>
               </HStack>
             </VStack>
           )}
+          <Replies id={id}/>
         </VStack>
       </HStack>
     );

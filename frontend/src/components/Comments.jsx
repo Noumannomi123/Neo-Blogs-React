@@ -91,7 +91,10 @@ const Comments = ({ comments, setComments, loadComments, blog_id }) => {
 
           {/* All comments */}
           {!loadComments ? (
-            <AllComments expanded={expanded} comments={comments} />
+            comments &&
+            comments.length > 0 && (
+              <AllComments expanded={expanded} comments={comments} />
+            )
           ) : (
             <HStack width={"100%"}>
               <SkeletonCircle alignSelf={"start"} size={"10"} />
