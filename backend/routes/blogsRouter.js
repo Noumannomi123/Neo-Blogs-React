@@ -22,6 +22,17 @@ router.post("/comment/:id", async (req, res) => {
     }
 })
 
+router.get("/replies/:id", async (req, res) => {
+    try {
+        const comment_id = req.params.id;
+        const result = await db.query("SELECT u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN replies r ON u.id = r.user_id WHERE r.comment_id = $1 ORDER BY r.created_at DESC", [comment_id]);
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.log("Error fetching replies from the database.", error)
+        res.status(500).json({ message: "Error fetching replies." })
+    }
+})
+
 router.get("/comments/:id", async (req, res) => {
     try {
         const post_id = req.params.id;

@@ -96,7 +96,7 @@ const AllComments = ({ expanded, comments }) => {
               </HStack>
             </VStack>
           )}
-          <Replies id={id}/>
+          {expanded && <Replies id={id} />}
         </VStack>
       </HStack>
     );

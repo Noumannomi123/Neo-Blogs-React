@@ -1,4 +1,4 @@
-import { VStack } from "@chakra-ui/react";
+import { VStack, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import AllComments from "./AllComments";
 import PropTypes from "prop-types";
@@ -7,10 +7,11 @@ import API_URL from "../config";
 const Replies = ({ id }) => {
   const [replies, setReplies] = useState([]);
   const [loader, setLoader] = useState(true);
+  const [expanded, setIsExpanded] = useState(false);
   useEffect(() => {
     const getComments = async () => {
       try {
-        const response = await axios.get(`${API_URL}/user/blog/comments/${id}`);
+        const response = await axios.get(`${API_URL}/user/blog/replies/${id}`);
         setReplies(response.data);
         setLoader(false);
       } catch (error) {
@@ -21,13 +22,28 @@ const Replies = ({ id }) => {
   }, [id]);
   if (loader) return <></>;
   return (
-    <div>
-      <VStack width={"95%"} marginTop={2} alignSelf={"end"}>
-        {replies.length > 0 && (
-          <AllComments expanded={false} comments={replies} />
-        )}
-      </VStack>
-    </div>
+    <>
+      {replies.length > 0 && (
+        <VStack width={"95%"} marginTop={2} alignSelf={"end"}>
+          <Button
+            position={'relative'}
+            variant={"link"}
+            onClick={() => setIsExpanded(!expanded)}
+            fontWeight={"normal"}
+            alignSelf={"center"}
+            marginBottom={2}
+            _hover={{
+              textDecoration: "underline",
+            }}
+            style={{ backgroundColor: "inherit" }}
+            backgroundColor={"inherit"}
+          >
+            {expanded ? "Hide" : "View"} Replies
+          </Button>
+          {expanded && <AllComments expanded={false} comments={replies} />}
+        </VStack>
+      )}
+    </>
   );
 };
 Replies.propTypes = {
