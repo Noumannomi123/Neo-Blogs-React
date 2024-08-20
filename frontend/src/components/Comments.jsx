@@ -14,7 +14,7 @@ import axios from "axios";
 import API_URL from "../config";
 import { SkeletonText } from "@chakra-ui/react";
 
-const Comments = ({ comments, setComments, loadComments, blog_id }) => {
+const Comments = ({ comments, updateComments, loadComments, blog_id, className }) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setIsExpanded] = useState(false);
   const location = useLocation();
@@ -49,14 +49,14 @@ const Comments = ({ comments, setComments, loadComments, blog_id }) => {
           content: newComment,
         }
       );
-      setComments([response.data, ...comments]);
+      updateComments([response.data, ...comments]);
     } catch (error) {
       console.log("Error adding comment to the database.");
     }
     setNewComment("");
   };
   return (
-    <div className="d-flex justify-content-center">
+    <div className={`d-flex justify-content-center ${className}`}>
       <div className="comment-container">
         <VStack spacing={7}>
           <HStack width={"100%"} spacing={3}>
@@ -133,8 +133,9 @@ const Comments = ({ comments, setComments, loadComments, blog_id }) => {
 };
 Comments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
-  setComments: PropTypes.func,
+  updateComments: PropTypes.func,
   blog_id: PropTypes.number,
   loadComments: PropTypes.bool,
+  className: PropTypes.string,
 };
 export default Comments;

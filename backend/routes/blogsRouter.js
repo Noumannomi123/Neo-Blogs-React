@@ -24,8 +24,10 @@ router.post("/comment/:id", async (req, res) => {
 
 router.get("/replies/:id", async (req, res) => {
     try {
-        const comment_id = req.params.id;
-        const result = await db.query("SELECT u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN replies r ON u.id = r.user_id WHERE r.comment_id = $1 ORDER BY r.created_at DESC", [comment_id]);
+        const parent_id = parseInt(req.params.id);
+        const post_id = req.params;
+        console.log(parent_id, post_id);
+        const result = await db.query("SELECT u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC", [parent_id, post_id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching replies from the database.", error)
@@ -36,10 +38,10 @@ router.get("/replies/:id", async (req, res) => {
 router.get("/comments/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
-        const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where c.post_id = $1 order by c.created_at desc`, [post_id])
+        const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc `, [post_id])
         res.status(200).json(response.rows);
     } catch (error) {
-        console.log("Error fetching comments from the database.")
+        console.log("Error fetching comments from the database.", error.message)
         res.status(500).json({ message: "Error fetching comments." })
     }
 })

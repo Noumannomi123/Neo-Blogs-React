@@ -104,7 +104,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           <div id="comment-container">
             <Comments
               comments={comments}
-              setComments={setComments}
+              updateComments={setComments}
               loadComments={loadComments}
               blog_id={id}
             />

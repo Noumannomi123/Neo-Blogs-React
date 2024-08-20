@@ -1,20 +1,19 @@
-import { useState } from "react";
+import { useState } from 'react';
 import Image from "../components/Image";
 import dummyProfile from "../assets/dummyProfile.png";
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
-import TextAreaAutoSize from "react-textarea-autosize";
 import Replies from "./Replies";
-import Comments from "./Comments";
 const AllComments = ({ expanded, comments }) => {
+  const [reply, showReply] = useState(false);
   const [replyComment, setReplyComment] = useState({});
-  const handlReplyComment = (commentId) => {
-    setReplyComment({ [commentId]: true });
+  const handlReplyComment = (replyId) => {
+    setReplyComment({ [replyId]: true });
   };
-  const handleCancelClick = (commentId) => {
-    setReplyComment({ [commentId]: false });
+  const handleCancelClick = (replyId) => {
+    setReplyComment({ [replyId]: false });
   };
   const showComment = (comment) => {
     const { id, content, created_at, pic, username } = comment;
@@ -66,49 +65,8 @@ const AllComments = ({ expanded, comments }) => {
               </small>
             </HStack>
           )}
-          {/* {replyComment[id] &&
-            // TO-DO: USE THE COMMENTS COMPONENT AND RE-USE IT
-            <div id="comment-container">
-              <Comments
-                comments={comments}
-                setComments={setComments}
-                loadComments={loadComments}
-                blog_id={id}
-              />
-            </div>
-          } */}
-          {/* {replyComment[id] && (
-            <VStack width={"95%"} marginTop={2} alignSelf={"end"}>
-              <TextAreaAutoSize
-                className="comment-area w-100 px-2 pt-2 pb-2 shadow-sm bg-white rounded"
-                id="comment-field"
-                placeholder="Add your reply here..."
-                maxRows={3}
-              />
-              <HStack alignSelf={"end"} spacing={3}>
-                <Button
-                  onClick={() => handleCancelClick(id)}
-                  backgroundColor={"inherit"}
-                  size={"sm"}
-                  _hover={{
-                    backgroundColor: "rgba(45, 103, 160,0.3)",
-                    color: "white",
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  backgroundColor={`rgba(45, 103, 160,0.8)`}
-                  size={"sm"}
-                  color={`white`}
-                  _hover={{}}
-                >
-                  Submit
-                </Button>
-              </HStack>
-            </VStack>
-          )} */}
-          {/* {expanded && <Replies id={id} />} */}
+
+          {replyComment[id] && <Replies commentId={id} post_id={19} />}
         </VStack>
       </HStack>
     );

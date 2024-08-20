@@ -26,7 +26,7 @@ CREATE TABLE user_profile (
 CREATE TABLE blog_posts (
     id SERIAL PRIMARY KEY,
     author_id INT NOT NULL,
-	author_name VARCHAR(255),
+	author_name VARCHAR(50),
     title VARCHAR(255),
     title_picture TEXT,
     content TEXT,
