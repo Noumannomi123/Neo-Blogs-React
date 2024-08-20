@@ -135,7 +135,7 @@ router.delete("/:id", async (req, res) => {
 router.get("/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const result = await db.query("SELECT summary, content,id,title,title_picture FROM blog_posts WHERE id = $1", [id]);
+        const result = await db.query("SELECT b.summary, b.content,b.id,b.title,b.title_picture,b.created_at,b.author_name, u.pic FROM blog_posts b INNER JOIN user_profile u ON b.author_id = u.id WHERE b.id = $1", [id]);
         res.status(200).json(result.rows[0]);
     } catch (error) {
         console.log("Error fetching blog from the database.", error)

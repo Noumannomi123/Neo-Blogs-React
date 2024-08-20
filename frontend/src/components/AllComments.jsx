@@ -7,6 +7,7 @@ import timeConverter from "../utils/timeConverter";
 
 import TextAreaAutoSize from "react-textarea-autosize";
 import Replies from "./Replies";
+import Comments from "./Comments";
 const AllComments = ({ expanded, comments }) => {
   const [replyComment, setReplyComment] = useState({});
   const handlReplyComment = (commentId) => {
@@ -65,7 +66,18 @@ const AllComments = ({ expanded, comments }) => {
               </small>
             </HStack>
           )}
-          {replyComment[id] && (
+          {/* {replyComment[id] &&
+            // TO-DO: USE THE COMMENTS COMPONENT AND RE-USE IT
+            <div id="comment-container">
+              <Comments
+                comments={comments}
+                setComments={setComments}
+                loadComments={loadComments}
+                blog_id={id}
+              />
+            </div>
+          } */}
+          {/* {replyComment[id] && (
             <VStack width={"95%"} marginTop={2} alignSelf={"end"}>
               <TextAreaAutoSize
                 className="comment-area w-100 px-2 pt-2 pb-2 shadow-sm bg-white rounded"
@@ -95,8 +107,8 @@ const AllComments = ({ expanded, comments }) => {
                 </Button>
               </HStack>
             </VStack>
-          )}
-          {expanded && <Replies id={id} />}
+          )} */}
+          {/* {expanded && <Replies id={id} />} */}
         </VStack>
       </HStack>
     );
