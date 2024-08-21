@@ -1,20 +1,19 @@
-import { useState } from 'react';
+import { useState } from "react";
 import Image from "../components/Image";
 import dummyProfile from "../assets/dummyProfile.png";
 import { Button, HStack, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
-// import Replies from "./Replies";
+import Replies from "./Replies";
 const AllComments = ({ expanded, comments }) => {
-  // const [reply, showReply] = useState(false);
-  // const [replyComment, setReplyComment] = useState({});
-  // const handlReplyComment = (replyId) => {
-  //   setReplyComment({ [replyId]: true });
-  // };
-  // const handleCancelClick = (replyId) => {
-  //   setReplyComment({ [replyId]: false });
-  // };
+  const [showReply, setShowReply] = useState({});
+  const handlShowReply = (replyId) => {
+    setShowReply({...showReply, [replyId]: true });
+  };
+  const handleCancelClick = (replyId) => {
+    setShowReply({...showReply, [replyId]: false });
+  };
   const showComment = (comment) => {
     const { id, content, created_at, pic, username } = comment;
     return (
@@ -49,9 +48,9 @@ const AllComments = ({ expanded, comments }) => {
                   Like
                 </Button>
               </small>
-              {/* <small>
+              <small>
                 <Button
-                  onClick={() => handlReplyComment(id)}
+                  onClick={() => handlShowReply(id)}
                   fontWeight={"inherit"}
                   backgroundColor={"inherit"}
                   size={"sm"}
@@ -62,11 +61,19 @@ const AllComments = ({ expanded, comments }) => {
                 >
                   Reply
                 </Button>
-              </small> */}
+              </small>
             </HStack>
           )}
-          
-          {/* <Replies commentId={id} post_id={19} /> */}
+
+          {expanded && (
+            <Replies
+              commentId={id}
+              post_id={19}
+              showReply={showReply}
+              setShowReply={() => handlShowReply(id)}
+              setHideReply={() => handleCancelClick(id)}
+            />
+          )}
         </VStack>
       </HStack>
     );
