@@ -28,7 +28,8 @@ const Likes = ({ blog_id }) => {
           <small>
             <img height={20} width={20} src={like} alt="likes" />
           </small>
-          <small className="fw-light">{likes} Likes </small>
+          <small className="mx-1">{likes}</small>
+          <small className="fw-light">Likes </small>
         </HStack>
       </button>
     </div>

@@ -2,6 +2,17 @@ import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
 
+router.get("/comment/count/:id", async (req, res) => {
+    try {
+        const post_id = req.params.id;
+        const result = await db.query("SELECT COUNT(*) as count FROM comments WHERE post_id = $1 AND parent_id IS NULL", [post_id]);
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error fetching comment count from the database.", error)
+        res.status(500).json({ message: "Error fetching comment count." })
+    }
+})
+
 router.post("/comment/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
@@ -22,12 +33,11 @@ router.post("/comment/:id", async (req, res) => {
     }
 })
 
-router.get("/replies/:id", async (req, res) => {
+router.get("/replies/:comment_id/:post_id", async (req, res) => {
     try {
-        const parent_id = parseInt(req.params.id);
-        const post_id = req.params;
-        console.log(parent_id, post_id);
-        const result = await db.query("SELECT u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC", [parent_id, post_id]);
+        const parent_id = parseInt(req.params.comment_id);
+        const post_id = req.params.post_id;
+        const result = await db.query("SELECT r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC", [parent_id, post_id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching replies from the database.", error)

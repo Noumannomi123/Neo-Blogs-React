@@ -12,12 +12,15 @@ import { useState } from "react";
 import axios from "axios";
 import API_URL from "../config";
 import timeConverter from "../utils/timeConverter";
+import Loader from "./Loader";
 const Post = ({ id, title, description, image, date, author, index }) => {
   const [comments, setComments] = useState([]);
   const [loadComments, setLoadComments] = useState(true);
   const [showComments, setShowComments] = useState(false);
-  useEffect(() => {
-    const getComments = async () => {
+  const [commentsCount, setCommentsCount] = useState(0);
+  const getComments = async () => {
+    if (loadComments) {
+      console.log("fetched now.");
       try {
         const response = await axios.get(`${API_URL}/user/blog/comments/${id}`);
         setComments(response.data);
@@ -25,9 +28,23 @@ const Post = ({ id, title, description, image, date, author, index }) => {
       } catch (error) {
         console.error("Error fetching comments:");
       }
+    }
+  };
+  // getComments();
+  useEffect(() => {
+    const fetchCommentCount = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/user/blog/comment/count/${id}`
+        );
+        setCommentsCount(response.data.count);
+      } catch (error) {
+        console.log("Error fetching comment count");
+      }
     };
-    getComments();
+    fetchCommentCount();
   }, [id]);
+  if (commentsCount === 0) return <Loader />;
   return (
     <div className="mt-5">
       <div
@@ -65,7 +82,10 @@ const Post = ({ id, title, description, image, date, author, index }) => {
         <HStack marginTop={5} marginBottom={5} spacing={8}>
           <Likes blog_id={id} />
           <button
-            onClick={() => setShowComments(!showComments)}
+            onClick={() => {
+              setShowComments(!showComments);
+              getComments();
+            }}
             style={{
               border: "none",
               background: "none",
@@ -76,7 +96,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           >
             <HStack padding={0} margin={0} spacing={1}>
               <img height={20} width={20} src={chat} alt="comments" />
-              <small style={{ marginLeft: 4 }}>{comments.length}</small>
+              <small className="mx-1">{commentsCount}</small>
               <small className="fw-light">Comments</small>
             </HStack>
           </button>
@@ -92,7 +112,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
             }}
           >
             <HStack padding={0} margin={0} spacing={1}>
-              <small>
+              <small className="mx-1">
                 <img height={20} width={20} src={share} alt="likes" />
               </small>
               <small className="fw-light">Share</small>

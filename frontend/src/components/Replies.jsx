@@ -12,8 +12,7 @@ const Replies = ({ post_id, commentId }) => {
       try {
         // 19, post_id , 53, commendId
         const response = await axios.get(
-          `${API_URL}/user/blog/replies/${commentId}`,
-          { params: { post_id: post_id } }
+          `${API_URL}/user/blog/replies/${commentId}/${post_id}`
         );
         setReplies(response.data);
         setLoader(false);
@@ -23,17 +22,16 @@ const Replies = ({ post_id, commentId }) => {
     };
     getComments();
   }, [post_id, commentId]);
-  console.table(replies);
   if (loader) return <></>;
   return (
     <>
       <div className="w-100">
-        <Comments
+        {/* <Comments
           comments={replies}
           updateComments={setReplies}
-          // loadComments={showReplies}
+          loadComments={loader}
           blog_id={commentId}
-        />
+        /> */}
       </div>
     </>
   );

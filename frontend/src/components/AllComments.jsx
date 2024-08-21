@@ -5,16 +5,16 @@ import { Button, HStack, VStack } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
-import Replies from "./Replies";
+// import Replies from "./Replies";
 const AllComments = ({ expanded, comments }) => {
-  const [reply, showReply] = useState(false);
-  const [replyComment, setReplyComment] = useState({});
-  const handlReplyComment = (replyId) => {
-    setReplyComment({ [replyId]: true });
-  };
-  const handleCancelClick = (replyId) => {
-    setReplyComment({ [replyId]: false });
-  };
+  // const [reply, showReply] = useState(false);
+  // const [replyComment, setReplyComment] = useState({});
+  // const handlReplyComment = (replyId) => {
+  //   setReplyComment({ [replyId]: true });
+  // };
+  // const handleCancelClick = (replyId) => {
+  //   setReplyComment({ [replyId]: false });
+  // };
   const showComment = (comment) => {
     const { id, content, created_at, pic, username } = comment;
     return (
@@ -49,7 +49,7 @@ const AllComments = ({ expanded, comments }) => {
                   Like
                 </Button>
               </small>
-              <small>
+              {/* <small>
                 <Button
                   onClick={() => handlReplyComment(id)}
                   fontWeight={"inherit"}
@@ -62,11 +62,11 @@ const AllComments = ({ expanded, comments }) => {
                 >
                   Reply
                 </Button>
-              </small>
+              </small> */}
             </HStack>
           )}
-
-          {replyComment[id] && <Replies commentId={id} post_id={19} />}
+          
+          {/* <Replies commentId={id} post_id={19} /> */}
         </VStack>
       </HStack>
     );
