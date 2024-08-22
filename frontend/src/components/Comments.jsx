@@ -14,7 +14,15 @@ import axios from "axios";
 import API_URL from "../config";
 import { SkeletonText } from "@chakra-ui/react";
 
-const Comments = ({ comments, updateComments, loadComments, blog_id, className }) => {
+const Comments = ({
+  comments,
+  updateComments,
+  loadComments,
+  setLoadComments,
+  blog_id,
+  className,
+  getComments,
+}) => {
   const [newComment, setNewComment] = useState("");
   const [expanded, setIsExpanded] = useState(false);
   const location = useLocation();
@@ -126,7 +134,16 @@ const Comments = ({ comments, updateComments, loadComments, blog_id, className }
         </VStack>
 
         {/* more comments */}
-        <MoreComments expanded={expanded} setIsExpanded={setIsExpanded} />
+        <MoreComments
+          expanded={expanded}
+          loadMoreComments={async () => {
+            if (comments.length === 1) {
+              setLoadComments(false);
+              await getComments();
+              setIsExpanded(!expanded);
+            } else setIsExpanded(!expanded);
+          }}
+        />
       </div>
     </div>
   );
@@ -136,6 +153,8 @@ Comments.propTypes = {
   updateComments: PropTypes.func,
   blog_id: PropTypes.number,
   loadComments: PropTypes.bool,
+  setLoadComments: PropTypes.func,
   className: PropTypes.string,
+  getComments: PropTypes.func,
 };
 export default Comments;

@@ -5,6 +5,10 @@ import API_URL from "../config";
 import { Button } from "@chakra-ui/react";
 import TextAreaAutoSize from "react-textarea-autosize";
 import "../styles/Replies.css";
+import dummyProfile from "../assets/dummyProfile.png";
+import { VStack, HStack } from "@chakra-ui/react";
+import timeConverter from "../utils/timeConverter";
+import Image from "./Image";
 const Replies = ({
   post_id,
   commentId,
@@ -14,6 +18,7 @@ const Replies = ({
 }) => {
   const [replies, setReplies] = useState([]);
   const [loader, setLoader] = useState(true);
+  const [expanded, setExpanded] = useState(false);
   const showComment = (comment) => {
     const { id, content, created_at, pic, username } = comment;
     return (
@@ -86,7 +91,6 @@ const Replies = ({
   }, [post_id, commentId]);
 
   if (loader) return <></>;
-  console.log(replies);
   return (
     <>
       <div className="reply-container">
@@ -124,7 +128,6 @@ const Replies = ({
             </Button>
           </>
         )}
-        
       </div>
     </>
   );

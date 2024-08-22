@@ -16,21 +16,17 @@ import Loader from "./Loader";
 const Post = ({ id, title, description, image, date, author, index }) => {
   const [comments, setComments] = useState([]);
   const [loadComments, setLoadComments] = useState(true);
-  const [showComments, setShowComments] = useState(false);
   const [commentsCount, setCommentsCount] = useState(0);
+
   const getComments = async () => {
-    if (loadComments) {
-      console.log("fetched now.");
-      try {
-        const response = await axios.get(`${API_URL}/user/blog/comments/${id}`);
-        setComments(response.data);
-        setLoadComments(false);
-      } catch (error) {
-        console.error("Error fetching comments:");
-      }
+    try {
+      const response = await axios.get(`${API_URL}/user/blog/comments/${id}`);
+      setComments(response.data);
+      setLoadComments(false);
+    } catch (error) {
+      console.error("Error fetching comments:");
     }
   };
-  // getComments();
   useEffect(() => {
     const fetchCommentCount = async () => {
       try {
@@ -43,6 +39,20 @@ const Post = ({ id, title, description, image, date, author, index }) => {
       }
     };
     fetchCommentCount();
+  }, [id]);
+  useEffect(() => {
+    const fetchSingleComment = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/user/blog/comment/single/${id}`
+        );
+        setComments(response.data);
+        setLoadComments(false);
+      } catch (error) {
+        console.log("Error fetching single comment");
+      }
+    };
+    fetchSingleComment();
   }, [id]);
   if (commentsCount === 0) return <Loader />;
   return (
@@ -81,19 +91,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
         {/* Buttons for comments, likes, and shares */}
         <HStack marginTop={5} marginBottom={5} spacing={8}>
           <Likes blog_id={id} />
-          <button
-            onClick={() => {
-              setShowComments(!showComments);
-              getComments();
-            }}
-            style={{
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+          <button onClick={() => getComments()}>
             <HStack padding={0} margin={0} spacing={1}>
               <img height={20} width={20} src={chat} alt="comments" />
               <small className="mx-1">{commentsCount}</small>
@@ -102,14 +100,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           </button>
 
           <button
-            // onClick={}
-            style={{
-              border: "none",
-              background: "none",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-            }}
+          // onClick={}
           >
             <HStack padding={0} margin={0} spacing={1}>
               <small className="mx-1">
@@ -120,16 +111,16 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           </button>
         </HStack>
 
-        {showComments && (
-          <div id="comment-container">
-            <Comments
-              comments={comments}
-              updateComments={setComments}
-              loadComments={loadComments}
-              blog_id={id}
-            />
-          </div>
-        )}
+        <div id="comment-container">
+          <Comments
+            comments={comments}
+            updateComments={setComments}
+            loadComments={loadComments}
+            setLoadComments={setLoadComments}
+            getComments={getComments}
+            blog_id={id}
+          />
+        </div>
       </div>
     </div>
   );

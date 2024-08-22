@@ -1,10 +1,10 @@
 import { Button } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-const MoreComments = ({expanded, setIsExpanded}) => {
+const MoreComments = ({expanded, loadMoreComments}) => {
   return (
     <>
       <Button
-        onClick={() => setIsExpanded(!expanded)}
+        onClick={loadMoreComments}
         fontWeight={"normal"}
         alignSelf={"center"}
         _hover={{
@@ -19,7 +19,7 @@ const MoreComments = ({expanded, setIsExpanded}) => {
   );
 };
 MoreComments.propTypes = {
-  setIsExpanded: PropTypes.func,
+  loadMoreComments: PropTypes.func,
   expanded: PropTypes.bool,
 };
 

@@ -52,21 +52,13 @@ CREATE TABLE comments (
     user_id INT NOT NULL,
     post_id INT NOT NULL,
     content TEXT,
+    parent_id INT DEFAULT NULL, --tells whether it's a reply to a comment.
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
     FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
 );
 
--- table for Replies
-CREATE TABLE replies (
-    id SERIAL PRIMARY KEY,
-    user_id INT NOT NULL,
-    comment_id INT NOT NULL,
-    content TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
-    FOREIGN KEY (comment_id) REFERENCES comments(id) ON DELETE CASCADE
-);
+CREATE INDEX idx_date_comments ON comments(created_at DESC)
 
 -- -- table for Followers
 -- CREATE TABLE followers (

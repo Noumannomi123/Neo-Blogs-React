@@ -2,6 +2,24 @@ import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
 
+router.get("/comment/single/:id", async (req, res) => {
+    try {
+        const comment_id = req.params.id;
+        const result = await db.query(
+            `SELECT u.username, u.pic, c.content, c.created_at
+             FROM user_profile u
+             INNER JOIN comments c ON u.id = c.user_id
+             WHERE parent_id IS NULL AND post_id = $1 ORDER BY created_at DESC 
+             LIMIT 1`,
+            [comment_id]
+        );
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.log("Error fetching comment from the database.", error)
+        res.status(500).json({ message: "Error fetching comment." })
+    }
+})
+
 router.get("/comment/count/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
