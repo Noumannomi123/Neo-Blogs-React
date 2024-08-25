@@ -55,7 +55,7 @@ router.get("/replies/:comment_id/:post_id", async (req, res) => {
     try {
         const parent_id = parseInt(req.params.comment_id);
         const post_id = req.params.post_id;
-        const result = await db.query("SELECT r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC", [parent_id, post_id]);
+        const result = await db.query("SELECT r.parent_id, r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC", [parent_id, post_id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching replies from the database.", error)

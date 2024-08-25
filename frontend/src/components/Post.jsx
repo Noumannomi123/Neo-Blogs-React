@@ -13,11 +13,12 @@ import axios from "axios";
 import API_URL from "../config";
 import timeConverter from "../utils/timeConverter";
 import Loader from "./Loader";
+import useMedia from "use-media";
 const Post = ({ id, title, description, image, date, author, index }) => {
   const [comments, setComments] = useState([]);
   const [loadComments, setLoadComments] = useState(true);
   const [commentsCount, setCommentsCount] = useState(0);
-
+  const isMMobile = useMedia({ maxWidth: "700px" });
   const getComments = async () => {
     try {
       const response = await axios.get(`${API_URL}/user/blog/comments/${id}`);
@@ -81,7 +82,13 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           className="col-lg-10 col-sm-12 col-md-7"
           to={`/users/posts/${id}`}
         >
-          <h2 className="fs-4">{title}</h2>
+          <h2 className="fs-4">
+          {isMMobile ? (
+            title.length > 38 ? `${title.slice(0,38)}...` : title
+          ):(
+            title
+          )}
+          </h2>
           <HStack spacing={5}>
             <small>{author}</small>
             <small>{timeConverter(date)}</small>
@@ -91,7 +98,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
         {/* Buttons for comments, likes, and shares */}
         <HStack marginTop={5} marginBottom={5} spacing={8}>
           <Likes blog_id={id} />
-          <button onClick={() => getComments()}>
+          <button disabled>
             <HStack padding={0} margin={0} spacing={1}>
               <img height={20} width={20} src={chat} alt="comments" />
               <small className="mx-1">{commentsCount}</small>

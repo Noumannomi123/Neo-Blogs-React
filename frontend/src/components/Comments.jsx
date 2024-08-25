@@ -138,7 +138,7 @@ const Comments = ({
           expanded={expanded}
           loadMoreComments={async () => {
             if (comments.length === 1) {
-              setLoadComments(false);
+              setLoadComments(!loadComments);
               await getComments();
               setIsExpanded(!expanded);
             } else setIsExpanded(!expanded);

@@ -6,13 +6,13 @@ import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
 import Replies from "./Replies";
-const AllComments = ({ expanded, comments }) => {
+const AllComments = ({ expanded, comments, canReply = true }) => {
   const [showReply, setShowReply] = useState({});
   const handlShowReply = (replyId) => {
-    setShowReply({...showReply, [replyId]: true });
+    setShowReply({ ...showReply, [replyId]: true });
   };
   const handleCancelClick = (replyId) => {
-    setShowReply({...showReply, [replyId]: false });
+    setShowReply({ ...showReply, [replyId]: false });
   };
   const showComment = (comment) => {
     const { id, content, created_at, pic, username } = comment;
@@ -33,7 +33,7 @@ const AllComments = ({ expanded, comments }) => {
           </HStack>
           {/* comment.text */}
           <p className="w-100">{content}</p>
-          {expanded && (
+          {expanded && canReply && (
             <HStack alignSelf={"start"} spacing={0}>
               <small>
                 <Button
@@ -50,7 +50,9 @@ const AllComments = ({ expanded, comments }) => {
               </small>
               <small>
                 <Button
-                  onClick={() => handlShowReply(id)}
+                  onClick={() => {
+                    handlShowReply(id);
+                  }}
                   fontWeight={"inherit"}
                   backgroundColor={"inherit"}
                   size={"sm"}
@@ -65,9 +67,11 @@ const AllComments = ({ expanded, comments }) => {
             </HStack>
           )}
 
-          {expanded && (
+          {expanded && canReply && (
             <Replies
               commentId={id}
+              // TO-FIX
+              // post_id={comment.parent_id}
               post_id={19}
               showReply={showReply}
               setShowReply={() => handlShowReply(id)}
@@ -94,5 +98,6 @@ const AllComments = ({ expanded, comments }) => {
 AllComments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
   expanded: PropTypes.bool,
+  canReply: PropTypes.bool,
 };
 export default AllComments;

@@ -8,6 +8,7 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  // TO-DO: only check once, and store in localStorage or cache to spped up
   useEffect(() => {
     const checkAuthentication = async () => {
       try {

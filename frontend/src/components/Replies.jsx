@@ -9,6 +9,8 @@ import dummyProfile from "../assets/dummyProfile.png";
 import { VStack, HStack } from "@chakra-ui/react";
 import timeConverter from "../utils/timeConverter";
 import Image from "./Image";
+import AllComments from "./AllComments";
+import { SkeletonText, SkeletonCircle } from "@chakra-ui/react";
 const Replies = ({
   post_id,
   commentId,
@@ -16,9 +18,17 @@ const Replies = ({
   setShowReply,
   setHideReply,
 }) => {
-  const [replies, setReplies] = useState([]);
+  const [replies, setReplies] = useState(null);
   const [loader, setLoader] = useState(true);
   const [expanded, setExpanded] = useState(false);
+  // const [newReply, setNewReply] = useState("");
+  // const [loadReplies, setLoadReplies] = useState(false);
+  // const handlShowReply = (replyId) => {
+  //   setLoadReplies({ ...loadReplies, [replyId]: true });
+  // };
+  // const handleCancelClick = (replyId) => {
+  //   setLoadReplies({ ...loadReplies, [replyId]: false });
+  // };
   const showComment = (comment) => {
     const { id, content, created_at, pic, username } = comment;
     return (
@@ -55,7 +65,7 @@ const Replies = ({
               </small>
               <small>
                 <Button
-                  onClick={() => handlShowReply(id)}
+                  // onClick={() => handlShowReply(id)}
                   fontWeight={"inherit"}
                   backgroundColor={"inherit"}
                   size={"sm"}
@@ -73,24 +83,21 @@ const Replies = ({
       </HStack>
     );
   };
-  // !!! -> Loading all comments at once !!!
-  useEffect(() => {
-    const getComments = async () => {
-      try {
-        // 19, post_id , 53, commendId
-        const response = await axios.get(
-          `${API_URL}/user/blog/replies/${commentId}/${post_id}`
-        );
-        setReplies(response.data);
-        setLoader(false);
-      } catch (error) {
-        console.error("Error fetching comments:");
-      }
-    };
-    getComments();
-  }, [post_id, commentId]);
 
-  if (loader) return <></>;
+  const getComments = async () => {
+    if (replies) return;
+    try {
+      // 19, post_id , 53, commendId
+      const response = await axios.get(
+        `${API_URL}/user/blog/replies/${commentId}/${post_id}`
+      );
+      setReplies(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching comments:");
+    }
+  };
+
   return (
     <>
       <div className="reply-container">
@@ -110,10 +117,7 @@ const Replies = ({
               backgroundColor={"transparent"}
               _hover={{ backgroundColor: "rgba(42, 113, 193,0.2)" }}
               size="xs"
-              onClick={() => {
-                setShowReply({ ...showReply, [commentId]: false });
-                setHideReply(false);
-              }}
+              onClick={setHideReply}
             >
               Cancel
             </Button>
@@ -129,6 +133,60 @@ const Replies = ({
           </>
         )}
       </div>
+      {expanded && replies?.length > 0 ? (
+        !loader ? (
+          <AllComments
+            expanded={expanded}
+            comments={replies}
+            canReply={false}
+          />
+        ) : (
+          <HStack width={"100%"}>
+            <SkeletonCircle alignSelf={"start"} size={"10"} />
+            <VStack width={"100%"}>
+              <HStack spacing={4} width={"100%"} marginBottom={"10px"}>
+                <SkeletonText
+                  animation={"wave"}
+                  noOfLines={1}
+                  skeletonHeight={2}
+                  w={"10%"}
+                />
+                <SkeletonText
+                  animation={"wave"}
+                  noOfLines={1}
+                  skeletonHeight={2}
+                  w={"5%"}
+                />
+              </HStack>
+              <SkeletonText
+                animation={"wave"}
+                noOfLines={2}
+                spacing="4"
+                skeletonHeight={2}
+                w={"100%"}
+              />
+            </VStack>
+          </HStack>
+        )
+      ) : null}
+      {/* <Button onClick={() => getComments()}>Load Replies</Button> */}
+      <Button
+        onClick={() => {
+          setLoader(true);
+          getComments();
+          setLoader(false);
+          setExpanded(!expanded);
+        }}
+        fontWeight={"normal"}
+        alignSelf={"center"}
+        _hover={{
+          textDecoration: "underline",
+        }}
+        style={{ backgroundColor: "inherit" }}
+        backgroundColor={"inherit"}
+      >
+        {expanded ? "Hide Replies" : "Show Replies"}
+      </Button>
     </>
   );
 };
