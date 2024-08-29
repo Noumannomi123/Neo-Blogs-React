@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Image from "../components/Image";
 import dummyProfile from "../assets/dummyProfile.png";
@@ -6,9 +7,16 @@ import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
 import Replies from "./Replies";
-const AllComments = ({ expanded, comments, canReply = true }) => {
+const AllComments = ({ expanded, comments, blog_id, canReply = true }) => {
   const [showReply, setShowReply] = useState({});
+  const user_id = localStorage.getItem("id");
+  const navigate = useNavigate();
   const handlShowReply = (replyId) => {
+    console.log(user_id);
+    if (!user_id) {
+      navigate("/users/login");
+      return;
+    }
     setShowReply({ ...showReply, [replyId]: true });
   };
   const handleCancelClick = (replyId) => {
@@ -70,9 +78,7 @@ const AllComments = ({ expanded, comments, canReply = true }) => {
           {expanded && canReply && (
             <Replies
               commentId={id}
-              // TO-FIX
-              // post_id={comment.parent_id}
-              post_id={19}
+              post_id={blog_id}
               showReply={showReply}
               setShowReply={() => handlShowReply(id)}
               setHideReply={() => handleCancelClick(id)}
@@ -98,6 +104,7 @@ const AllComments = ({ expanded, comments, canReply = true }) => {
 AllComments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
   expanded: PropTypes.bool,
+  blog_id: PropTypes.number,
   canReply: PropTypes.bool,
 };
 export default AllComments;

@@ -21,12 +21,13 @@ const Header = () => {
       await axios.get(API_URL + "/user/logout", {
         withCredentials: true,
       });
-      setUser(null);
-      localStorage.removeItem("email");
     } catch (error) {
       if (error.response.status === 401) {
         navigate("/users/login");
       }
+    } finally {
+      setUser(null);
+      localStorage.clear();
     }
   };
   const isMobile = useMedia({ maxWidth: "1000px" });
@@ -43,7 +44,6 @@ const Header = () => {
           id: localStorage.getItem("id"),
           email: localStorage.getItem("email"),
         });
-        
       }
     }
   }, [loggedIn]);

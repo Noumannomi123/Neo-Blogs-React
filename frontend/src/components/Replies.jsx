@@ -1,89 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import API_URL from "../config";
 import { Button } from "@chakra-ui/react";
 import TextAreaAutoSize from "react-textarea-autosize";
 import "../styles/Replies.css";
-import dummyProfile from "../assets/dummyProfile.png";
 import { VStack, HStack } from "@chakra-ui/react";
-import timeConverter from "../utils/timeConverter";
-import Image from "./Image";
 import AllComments from "./AllComments";
 import { SkeletonText, SkeletonCircle } from "@chakra-ui/react";
-const Replies = ({
-  post_id,
-  commentId,
-  showReply,
-  setShowReply,
-  setHideReply,
-}) => {
+const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
   const [replies, setReplies] = useState(null);
   const [loader, setLoader] = useState(true);
   const [expanded, setExpanded] = useState(false);
-  // const [newReply, setNewReply] = useState("");
-  // const [loadReplies, setLoadReplies] = useState(false);
-  // const handlShowReply = (replyId) => {
-  //   setLoadReplies({ ...loadReplies, [replyId]: true });
-  // };
-  // const handleCancelClick = (replyId) => {
-  //   setLoadReplies({ ...loadReplies, [replyId]: false });
-  // };
-  const showComment = (comment) => {
-    const { id, content, created_at, pic, username } = comment;
-    return (
-      <HStack key={id} spacing={3} width={"100%"} alignSelf={"flex-start"}>
-        <Image
-          styles={{ alignSelf: "start", marginTop: "10px" }}
-          src={pic || dummyProfile}
-          className={`rounded-circle`}
-          height={"40px"}
-          width={"40px"}
-        />
-        <VStack width={"100%"}>
-          <HStack width={"100%"} spacing={5}>
-            {/* comment.author, comment.createdAt */}
-            <small>{username}</small>
-            <small>{timeConverter(created_at)}</small>
-          </HStack>
-          {/* comment.text */}
-          <p className="w-100">{content}</p>
-          {expanded && (
-            <HStack alignSelf={"start"} spacing={0}>
-              <small>
-                <Button
-                  fontWeight={"inherit"}
-                  backgroundColor={"inherit"}
-                  size={"sm"}
-                  _hover={{
-                    backgroundColor: "rgba(45, 103, 160,0.8)",
-                    color: "white",
-                  }}
-                >
-                  Like
-                </Button>
-              </small>
-              <small>
-                <Button
-                  // onClick={() => handlShowReply(id)}
-                  fontWeight={"inherit"}
-                  backgroundColor={"inherit"}
-                  size={"sm"}
-                  _hover={{
-                    backgroundColor: "rgba(45, 103, 160,0.8)",
-                    color: "white",
-                  }}
-                >
-                  Reply
-                </Button>
-              </small>
-            </HStack>
-          )}
-        </VStack>
-      </HStack>
-    );
-  };
-
+  const [newReply, setNewReply] = useState("");
   const getComments = async () => {
     if (replies) return;
     try {
@@ -92,12 +21,27 @@ const Replies = ({
         `${API_URL}/user/blog/replies/${commentId}/${post_id}`
       );
       setReplies(response.data);
-      console.log(response.data);
     } catch (error) {
       console.error("Error fetching comments:");
     }
   };
-
+  // console.log(newReply, post_id, commentId);
+  const handleNewReplySubmit = async () => {
+    try {
+      const result = await axios.post(`${API_URL}/user/blog/reply`, {
+        user_id: localStorage.getItem("id"),
+        content: newReply,
+        post_id: post_id,
+        comment_id: commentId,
+      });
+      // TO-FIX:
+      // update current replies
+      // console.log(result.data);
+      setNewReply("");
+    } catch (error) {
+      console.error("Error adding comment to the database.", error.message);
+    }
+  };
   return (
     <>
       <div className="reply-container">
@@ -107,8 +51,8 @@ const Replies = ({
               className="comment-area w-100 px-2 pt-2 pb-2 shadow-sm bg-white rounded"
               id="comment-field"
               placeholder="Add your reply here..."
-              // value={newComment}
-              // onChange={(e) => setNewComment(e.target.value)}
+              value={newReply}
+              onChange={(e) => setNewReply(e.target.value)}
               maxRows={3}
             />
             {/* Cancel and Submit buttons */}
@@ -127,6 +71,7 @@ const Replies = ({
               color={"white"}
               _hover={{ backgroundColor: "rgba(42, 113, 193,0.50)" }}
               size={"xs"}
+              onClick={handleNewReplySubmit}
             >
               Submit
             </Button>
@@ -194,7 +139,6 @@ Replies.propTypes = {
   post_id: PropTypes.number.isRequired,
   commentId: PropTypes.number.isRequired,
   showReply: PropTypes.object.isRequired,
-  setShowReply: PropTypes.func.isRequired,
   setHideReply: PropTypes.func.isRequired,
 };
 export default Replies;

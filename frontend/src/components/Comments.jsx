@@ -101,7 +101,7 @@ const Comments = ({
           {!loadComments ? (
             comments &&
             comments.length > 0 && (
-              <AllComments expanded={expanded} comments={comments} />
+              <AllComments blog_id={blog_id} expanded={expanded} comments={comments} />
             )
           ) : (
             <HStack width={"100%"}>
