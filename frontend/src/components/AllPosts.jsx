@@ -28,10 +28,9 @@ const AllPosts = () => {
         id={post.id}
         title={post.title}
         description={
-          post.summary.substring(
-            0,
-            post.summary.length > 200 ? 200 : Math.ceil(post.nummary.length / 2)
-          ) + "..."
+          post.summary.length > 200
+            ? `${post.summary.substring(0, 200)}...`
+            : post.summary
         }
         image={post.title_picture}
         date={post.created_at}
@@ -42,6 +41,7 @@ const AllPosts = () => {
   }
   if (loading) return <Loader />;
   if (posts.length === 0) return <h3>Sorry no blogs to show.</h3>;
+  console.log(posts[0]);
   return (
     <div className="d-flex justify-content-center">
       {isMobile ? (

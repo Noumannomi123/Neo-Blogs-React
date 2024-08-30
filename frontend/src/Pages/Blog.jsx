@@ -48,8 +48,8 @@ const Blog = () => {
             <Image
               src={blog.title_picture}
               alt={`blog-image`}
-              height={`150px`}
-              width={`200px`}
+              height={`250px`}
+              width={`300px`}
             />
           </div>
         </div>

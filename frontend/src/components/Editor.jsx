@@ -5,7 +5,6 @@ import "react-quill/dist/quill.snow.css";
 import { Quill } from "react-quill";
 import { ImageActions } from "@xeger/quill-image-actions";
 import { ImageFormats } from "@xeger/quill-image-formats";
-import DOMPurify from "dompurify";
 import Modal from "./Modal";
 import alert from "../assets/danger.png";
 // KaTeX dependency
@@ -45,71 +44,8 @@ const QuillEditor = () => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [summary, setSummary] = useState("");
   const [errorSummary, setErrorSummary] = useState(false);
-  // TO-DO: Sanitizer needs fixing. Fix image height, width.
-  const sanitizedHtml = DOMPurify.sanitize(editorValue, {
-    ALLOWED_TAGS: [
-      "b",
-      "i",
-      "em",
-      "strong",
-      "a",
-      "img",
-      "video",
-      "p",
-      "div",
-      "span",
-      "h1",
-      "h2",
-      "h3",
-      "h4",
-      "h5",
-      "h6",
-      "ul",
-      "ol",
-      "li",
-      "blockquote",
-      "code",
-      "iframe",
-      "pre",
-      "br",
-      "table",
-      "thead",
-      "tbody",
-      "tr",
-      "th",
-      "td",
-      "caption",
-      "figure",
-      "figcaption",
-      "hr",
-      "font",
-      "small",
-      "mark",
-      "del",
-      "ins",
-      "sub",
-      "sup",
-      "math",
-    ],
-    ALLOWED_ATTR: [
-      "href",
-      "src",
-      "alt",
-      "title",
-      "width",
-      "height",
-      "style",
-      "class",
-      "frameborder",
-      "allowfullscreen",
-      "data-image-actions-unclickable-bound",
-      "data-mathquill",
-      "data-qa",
-    ],
-    ALLOWED_URI_REGEXP: /^(?:https?:\/\/|data:)/i,
-  });
   const quillRef = useRef(null);
-  // console.log(editorValue, "Original");
+
   const modules = {
     toolbar: {
       container: [
@@ -187,7 +123,7 @@ const QuillEditor = () => {
       const data = {
         title_image: titleImage[0].data_url,
         title: title,
-        content: sanitizedHtml,
+        content: editorValue,
         summary: summary,
         author_name: localStorage.getItem("name"),
       };
@@ -245,7 +181,7 @@ const QuillEditor = () => {
               />
             )}
             <div
-              dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+              dangerouslySetInnerHTML={{ __html: editorValue }}
               style={{
                 border: "1px solid #ddd",
                 padding: "10px",
@@ -266,7 +202,9 @@ const QuillEditor = () => {
                   </button>
                 </div>
                 <input
-                  className={`${title ? (`fw-bold w-100 text-center mb-3 mx-2`):(`mb-3 mx-2`)} `}
+                  className={`${
+                    title ? `fw-bold w-100 text-center mb-3 mx-2` : `mb-3 mx-2`
+                  } `}
                   style={{ width: "90%" }}
                   id="title-input"
                   type="text"
@@ -343,7 +281,12 @@ const QuillEditor = () => {
                 onConfirm={handleConfirm}
                 onCancel={handleCancel}
               />
-              <button className="px-4 btn btn-light">Cancel</button>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="px-4 btn btn-light"
+              >
+                Cancel
+              </button>
             </div>
           </div>
         )}
