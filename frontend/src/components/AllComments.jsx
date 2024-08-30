@@ -12,7 +12,6 @@ const AllComments = ({ expanded, comments, blog_id, canReply = true }) => {
   const user_id = localStorage.getItem("id");
   const navigate = useNavigate();
   const handlShowReply = (replyId) => {
-    console.log(user_id);
     if (!user_id) {
       navigate("/users/login");
       return;

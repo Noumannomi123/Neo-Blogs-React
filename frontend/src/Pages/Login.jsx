@@ -57,7 +57,7 @@ const Login = () => {
       if (error.response.status === 401)
         setError("Username or password is incorrect.");
       else setError("Unable to login.");
-      console.log("Error loggin in.");
+      console.log("Error logging in.");
     }
   };
   useEffect(() => {

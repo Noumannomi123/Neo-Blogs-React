@@ -16,7 +16,6 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
   const getComments = async () => {
     if (replies) return;
     try {
-      // 19, post_id , 53, commendId
       const response = await axios.get(
         `${API_URL}/user/blog/replies/${commentId}/${post_id}`
       );
@@ -25,7 +24,6 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
       console.error("Error fetching comments:");
     }
   };
-  // console.log(newReply, post_id, commentId);
   const handleNewReplySubmit = async () => {
     try {
       const result = await axios.post(`${API_URL}/user/blog/reply`, {
@@ -37,7 +35,9 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
       // TO-FIX:
       // update current replies
       // console.log(result.data);
+      setReplies([result.data, ...replies]);
       setNewReply("");
+      setHideReply();
     } catch (error) {
       console.error("Error adding comment to the database.", error.message);
     }
