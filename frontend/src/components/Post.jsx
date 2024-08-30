@@ -63,7 +63,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
       >
         <Link
           to={`/users/posts/${id}`}
-          className={`col-lg-2 col-sm-12 col-md-5 img-container`}
+          className={`col-lg-2 col-sm-12 col-md-4 img-container`}
         >
           <PostImage
             src={
@@ -79,7 +79,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
         </Link>
 
         <Link
-          className="col-lg-10 col-sm-12 col-md-7"
+          className="col-lg-10 col-sm-12 col-md-8"
           to={`/users/posts/${id}`}
         >
           <h2 className="fs-4">

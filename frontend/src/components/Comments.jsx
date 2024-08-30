@@ -64,7 +64,7 @@ const Comments = ({
     setNewComment("");
   };
   return (
-    <div className={`d-flex justify-content-center ${className}`}>
+    <div className={`d-flex justify-content-center ${className || ``}`}>
       <div className="comment-container">
         <VStack spacing={7}>
           <HStack width={"100%"} spacing={3}>

@@ -32,9 +32,6 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
         post_id: post_id,
         comment_id: commentId,
       });
-      // TO-FIX:
-      // update current replies
-      // console.log(result.data);
       setReplies([result.data, ...replies]);
       setNewReply("");
       setHideReply();

@@ -13,3 +13,16 @@
 .comment-area:focus{
     border: 2px solid rgba(15, 68, 158,0.7);
 }
+
+@media (min-width: 400px) and (max-width: 767px) {
+    .comment-container{
+        width: 85%;       
+    }
+}
+
+
+@media (max-width: 399px) {
+    .comment-container{
+        width: 100%;       
+    }
+}
