@@ -33,7 +33,6 @@ const SignUp = () => {
           withCredentials: true,
         }
       );
-      console.log(response.data, "returned by server.");
       if (response.status === 200) {
         setError("");
       }

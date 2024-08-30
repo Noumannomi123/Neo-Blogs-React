@@ -7,7 +7,13 @@ import PropTypes from "prop-types";
 import timeConverter from "../utils/timeConverter";
 
 import Replies from "./Replies";
-const AllComments = ({ expanded, comments, blog_id, canReply = true }) => {
+const AllComments = ({
+  expanded,
+  comments,
+  blog_id,
+  comment_username,
+  canReply = true,
+}) => {
   const [showReply, setShowReply] = useState({});
   const user_id = localStorage.getItem("id");
   const navigate = useNavigate();
@@ -35,7 +41,15 @@ const AllComments = ({ expanded, comments, blog_id, canReply = true }) => {
         <VStack width={"100%"}>
           <HStack width={"100%"} spacing={5}>
             {/* comment.author, comment.createdAt */}
-            <small>{username}</small>
+            <HStack spacing={1}>
+              <small>{username}</small>
+              {comment_username && (
+                <>
+                  <small>{`>`}</small>
+                  <small>{comment_username}</small>
+                </>
+              )}
+            </HStack>
             <small>{timeConverter(created_at)}</small>
           </HStack>
           {/* comment.text */}
@@ -76,7 +90,7 @@ const AllComments = ({ expanded, comments, blog_id, canReply = true }) => {
 
           {expanded && canReply && (
             <Replies
-              commentId={id}
+              comment={comment}
               post_id={blog_id}
               showReply={showReply}
               setShowReply={() => handlShowReply(id)}
@@ -104,6 +118,7 @@ AllComments.propTypes = {
   comments: PropTypes.arrayOf(PropTypes.object),
   expanded: PropTypes.bool,
   blog_id: PropTypes.number,
+  comment_username: PropTypes.string,
   canReply: PropTypes.bool,
 };
 export default AllComments;

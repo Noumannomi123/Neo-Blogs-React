@@ -58,14 +58,15 @@ router.post("/reply", async (req, res) => {
         const content = req.body.content;
         const post_id = req.body.post_id;
         const result = await db.query("INSERT INTO comments (parent_id, post_id, user_id, content) VALUES ($1, $2, $3, $4) RETURNING id", [parent_id, post_id, user_id, content]);
+        const id = result.rows[0].id;
         const replyResult = await db.query(
             `SELECT u.username, u.pic, c.content, c.created_at
              FROM user_profile u
              INNER JOIN comments c ON u.id = c.user_id
              WHERE c.id = $1`,
-            [result.rows[0].id]
+            [id]
         );
-        res.status(200).json(replyResult.rows[0]);
+        res.status(200).json({ id: id, ...replyResult.rows[0] });
     } catch (error) {
         console.log("Error adding reply to the database.", error)
         res.status(500).json({ message: "Error adding reply." })

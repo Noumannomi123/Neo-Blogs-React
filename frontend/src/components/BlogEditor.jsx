@@ -11,7 +11,7 @@ import katex from "katex";
 window.katex = katex;
 import "katex/dist/katex.css";
 // MathQuill dependency
-import "../../node_modules/jquery";
+// import "../../node_modules/jquery";
 import "@edtr-io/mathquill/build/mathquill.js";
 import "@edtr-io/mathquill/build/mathquill.css";
 

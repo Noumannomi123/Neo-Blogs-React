@@ -30,9 +30,11 @@ const Login = () => {
           withCredentials: true,
         }
       );
+      console.log(response);
       if (response.status === 200) {
         setError("");
       }
+      console.log(response.data);
       // localStorage.setItem("token", response.data.token);
       localStorage.setItem("name", response.data.user.name);
       localStorage.setItem("email", response.data.user.email);
@@ -54,7 +56,7 @@ const Login = () => {
       }
     } catch (error) {
       localStorage.setItem("email", null);
-      if (error.response.status === 401)
+      if (error?.response?.status === 401)
         setError("Username or password is incorrect.");
       else setError("Unable to login.");
       console.log("Error logging in.");

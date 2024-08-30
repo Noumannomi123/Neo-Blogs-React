@@ -1,7 +1,6 @@
 import '../styles/NotFound.css'; // Make sure this path matches your CSS file's location
 import PropTypes from "prop-types";
 const NotFoundPage = ({msg}) => {
-    console.log(msg);
     return (
         <div className="error-container vh-100">
             <h1>404</h1>

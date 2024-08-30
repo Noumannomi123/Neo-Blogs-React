@@ -19,7 +19,7 @@ const AuthProvider = ({ children }) => {
         const authenticated = data.isAuthenticated;
         setLoggedIn(authenticated);
         if (authenticated) {
-          console.log("Yeah authenticaed");
+          console.log("Authenticaed");
         } else {
           console.error("Not authenticated");
           setUser(null);

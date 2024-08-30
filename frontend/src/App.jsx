@@ -12,12 +12,12 @@ import MyBlogs from "./Pages/MyBlogs";
 import Blog from "./Pages/Blog";
 import EditBlog from "./Pages/EditBlog";
 import Profile from "./Pages/Profile";
-import GoogleSignInButton from "./components/GoogleSignInButton";
+// import GoogleSignInButton from "./components/GoogleSignInButton";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<GoogleSignInButton />} />
+        <Route path="/" element={<Home />} />
         <Route path="/users/login" element={<Login />} />
         <Route path="/users/register" element={<SignUp />} />
         <Route path="/Home" element={<Home />} />

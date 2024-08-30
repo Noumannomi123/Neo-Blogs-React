@@ -8,16 +8,16 @@ import "../styles/Replies.css";
 import { VStack, HStack } from "@chakra-ui/react";
 import AllComments from "./AllComments";
 import { SkeletonText, SkeletonCircle } from "@chakra-ui/react";
-const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
-  const [replies, setReplies] = useState(null);
+const Replies = ({ post_id, comment, showReply, setHideReply }) => {
+  const [replies, setReplies] = useState([]);
   const [loader, setLoader] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [newReply, setNewReply] = useState("");
   const getComments = async () => {
-    if (replies) return;
+    if (replies.length > 0) return;
     try {
       const response = await axios.get(
-        `${API_URL}/user/blog/replies/${commentId}/${post_id}`
+        `${API_URL}/user/blog/replies/${comment.id}/${post_id}`
       );
       setReplies(response.data);
     } catch (error) {
@@ -30,7 +30,7 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
         user_id: localStorage.getItem("id"),
         content: newReply,
         post_id: post_id,
-        comment_id: commentId,
+        comment_id: comment.id,
       });
       setReplies([result.data, ...replies]);
       setNewReply("");
@@ -42,7 +42,7 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
   return (
     <>
       <div className="reply-container">
-        {showReply[commentId] && (
+        {showReply[comment.id] && (
           <>
             <TextAreaAutoSize
               className="comment-area w-100 px-2 pt-2 pb-2 shadow-sm bg-white rounded"
@@ -77,11 +77,14 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
       </div>
       {expanded && replies?.length > 0 ? (
         !loader ? (
-          <AllComments
-            expanded={expanded}
-            comments={replies}
-            canReply={false}
-          />
+          <>
+            <AllComments
+              expanded={expanded}
+              comment_username={comment.username}
+              comments={replies}
+              canReply={false}
+            />
+          </>
         ) : (
           <HStack width={"100%"}>
             <SkeletonCircle alignSelf={"start"} size={"10"} />
@@ -134,7 +137,7 @@ const Replies = ({ post_id, commentId, showReply, setHideReply }) => {
 };
 Replies.propTypes = {
   post_id: PropTypes.number.isRequired,
-  commentId: PropTypes.number.isRequired,
+  comment: PropTypes.object.isRequired,
   showReply: PropTypes.object.isRequired,
   setHideReply: PropTypes.func.isRequired,
 };

@@ -41,7 +41,6 @@ const AllPosts = () => {
   }
   if (loading) return <Loader />;
   if (posts.length === 0) return <h3>Sorry no blogs to show.</h3>;
-  console.log(posts[0]);
   return (
     <div className="d-flex justify-content-center">
       {isMobile ? (
