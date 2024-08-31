@@ -42,7 +42,7 @@ app.use(express.json({ limit: '10mb' }));
 app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
-            "https://neo-blogs-react-8a1uh6d2t-noumans-projects-919c94d2.vercel.app",
+            "https://neo-blogs-react.vercel.app",
             "http://localhost:5173",
             "http://192.168.51.1:5173",
             "http://192.168.137.1:5173",
