@@ -5,8 +5,9 @@ import pg from "pg";
 import cors from "cors";
 import blogRouter from "./routes/blogsRouter.js";
 import userRouter from "./routes/usersRouter.js";
-import session from "express-session";
-import passport from "passport";
+import authRouter from "./routes/authRouter.js";
+import cookieParser from "cookie-parser";
+
 env.config();
 const db = new pg.Client({
     user: process.env.PG_USER,
@@ -21,21 +22,6 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 // middlewares
-
-app.use(
-    session({
-        secret: process.env.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
-            secure: false
-        }
-    })
-);
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ limit: '10mb' }));
@@ -60,18 +46,27 @@ app.use(cors({
     credentials: true
 }));
 
+app.use(cookieParser());
+
+app.use("/", authRouter);
+
 app.use("/user", userRouter);
 app.use("/user/blog", blogRouter);
 
 // routes
-app.get("/", (req, res) => {
-    res.send("User endpoint success.");
-});
+
 app.get("*", (req, res) => {
     res.json(`User endpoint doens't exist for ${req.originalUrl}`);
 });
 
-if (db.connect()) console.log("Connected to database.");
+db.connect((err) => {
+    if (err) {
+        console.error(err.message);
+    }
+    else {
+        console.log("Connected to database");
+    }
+})
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
