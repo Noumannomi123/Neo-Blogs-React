@@ -1,10 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import "../styles/Header.css";
 import NavButton from "./NavButton";
 import axios from "axios";
 import API_URL from "../config";
-import { useNavigate } from "react-router-dom";
 import Dropdown from "react-bootstrap/Dropdown";
 import useMedia from "use-media";
 import logo from "../assets/logoLarge.png";
@@ -12,43 +12,19 @@ import Image from "../components/Image";
 import { useEffect } from "react";
 import AuthContext from "./AuthContext";
 import dummyProfile from "../assets/dummyProfile.png";
+
 const Header = () => {
   const navigate = useNavigate();
-
-  const [user, setUser] = useState(null);
-  const handleLogout = async () => {
-    try {
-      await axios.get(API_URL + "/user/logout", {
-        withCredentials: true,
-      });
-    } catch (error) {
-      if (error.response.status === 401) {
-        navigate("/users/login");
-      }
-    } finally {
-      setUser(null);
-      localStorage.clear();
-    }
-  };
   const isMobile = useMedia({ maxWidth: "1000px" });
-  const { loggedIn } = useContext(AuthContext);
+  const { loggedIn, logout, user } = useContext(AuthContext);
+  const [profilePic, setProfilePic] = useState(null);
+  const handleLogout = () => {
+    logout();
+    navigate("/users/login");
+  };
 
   useEffect(() => {
-    if (!loggedIn) {
-      setUser(null);
-    } else {
-      if (localStorage.getItem("email") === null) {
-        setUser(null);
-      } else {
-        setUser({
-          id: localStorage.getItem("id"),
-          email: localStorage.getItem("email"),
-        });
-      }
-    }
-  }, [loggedIn]);
-  const [profilePic, setProfilePic] = useState(null);
-  useEffect(() => {
+    if (!user) return;
     const getProfilePic = async () => {
       try {
         const response = await axios.get(

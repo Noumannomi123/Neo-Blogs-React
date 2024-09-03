@@ -55,7 +55,7 @@ const Post = ({ id, title, description, image, date, author, index }) => {
     };
     fetchSingleComment();
   }, [id]);
-  if (commentsCount === 0) return <Loader />;
+  if (commentsCount === 0) return <></>;
   return (
     <div className="mt-5">
       <div
@@ -83,11 +83,11 @@ const Post = ({ id, title, description, image, date, author, index }) => {
           to={`/users/posts/${id}`}
         >
           <h2 className="fs-4">
-          {isMMobile ? (
-            title.length > 38 ? `${title.slice(0,38)}...` : title
-          ):(
-            title
-          )}
+            {isMMobile
+              ? title.length > 38
+                ? `${title.slice(0, 38)}...`
+                : title
+              : title}
           </h2>
           <HStack spacing={5}>
             <small>{author}</small>

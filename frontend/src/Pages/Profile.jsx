@@ -88,7 +88,7 @@ const Profile = () => {
     };
     getProfile();
   }, [user.id]);
-  if (loading) return <Loader />;
+  if (loading) return <></>;
   return (
     <div>
       <NavBar />

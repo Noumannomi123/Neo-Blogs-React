@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { createContext } from "react";
 import PropTypes from "prop-types";
+import { useCookies } from "react-cookie";
 const AuthContext = createContext(null);
 import axios from "axios";
 import API_URL from "../config";
@@ -8,17 +9,28 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [cookies, removeCookie] = useCookies([]);
   // TO-DO: only check once, and store in localStorage or cache to spped up
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        const response = await axios.get(API_URL + "/user/checkAuth", {
-          withCredentials: true,
-        });
+        if (!cookies.token) {
+          setLoggedIn(false);
+          setLoading(false);
+        }
+        const response = await axios.post(
+          API_URL,
+          {},
+          {
+            withCredentials: true,
+          }
+        );
         const data = response.data;
-        const authenticated = data.isAuthenticated;
+        const authenticated = data.status;
+        console.log(data);
         setLoggedIn(authenticated);
         if (authenticated) {
+          setUser(data.user);
           console.log("Authenticaed");
         } else {
           console.error("Not authenticated");
@@ -30,7 +42,12 @@ const AuthProvider = ({ children }) => {
       }
     };
     checkAuthentication();
-  }, [user]);
+  }, [cookies, removeCookie]);
+  const logout = () => {
+    removeCookie("token");
+    setLoggedIn(false);
+    setUser(null);
+  };
   return (
     <AuthContext.Provider
       value={{
@@ -39,6 +56,7 @@ const AuthProvider = ({ children }) => {
         loggedIn,
         setLoggedIn,
         loading,
+        logout,
       }}
     >
       {children}

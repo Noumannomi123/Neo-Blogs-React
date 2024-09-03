@@ -21,7 +21,7 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        API_URL + "/user/login",
+        API_URL + "/login",
         {
           email,
           password,
@@ -30,11 +30,9 @@ const Login = () => {
           withCredentials: true,
         }
       );
-      console.log(response);
       if (response.status === 200) {
         setError("");
       }
-      console.log(response.data);
       // localStorage.setItem("token", response.data.token);
       localStorage.setItem("name", response.data.user.name);
       localStorage.setItem("email", response.data.user.email);
@@ -45,14 +43,14 @@ const Login = () => {
       if (localStorage.getItem("redirectUrl") != null) {
         switch (localStorage.getItem("redirectUrl")) {
           case "/home":
-            navigate("/home", {state: location.state});
+            navigate("/home", { state: location.state });
             break;
           default:
             navigate(localStorage.getItem("redirectUrl"));
             break;
         }
       } else {
-        navigate("/home");
+        setTimeout(() => navigate("/home"), 1000);
       }
     } catch (error) {
       localStorage.setItem("email", null);

@@ -48,12 +48,11 @@ app.use(cors({
 
 app.use(cookieParser());
 
+// routes
 app.use("/", authRouter);
 
 app.use("/user", userRouter);
 app.use("/user/blog", blogRouter);
-
-// routes
 
 app.get("*", (req, res) => {
     res.json(`User endpoint doens't exist for ${req.originalUrl}`);

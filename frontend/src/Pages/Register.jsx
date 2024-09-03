@@ -24,23 +24,28 @@ const SignUp = () => {
     }
     try {
       const response = await axios.post(
-        API_URL + "/user/register",
+        API_URL + "/signup",
         {
           email,
           password,
+          username: name,
         },
         {
           withCredentials: true,
         }
       );
-      if (response.status === 200) {
+      const data = response.data;
+      const { success, message } = data;
+      if (success) {
         setError("");
+        setTimeout(() => {
+          navigate("/home");
+        }, 1000);
+      } else {
+        setError(message);
       }
-      navigate("/home");
     } catch (error) {
-      if (error.response.status === 409) setError("User already exists.");
-      else setError("Umable to register at the moment.");
-      console.log("Error loggin in.");
+      console.log("Error logging in.");
     }
   };
   useEffect(() => {
