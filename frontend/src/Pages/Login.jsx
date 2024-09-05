@@ -33,12 +33,12 @@ const Login = () => {
       if (response.status === 200) {
         setError("");
       }
-      // localStorage.setItem("token", response.data.token);
-      localStorage.setItem("name", response.data.user.name);
-      localStorage.setItem("email", response.data.user.email);
-      localStorage.setItem("id", response.data.user.id);
       setUser(response.data.user);
       setLoggedIn(true);
+      // localStorage.setItem("token", response.data.token);
+      localStorage.setItem("name", response.data.user.username);
+      localStorage.setItem("email", response.data.user.email);
+      localStorage.setItem("id", response.data.user.id);
       // TO-DO
       if (localStorage.getItem("redirectUrl") != null) {
         switch (localStorage.getItem("redirectUrl")) {

@@ -14,7 +14,6 @@ import editProfile from "../assets/editProfile.png";
 import close from "../assets/close.png";
 import axios from "axios";
 import API_URL from "../config";
-import Loader from "../components/Loader";
 import { useMedia } from "use-media";
 import ImageUploader from "../components/ImageUploader";
 import dummyProfile from "../assets/dummyProfile.png";
@@ -24,8 +23,8 @@ const Profile = () => {
     email: localStorage.getItem("email"),
   };
   const [profile, setProfile] = useState({
-    name: "",
-    email: "",
+    name: localStorage.getItem("name"),
+    email: localStorage.getItem("email"),
     phone: "",
     gender: "",
     date_of_birth: "",
@@ -76,18 +75,19 @@ const Profile = () => {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
+        // const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
+        
         setProfile({
-          ...response.data,
-          pic: [{ data_url: response.data.pic || dummyProfile }],
+          ...profile,
+          pic: [{ data_url: /*response.data.pic ||*/ dummyProfile }],
         });
         setLoading(false);
       } catch (error) {
-        console.log("Error fetching user profile from the database.", error);
+        console.error("Error fetching user profile.", error.response);
       }
     };
     getProfile();
-  }, [user.id]);
+  }, [user.id, profile]);
   if (loading) return <></>;
   return (
     <div>

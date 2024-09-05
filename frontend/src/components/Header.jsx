@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useContext, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import "../styles/Header.css";
@@ -20,6 +20,7 @@ const Header = () => {
   const [profilePic, setProfilePic] = useState(null);
   const handleLogout = () => {
     logout();
+    localStorage.clear();
     navigate("/users/login");
   };
 
@@ -158,12 +159,14 @@ const Header = () => {
             </Dropdown.Menu>
           </Dropdown>
           <div className="d-flex align-items-center flex-grow-1 flex-end justify-content-end mx-5">
-            <Image
-              className={"rounded-circle"}
-              src={profilePic || dummyProfile}
-              width={"30px"}
-              height={"30px"}
-            />
+            <Link to={`/users/${user.id}/profile`}>
+              <Image
+                className={"rounded-circle"}
+                src={profilePic || dummyProfile}
+                width={"30px"}
+                height={"30px"}
+              />
+            </Link>
           </div>
         </>
       )}

@@ -40,8 +40,6 @@ const BlogEditor = () => {
   const [errorImage, setErrorImage] = useState("");
   const [isModalVisible, setModalVisible] = useState(false);
   const [errorSummary, setErrorSummary] = useState(false);
-  // TO-DO: Sanitizer needs fixing. Fix image height, width.
-
   const quillRef = useRef(null);
   const modules = {
     toolbar: {

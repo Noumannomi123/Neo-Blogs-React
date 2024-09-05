@@ -10,7 +10,6 @@ const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
   const [cookies, removeCookie] = useCookies([]);
-  // TO-DO: only check once, and store in localStorage or cache to spped up
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
@@ -45,8 +44,6 @@ const AuthProvider = ({ children }) => {
   }, [cookies, removeCookie]);
   const logout = () => {
     removeCookie("token");
-    setLoggedIn(false);
-    setUser(null);
   };
   return (
     <AuthContext.Provider

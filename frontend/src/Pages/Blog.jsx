@@ -23,7 +23,6 @@ const Blog = () => {
     };
     loadBlog();
   }, [blog_id]);
-  console.table(blog);
   if (loading) return <Loader />;
   return (
     <>

@@ -9,7 +9,7 @@ const Image = ({ src, alt, height, width, className, styles }) => {
       }}
     >
       {src == null ? (
-        <h3 className="w-100">No Pic</h3>
+        <></>
       ) : (
         <img
           style={{
