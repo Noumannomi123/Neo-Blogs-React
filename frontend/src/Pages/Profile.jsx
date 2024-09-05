@@ -22,9 +22,9 @@ const Profile = () => {
     id: localStorage.getItem("id"),
     email: localStorage.getItem("email"),
   };
+  const username = localStorage.getItem("name");
+  const email = localStorage.getItem("email");
   const [profile, setProfile] = useState({
-    name: localStorage.getItem("name"),
-    email: localStorage.getItem("email"),
     phone: "",
     gender: "",
     date_of_birth: "",
@@ -75,19 +75,19 @@ const Profile = () => {
   useEffect(() => {
     const getProfile = async () => {
       try {
-        // const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
-        
-        setProfile({
-          ...profile,
-          pic: [{ data_url: /*response.data.pic ||*/ dummyProfile }],
-        });
+        const response = await axios.get(`${API_URL}/user/profile/${user.id}`);
+        setProfile((prev) => ({
+          ...prev,
+          ...response.data,
+          pic: [{ data_url: response.data.pic || dummyProfile }],
+        }));
         setLoading(false);
       } catch (error) {
         console.error("Error fetching user profile.", error.response);
       }
     };
     getProfile();
-  }, [user.id, profile]);
+  }, [user.id]);
   if (loading) return <></>;
   return (
     <div>
@@ -223,11 +223,11 @@ const Profile = () => {
                           <p className="dot fs-5 fw-bolder">
                             Name{circleColon}{" "}
                           </p>
-                          <p>{profile.name}</p>
+                          <p>{username}</p>
                           <p className="dot fs-5 fw-bolder">
                             Email{circleColon}{" "}
                           </p>
-                          <p>{profile.email}</p>
+                          <p>{email}</p>
                         </VStack>
                         <VStack spacing={0} align={"start"} width={"50%"}>
                           <p className="dot fs-5 fw-bolder">
@@ -430,11 +430,11 @@ const Profile = () => {
                           <p className="dot fs-5 fw-bolder">
                             Name{circleColon}{" "}
                           </p>
-                          <p>{profile.name}</p>
+                          <p>{username}</p>
                           <p className="dot fs-5 fw-bolder">
                             Email{circleColon}{" "}
                           </p>
-                          <p>{profile.email}</p>
+                          <p>{email}</p>
                         </VStack>
                         <VStack spacing={0} align={"start"} width={"50%"}>
                           <p className="dot fs-5 fw-bolder">

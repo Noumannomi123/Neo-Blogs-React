@@ -60,6 +60,21 @@ CREATE TABLE comments (
 
 CREATE INDEX idx_date_comments ON comments(created_at DESC)
 
+CREATE OR REPLACE FUNCTION create_user_profile()
+RETURNS TRIGGER AS $$
+BEGIN
+	INSERT INTO user_profile(id, email, username)
+	VALUES (NEW.id, NEW.email, NEW.username);
+	RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER after_user_insert
+AFTER INSERT ON users
+FOR EACH ROW
+WHEN (NEW.id is NOT NULL)
+EXECUTE FUNCTION create_user_profile();
+
 -- -- table for Followers
 -- CREATE TABLE followers (
 --     id SERIAL PRIMARY KEY,

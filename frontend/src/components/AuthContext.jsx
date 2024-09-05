@@ -36,6 +36,7 @@ const AuthProvider = ({ children }) => {
           setUser(null);
         }
         setLoading(false);
+        return !authenticated && removeCookie("token");
       } catch (error) {
         console.error("Error while sending authenticating request.");
       }

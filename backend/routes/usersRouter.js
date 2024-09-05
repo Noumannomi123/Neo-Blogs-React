@@ -7,7 +7,7 @@ import env from "dotenv";
 env.config();
 
 
-router.get("/profile/pic/:id", async (req,res)=>{
+router.get("/profile/pic/:id", async (req, res) => {
     try {
         const id = req.params.id;
         const result = await db.query("SELECT pic FROM user_profile WHERE id = $1", [id]);
@@ -23,10 +23,10 @@ router.get("/profile/pic/:id", async (req,res)=>{
 router.put("/profile/:id", async (req, res) => {
     try {
         const id = req.params.id;
-        const { name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, pic } = req.body;
+        const { phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, pic } = req.body;
         const result = await db.query(
-            "UPDATE user_profile SET username = $1, phone = $2, gender = $3, date_of_birth = $4, address = $5, facebook_link = $6, twitter_link = $7, instagram_link = $8, pic = $9 WHERE id = $10 RETURNING *",
-            [name, phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, pic, id]
+            "UPDATE user_profile SET phone = $1, gender = $2, date_of_birth = $3, address = $4, facebook_link = $5, twitter_link = $6, instagram_link = $7, pic = $8 WHERE id = $9 RETURNING *",
+            [phone, gender, date_of_birth, address, facebook_link, twitter_link, instagram_link, pic, id]
         );
         if (result.rows.length === 0) {
             return res.status(404).json({ message: "User Profile Not Found" });
