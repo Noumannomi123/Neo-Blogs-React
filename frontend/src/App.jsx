@@ -1,6 +1,5 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import Home from "./Pages/Home";
-import Editor from "./components/Editor";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import NotFoundPage from "./Pages/NotFoundPage";
@@ -22,7 +21,6 @@ function App() {
         <Route path="/users/register" element={<SignUp />} />
         <Route path="/Home" element={<Home />} />
         <Route element={<PrivateRoute />}>
-          <Route path="/editor" element={<Editor />} />
           <Route path="/users/:id/posts/new" element={<NewBlog />} />
           <Route path="/users/:id/posts/:blog_id/edit" element={<EditBlog />} />
           <Route path="/users/:id/myblogs" element={<MyBlogs />} />

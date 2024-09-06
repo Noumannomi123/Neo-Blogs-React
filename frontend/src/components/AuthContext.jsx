@@ -13,11 +13,6 @@ const AuthProvider = ({ children }) => {
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
-        if (!cookies.token) {
-          console.log("No token found");
-          setLoggedIn(false);
-          setLoading(false);
-        }
         const response = await axios.post(
           API_URL,
           {},
@@ -32,7 +27,6 @@ const AuthProvider = ({ children }) => {
         if (authenticated) {
           setUser(data.user);
           console.log("Authenticaed");
-          
         } else {
           console.error("Not authenticated");
           setUser(null);

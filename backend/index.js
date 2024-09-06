@@ -29,6 +29,9 @@ app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
             "https://neo-blogs-react.vercel.app",
+            // local production.
+            "https://neo-blogs-ithevk5ew-noumans-projects-919c94d2.vercel.app",
+            "http://localhost:3001",
             "http://localhost:5173",
             "http://192.168.51.1:5173",
             "http://192.168.137.1:5173",

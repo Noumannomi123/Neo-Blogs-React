@@ -3,13 +3,18 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/ImageUploader.css";
 import Compressor from "compressorjs";
+import dummyProfile from "../assets/dummyProfile.png";
 const ImageUploader = ({ setTitleImage, images, msg }) => {
   const [image, setImage] = useState(images);
-  const compressionQuality = 0.65;
+  // TO-FIX: image uplaoding
+  console.log(images,'by uploader');
+  const compressionQuality = 0.5;
+
   const onChange = (imageList) => {
+    // if (imageList.length === 0) return;
     const image = imageList[0];
     new Compressor(image.file, {
-      quality: 0.5,
+      quality: compressionQuality,
       success: (compressedResult) => {
         const reader = new FileReader();
         reader.onloadend = () => {
@@ -58,7 +63,6 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
                 {...dragProps}
               >
                 {msg || `Title Image. Click or Drop here.`}
-                
               </button>
             ) : (
               <>
@@ -72,7 +76,7 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
                 </button>
                 <button
                   className="btn btn-light border-dark"
-                  onClick={() => onImageRemove(imageList[0])}
+                  onClick={() => setImage(dummyProfile)}
                 >
                   Remove
                 </button>

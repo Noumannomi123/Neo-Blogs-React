@@ -257,14 +257,32 @@ const Profile = () => {
                     </VStack>
 
                     <p className="dot fs-5 fw-bolder">Connect with me: </p>
-                    {profile.facebook_link > 0 && (
-                      <p>{`${profile.facebook_link}`}</p>
+                    {profile.facebook_link.length > 0 && (
+                      <h5 className="w-100 d-flex">
+                        Facebook:
+                        <a
+                          href={`https://facebook.com/${profile.facebook_link}`}
+                          className="px-3 fw-normal"
+                        >{`${profile.facebook_link}`}</a>
+                      </h5>
                     )}
-                    {profile.instagram_link > 0 && (
-                      <p>{`${profile.instagram_link}`}</p>
+                    {profile.instagram_link.length > 0 && (
+                      <h5 className="w-100 d-flex">
+                        Instagram:
+                        <a
+                          href={`https://instagram.com/${profile.instagram_link}`}
+                          className="px-3 fw-normal"
+                        >{`${profile.instagram_link}`}</a>
+                      </h5>
                     )}
-                    {profile.twitter_link > 0 && (
-                      <p>{`${profile.twitter_link}`}</p>
+                    {profile.twitter_link.length > 0 && (
+                      <h5 className="w-100 d-flex">
+                        Twitter:
+                        <a
+                          href={`https://twitter.com/${profile.twitter_link}`}
+                          className="px-3 fw-normal"
+                        >{`${profile.twitter_link}`}</a>
+                      </h5>
                     )}
                   </div>
                 )}
@@ -466,14 +484,32 @@ const Profile = () => {
                     </VStack>
 
                     <p className="dot fs-5 fw-bolder">Connect with me: </p>
-                    {profile.facebook_link > 0 && (
-                      <p>{`${profile.facebook_link}`}</p>
+                    {profile.facebook_link.length > 0 && (
+                      <h5 className="w-100 d-flex">
+                        Facebook:
+                        <a
+                          href={`https://facebook.com/${profile.facebook_link}`}
+                          className="px-3 fw-normal"
+                        >{`${profile.facebook_link}`}</a>
+                      </h5>
                     )}
-                    {profile.instagram_link > 0 && (
-                      <p>{`${profile.instagram_link}`}</p>
+                    {profile.instagram_link.length > 0 && (
+                      <h5 className="w-100 d-flex">
+                        Instagram:
+                        <a
+                          href={`https://instagram.com/${profile.instagram_link}`}
+                          className="px-3 fw-normal"
+                        >{`${profile.instagram_link}`}</a>
+                      </h5>
                     )}
-                    {profile.twitter_link > 0 && (
-                      <p>{`${profile.twitter_link}`}</p>
+                    {profile.twitter_link.length > 0 && (
+                      <h5 className="w-100 d-flex">
+                        Twitter:
+                        <a
+                          href={`https://twitter.com/${profile.twitter_link}`}
+                          className="px-3 fw-normal"
+                        >{`${profile.twitter_link}`}</a>
+                      </h5>
                     )}
                   </div>
                 )}
