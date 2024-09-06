@@ -9,11 +9,12 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loggedIn, setLoggedIn] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [cookies, removeCookie] = useCookies([]);
+  const [cookies, setCookie, removeCookie] = useCookies([]);
   useEffect(() => {
     const checkAuthentication = async () => {
       try {
         if (!cookies.token) {
+          console.log("No token found");
           setLoggedIn(false);
           setLoading(false);
         }
@@ -26,7 +27,7 @@ const AuthProvider = ({ children }) => {
         );
         const data = response.data;
         const authenticated = data.status;
-        console.log(data);
+        console.log(data, "returned by AuthContext");
         setLoggedIn(authenticated);
         if (authenticated) {
           setUser(data.user);
@@ -36,15 +37,14 @@ const AuthProvider = ({ children }) => {
           setUser(null);
         }
         setLoading(false);
-        return !authenticated && removeCookie("token");
       } catch (error) {
         console.error("Error while sending authenticating request.");
       }
     };
     checkAuthentication();
-  }, [cookies, removeCookie]);
+  }, [cookies, removeCookie, setCookie]);
   const logout = () => {
-    removeCookie("token");
+    removeCookie("token", { path: "/", domain: "localhost" });
   };
   return (
     <AuthContext.Provider
