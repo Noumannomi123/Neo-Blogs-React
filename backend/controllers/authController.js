@@ -24,7 +24,8 @@ const Signup = async (req, res, next) => {
                 const token = createSecretToken(user.id);
                 res.cookie("token", token, {
                     withCredentials: true,
-                    httpOnly: false
+                    httpOnly: false,
+                    sameSite: 'None', // FIX
                 });
                 res.status(201).json({ message: "User created successfully", success: true, user: { id: user.id, email: user.email, username: user.email } });
                 next();
@@ -53,7 +54,8 @@ const Login = async (req, res, next) => {
         const token = createSecretToken(user.id);
         res.cookie("token", token, {
             withCredentials: true,
-            httpOnly: false
+            httpOnly: false,
+            sameSite: 'None',
         });
         res.status(201).json({ message: "User logged in successfully", success: true, user: { id: user.id, email: user.email, username: user.username } });
         next();

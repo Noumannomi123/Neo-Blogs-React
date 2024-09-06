@@ -32,6 +32,7 @@ const AuthProvider = ({ children }) => {
         if (authenticated) {
           setUser(data.user);
           console.log("Authenticaed");
+          
         } else {
           console.error("Not authenticated");
           setUser(null);
