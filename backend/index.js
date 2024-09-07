@@ -29,9 +29,9 @@ app.use(cors({
     origin: function (origin, callback) {
         const allowedOrigins = [
             "https://neo-blogs-react.vercel.app",
-            "https://neo-blogs.vercel.app"
+            "https://neo-blogs.vercel.app",
             // local production.
-            "https://neo-blogs-ithevk5ew-noumans-projects-919c94d2.vercel.app",
+            "https://neo-blogs-l9yrmavos-noumans-projects-919c94d2.vercel.app",
             "http://localhost:3001",
             "http://localhost:5173",
             "http://192.168.51.1:5173",
@@ -53,6 +53,9 @@ app.use(cors({
 app.use(cookieParser());
 
 // routes
+app.get("/", (req, res) => {
+    res.json("Hello World");
+})
 app.use("/", authRouter);
 
 app.use("/user", userRouter);
@@ -73,5 +76,5 @@ db.connect((err) => {
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
-
+export default app;
 export { db };
