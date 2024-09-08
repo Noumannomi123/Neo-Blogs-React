@@ -1,4 +1,2 @@
 // const API_URL = "http://localhost:3000";
-
-const API_URL = "https://neo-backend.vercel.app";
-export default API_URL;
+export default import.meta.env.VITE_API_URL;
