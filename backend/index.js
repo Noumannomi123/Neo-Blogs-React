@@ -9,16 +9,15 @@ import authRouter from "./routes/authRouter.js";
 import cookieParser from "cookie-parser";
 
 env.config();
-console.log(process.env.PG_USER, process.env.PG_HOST, process.env.PG_DATABASE, process.env.PG_PASSWORD, process.env.PG_PORT)
 const db = new pg.Client({
     user: process.env.PG_USER,
     host: process.env.PG_HOST,
     database: process.env.PG_DATABASE,
     password: process.env.PG_PASSWORD,
     port: process.env.PG_PORT,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    // ssl: {
+    //     rejectUnauthorized: false
+    // }
 });
 
 const PORT = process.env.PORT || 3000;
@@ -54,9 +53,7 @@ app.use(cors({
 app.use(cookieParser());
 
 // routes
-app.get("/", (req, res) => {
-    res.json("Hello World");
-})
+
 app.use("/", authRouter);
 
 app.use("/user", userRouter);

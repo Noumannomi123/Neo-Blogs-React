@@ -109,8 +109,9 @@ router.get("/likes/:id", async (req, res) => {
 })
 
 router.get("/all", async (req, res) => {
+    console.log("Getting all blogs");
     try {
-        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC");
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC LIMIT 5");
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)

@@ -15,7 +15,7 @@ const AllPosts = () => {
         setPosts(response.data);
         setLoading(false);
       } catch (error) {
-        console.log("Error reqtrieving blogs.");
+        console.error("Error reqtrieving blogs.", error);
       }
     };
     getBlogs();

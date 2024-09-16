@@ -6,8 +6,6 @@ import Compressor from "compressorjs";
 import dummyProfile from "../assets/dummyProfile.png";
 const ImageUploader = ({ setTitleImage, images, msg }) => {
   const [image, setImage] = useState(images);
-  // TO-FIX: image uplaoding
-  console.log(images,'by uploader');
   const compressionQuality = 0.5;
 
   const onChange = (imageList) => {
@@ -50,6 +48,7 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
           imageList,
           onImageUpload,
           onImageUpdate,
+          // TO-FIX
           onImageRemove,
           isDragging,
           dragProps,
