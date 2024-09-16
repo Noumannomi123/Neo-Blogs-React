@@ -17,10 +17,10 @@ const Header = () => {
   const navigate = useNavigate();
   const isMobile = useMedia({ maxWidth: "1000px" });
   const { loggedIn, logout, user } = useContext(AuthContext);
+
   const [profilePic, setProfilePic] = useState(null);
   const handleLogout = () => {
     logout();
-    localStorage.clear();
     navigate("/users/login");
   };
 
@@ -38,7 +38,6 @@ const Header = () => {
     };
     if (loggedIn) getProfilePic();
   }, [user, loggedIn]);
-
   return (
     <div className="for-container">
       <a href="/home" className="d-flex align-items-center">

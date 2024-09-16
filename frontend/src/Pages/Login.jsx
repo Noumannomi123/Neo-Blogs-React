@@ -33,11 +33,12 @@ const Login = () => {
       if (response.status === 200) {
         setError("");
       }
+
+      // Triggers authContext to update user and loggedIn state
       setUser(response.data.user);
       setLoggedIn(true);
-      localStorage.setItem("name", response.data.user.username);
-      localStorage.setItem("email", response.data.user.email);
-      localStorage.setItem("id", response.data.user.id);
+      // TO-FIX:
+      // localStorage being accessed.
       // TO-DO
       if (localStorage.getItem("redirectUrl") != null) {
         switch (localStorage.getItem("redirectUrl")) {
@@ -49,7 +50,7 @@ const Login = () => {
             break;
         }
       } else {
-        setTimeout(() => navigate("/home"), 1000);
+        setTimeout(() => navigate("/home"), 500);
       }
     } catch (error) {
       localStorage.setItem("email", null);

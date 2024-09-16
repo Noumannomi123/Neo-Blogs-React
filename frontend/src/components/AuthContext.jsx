@@ -39,7 +39,10 @@ const AuthProvider = ({ children }) => {
     checkAuthentication();
   }, [cookies, removeCookie, setCookie]);
   const logout = () => {
+    setUser(null);
+    setLoggedIn(false);
     removeCookie("token", { path: "/", domain: "localhost" });
+    localStorage.clear();
   };
   return (
     <AuthContext.Provider
