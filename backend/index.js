@@ -9,16 +9,23 @@ import authRouter from "./routes/authRouter.js";
 import cookieParser from "cookie-parser";
 
 env.config();
-const db = new pg.Client({
-    user: process.env.PG_USER,
-    host: process.env.PG_HOST,
-    database: process.env.PG_DATABASE,
-    password: process.env.PG_PASSWORD,
-    port: process.env.PG_PORT,
-    // ssl: {
-    //     rejectUnauthorized: false
-    // }
-});
+const { Pool } = pg;
+const db = new Pool({
+    connectionString: process.env.POSTGRES_URL,
+    ssl: {
+        rejectUnauthorized: false
+    }
+})
+// const db = new pg.Client({
+//     user: process.env.PG_USER,
+//     host: process.env.PG_HOST,
+//     database: process.env.PG_DATABASE,
+//     password: process.env.PG_PASSWORD,
+//     port: process.env.PG_PORT,
+//     ssl: {
+//         rejectUnauthorized: false
+//     }
+// });
 
 const PORT = process.env.PORT || 3000;
 
@@ -33,6 +40,7 @@ app.use(cors({
         const allowedOrigins = [
             "https://neo-blogs-react.vercel.app",
             "https://neo-blogs.vercel.app",
+            "frontend-e7vkws4xi-noumans-projects-919c94d2.vercel.app",
             "http://localhost:5173",
             "http://192.168.51.1:5173",
             "http://192.168.137.1:5173",

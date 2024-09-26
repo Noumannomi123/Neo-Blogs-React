@@ -35,6 +35,9 @@ const Login = () => {
       }
 
       // Triggers authContext to update user and loggedIn state
+      localStorage.setItem("email", response.data.user.email);
+      localStorage.setItem("name", response.data.user.username);
+      localStorage.setItem("id", response.data.user.id);
       setUser(response.data.user);
       setLoggedIn(true);
       // TO-FIX:

@@ -6,7 +6,7 @@ router.get("/comment/single/:id", async (req, res) => {
     try {
         const comment_id = req.params.id;
         const result = await db.query(
-            `SELECT u.username, u.pic, c.content, c.created_at
+            `SELECT c.id, u.username, u.pic, c.content, c.created_at
              FROM user_profile u
              INNER JOIN comments c ON u.id = c.user_id
              WHERE parent_id IS NULL AND post_id = $1 ORDER BY created_at DESC 
@@ -38,7 +38,7 @@ router.post("/comment/:id", async (req, res) => {
         const content = req.body.content;
         const result = await db.query("INSERT INTO comments (post_id, user_id, content) VALUES ($1, $2, $3) RETURNING id", [post_id, user_id, content]);
         const commentResult = await db.query(
-            `SELECT u.username, u.pic, c.content, c.created_at 
+            `SELECT c.id, u.username, u.pic, c.content, c.created_at 
              FROM user_profile u 
              INNER JOIN comments c ON u.id = c.user_id 
              WHERE c.id = $1`,
@@ -60,7 +60,7 @@ router.post("/reply", async (req, res) => {
         const result = await db.query("INSERT INTO comments (parent_id, post_id, user_id, content) VALUES ($1, $2, $3, $4) RETURNING id", [parent_id, post_id, user_id, content]);
         const id = result.rows[0].id;
         const replyResult = await db.query(
-            `SELECT u.username, u.pic, c.content, c.created_at
+            `SELECT c.id, u.username, u.pic, c.content, c.created_at
              FROM user_profile u
              INNER JOIN comments c ON u.id = c.user_id
              WHERE c.id = $1`,
