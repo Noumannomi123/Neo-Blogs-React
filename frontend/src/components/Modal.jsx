@@ -5,7 +5,7 @@ const Modal = ({ isVisible, message, onConfirm, onCancel }) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal-content w-25">
+      <div className="modal-content w-75">
         <p>{message}</p>
         <div className="modal-buttons">
           <button onClick={onConfirm}>Yes</button>
