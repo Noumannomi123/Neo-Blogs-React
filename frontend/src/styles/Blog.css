@@ -1,6 +1,5 @@
 .blog-container{
     margin: 0 5% 0 5%;
-    
 }
 .blog-container p{
     font-family: 'Times New Roman', Times, serif;   
@@ -28,6 +27,9 @@
     font-size: 18pt; /* Adjust the font size as needed */
 }
 @media (max-width: 1200px) {
+    .blog-container{
+        margin: 0;
+    }
     .blog-container p{
         font-size: 10pt;
     }   
