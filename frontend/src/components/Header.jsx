@@ -15,7 +15,7 @@ import dummyProfile from "../assets/dummyProfile.png";
 
 const Header = () => {
   const navigate = useNavigate();
-  const isMobile = useMedia({ maxWidth: "1000px" });
+  const isMobile = useMedia({ maxWidth: "1200px" });
   const { loggedIn, logout, user } = useContext(AuthContext);
 
   const [profilePic, setProfilePic] = useState(null);
@@ -90,12 +90,20 @@ const Header = () => {
                   </Dropdown.Item>
                 </>
               ) : (
-                <Dropdown.Item
-                  className="navMobileItems"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Dropdown.Item>
+                <>
+                  <Dropdown.Item
+                    className="navMobileItems"
+                    onClick={() => navigate("/users/${user.id}/profile")}
+                  >
+                    Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    className="navMobileItems"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </Dropdown.Item>
+                </>
               )}
             </Dropdown.Menu>
           </Dropdown>
@@ -157,16 +165,18 @@ const Header = () => {
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
-          <div className="d-flex align-items-center flex-grow-1 flex-end justify-content-end mx-5">
-            <Link to={`/users/${user.id}/profile`}>
-              <Image
-                className={"rounded-circle"}
-                src={profilePic || dummyProfile}
-                width={"30px"}
-                height={"30px"}
-              />
-            </Link>
-          </div>
+          {!isMobile && (
+            <div className="d-flex align-items-center flex-grow-1 flex-end justify-content-end mx-5">
+              <Link to={`/users/${user.id}/profile`}>
+                <Image
+                  className={"rounded-circle"}
+                  src={profilePic || dummyProfile}
+                  width={"30px"}
+                  height={"30px"}
+                />
+              </Link>
+            </div>
+          )}
         </>
       )}
     </div>

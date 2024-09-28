@@ -42,7 +42,7 @@ const AllPosts = () => {
   if (loading) return <Loader />;
   if (posts.length === 0) return <h3>Sorry no blogs to show.</h3>;
   return (
-    <div className="d-flex justify-content-center">
+    <div className="d-flex justify-content-center all-posts">
       {isMobile ? (
         <div style={{ width: "90%" }}>{posts.map(showPost)}</div>
       ) : (
