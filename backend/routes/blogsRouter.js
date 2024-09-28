@@ -77,7 +77,7 @@ router.get("/replies/:comment_id/:post_id", async (req, res) => {
     try {
         const parent_id = parseInt(req.params.comment_id);
         const post_id = req.params.post_id;
-        const result = await db.query("SELECT r.parent_id, r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC", [parent_id, post_id]);
+        const result = await db.query("SELECT r.parent_id, r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC LIMIT 2", [parent_id, post_id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching replies from the database.", error)
@@ -88,7 +88,7 @@ router.get("/replies/:comment_id/:post_id", async (req, res) => {
 router.get("/comments/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
-        const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc `, [post_id])
+        const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc LIMIT 2`, [post_id])
         res.status(200).json(response.rows);
     } catch (error) {
         console.log("Error fetching comments from the database.", error.message)
@@ -110,7 +110,7 @@ router.get("/likes/:id", async (req, res) => {
 
 router.get("/all", async (req, res) => {
     try {
-        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC LIMIT 5");
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC LIMIT 3");
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)
