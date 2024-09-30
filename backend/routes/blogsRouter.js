@@ -1,6 +1,8 @@
 import express from "express";
 const router = express.Router();
 import { db } from "../index.js";
+import sharp from "sharp";
+import getSizeInMBFromJson from "../utils/sizeCalculator.js";
 
 router.get("/comment/single/:id", async (req, res) => {
     try {
@@ -89,6 +91,18 @@ router.get("/comments/:id", async (req, res) => {
     try {
         const post_id = req.params.id;
         const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc LIMIT 2`, [post_id])
+        // to-DO: fix this
+        for (let comment of response.rows) {
+            if (comment.pic) {
+                const buffer = Buffer.from(comment.pic.split(',')[1], 'base64');
+                const compressedBuffer = await sharp(buffer)
+                    .resize(50, 50)
+                    .jpeg({ quality: 50 })
+                    .toBuffer();
+                comment.pic = `data:image/jpeg;base64,${compressedBuffer.toString('base64')}`
+            }
+        }
+        console.log("Size of the data in MB:", getSizeInMBFromJson(response.rows));
         res.status(200).json(response.rows);
     } catch (error) {
         console.log("Error fetching comments from the database.", error.message)
@@ -111,6 +125,7 @@ router.get("/likes/:id", async (req, res) => {
 router.get("/all", async (req, res) => {
     try {
         const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC LIMIT 3");
+
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)
