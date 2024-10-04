@@ -3,7 +3,7 @@ import { reduceImageSize } from "../utils/imageCompressor.js";
 import getSizeInMBFromJson from "../utils/sizeCalculator.js";
 const getAllBlogs = async (req, res) => {
     try {
-        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC");
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC LIMIT 5");
         for (let blog of result.rows) {
             blog.summary = blog.summary.length > 200 ? `${blog.summary.substring(0, 200)}...` : blog.summary
             if (blog.title_picture) {

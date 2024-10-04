@@ -6,7 +6,7 @@ import Compressor from "compressorjs";
 import dummyProfile from "../assets/dummyProfile.png";
 const ImageUploader = ({ setTitleImage, images, msg }) => {
   const [image, setImage] = useState(images);
-  const compressionQuality = 0.5;
+  const compressionQuality = 0.25;
 
   const onChange = (imageList) => {
     // if (imageList.length === 0) return;
