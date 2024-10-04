@@ -10,22 +10,12 @@ import cookieParser from "cookie-parser";
 
 env.config();
 const { Pool } = pg;
+
+
 const db = new Pool({
     connectionString: process.env.POSTGRES_URL,
-    ssl: {
-        rejectUnauthorized: false
-    }
+    ssl: process.env.MODE_ENV == "production" ? { rejectUnauthorized: false } : false
 })
-// const db = new pg.Client({
-//     user: process.env.PG_USER,
-//     host: process.env.PG_HOST,
-//     database: process.env.PG_DATABASE,
-//     password: process.env.PG_PASSWORD,
-//     port: process.env.PG_PORT,
-//     // ssl: {
-//     //     rejectUbnauthorized: false
-//     // }
-// });
 
 const PORT = process.env.PORT || 3000;
 
