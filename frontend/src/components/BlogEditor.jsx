@@ -154,6 +154,7 @@ const BlogEditor = () => {
   }; //----------
   const handleConfirm = () => {
     handleSavePost();
+    window.location.reload();
   };
   const handleCancel = () => {
     setModalVisible(false);
