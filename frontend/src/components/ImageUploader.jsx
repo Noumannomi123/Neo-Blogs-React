@@ -40,7 +40,7 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
         maxNumber={1}
         dataURLKey="data_url"
         acceptType={["jpg", "png", "gif"]}
-        maxFileSize={5242880} // 5 MB
+        maxFileSize={1048576} // 1 MB
         resolutionType="ratio"
         imageCompressionQuality={compressionQuality}
       >

@@ -5,6 +5,7 @@ const getAllBlogs = async (req, res) => {
     try {
         const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC");
         for (let blog of result.rows) {
+            blog.summary = blog.summary.length > 200 ? `${blog.summary.substring(0, 200)}...` : blog.summary
             if (blog.title_picture) {
                 const sizeX = 200, sizeY = 150;
                 const compressedImage = await reduceImageSize(blog.title_picture.split(',')[1], sizeX, sizeY, 75);

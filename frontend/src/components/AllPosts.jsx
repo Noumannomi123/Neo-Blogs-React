@@ -27,11 +27,7 @@ const AllPosts = () => {
         key={post.id}
         id={post.id}
         title={post.title}
-        description={
-          post.summary.length > 200
-            ? `${post.summary.substring(0, 200)}...`
-            : post.summary
-        }
+        description={post.summary}
         image={post.title_picture}
         date={post.created_at}
         author={post.author_name}
