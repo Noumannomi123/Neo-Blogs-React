@@ -1,8 +1,16 @@
 import { db } from "../index.js";
+import { reduceImageSize } from "../utils/imageCompressor.js";
+import getSizeInMBFromJson from "../utils/sizeCalculator.js";
 const getAllBlogs = async (req, res) => {
     try {
-        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC LIMIT 3");
-
+        const result = await db.query("SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC");
+        for (let blog of result.rows) {
+            if (blog.title_picture) {
+                const sizeX = 200, sizeY = 150;
+                const compressedImage = await reduceImageSize(blog.title_picture.split(',')[1], sizeX, sizeY, 75);
+                blog.title_picture = `data:image/jpeg;base64,${compressedImage}`;
+            }
+        }
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching blogs from the database.", error)

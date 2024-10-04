@@ -1,5 +1,4 @@
 import { db } from "../index.js";
-import getSizeInMBFromJson from "../utils/sizeCalculator.js";
 import { reduceImageSize } from "../utils/imageCompressor.js"
 const getSingleComment = async (req, res) => {
     try {
