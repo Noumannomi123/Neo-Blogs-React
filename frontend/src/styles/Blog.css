@@ -24,7 +24,7 @@
 
 .ql-editor *, .preview *, .blog-content *{
     font-family: 'Times New Roman', Times, serif; /* Set for non-header content */
-    font-size: 18pt; /* Adjust the font size as needed */
+    /* font-size: 18pt; Adjust the font size as needed */
 }
 @media (max-width: 1200px) {
     .blog-container{
@@ -33,4 +33,7 @@
     .blog-container p{
         font-size: 10pt;
     }   
+}
+.image-container{
+    object-fit: contain;
 }

@@ -15,7 +15,7 @@ const Image = ({ src, alt, height, width, className, styles }) => {
           style={{
             width: "100%",
             height: "100%",
-            objectFit: "cover",
+            objectFit: "contain",
           }}
           className={`img-fluid ${className}`}
           src={src}

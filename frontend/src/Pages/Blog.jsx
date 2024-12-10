@@ -36,11 +36,17 @@ const Blog = () => {
               day: "numeric",
             })}
           </small>
+
           <div>
             <h1 className="mb-4">{blog.title}</h1>
           </div>
           <div className="w-100 d-flex align-items-center">
-            <Image src={blog.pic} height={`100px`} width={`100px`} className={'rounded-circle'} />
+            <Image
+              src={blog.pic}
+              height={`100px`}
+              width={`100px`}
+              className={"rounded-circle"}
+            />
             <h4 className="mx-3 mt-3">{blog.author_name}</h4>
           </div>
           <div className="w-100 d-flex justify-content-center mb-3 mt-2">
@@ -57,7 +63,7 @@ const Blog = () => {
           className="blog-content px-5"
         />
         <div className="mt-5 border blog-content px-5">
-          <h3 className="mx-2">Summary</h3>
+          <h2 className="mx-2 mb-2">Summary</h2>
           <p className="mx-2">{blog.summary}</p>
         </div>
       </div>
