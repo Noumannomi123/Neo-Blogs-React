@@ -196,8 +196,8 @@ const BlogEditor = () => {
             {blog.titleImage.length > 0 && (
               <img
                 style={{ alignSelf: "center" }}
-                width="200"
-                height="200"
+                width="250"
+                height="250"
                 src={blog.titleImage[0].data_url}
                 alt=""
               />
@@ -247,8 +247,8 @@ const BlogEditor = () => {
               {blog.titleImage.length > 0 && (
                 <img
                   style={{ alignSelf: "center" }}
-                  width="200"
-                  height="200"
+                  width="250"
+                  height="250"
                   src={blog.titleImage[0].data_url}
                   alt=""
                 />

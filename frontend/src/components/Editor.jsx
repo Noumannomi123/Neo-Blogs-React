@@ -174,8 +174,8 @@ const QuillEditor = () => {
             {titleImage.length > 0 && (
               <img
                 style={{ alignSelf: "center" }}
-                width="200"
-                height="200"
+                width="250"
+                height="250"
                 src={titleImage[0].data_url}
                 alt=""
               />
@@ -221,8 +221,8 @@ const QuillEditor = () => {
               {titleImage.length > 0 && (
                 <img
                   style={{ alignSelf: "center" }}
-                  width="200"
-                  height="200"
+                  width="250"
+                  height="250"
                   src={titleImage[0].data_url}
                   alt=""
                 />
