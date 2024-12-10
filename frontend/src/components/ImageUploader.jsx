@@ -2,12 +2,10 @@ import ImageUploading from "react-images-uploading";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/ImageUploader.css";
-import Compressor from "compressorjs";
-import dummyProfile from "../assets/dummyProfile.png";
 const ImageUploader = ({ setTitleImage, images, msg }) => {
   const [image, setImage] = useState(images);
-  const compressionQuality = 0.30;
-
+  const compressionQuality = 0.3;
+  console.log(image);
   const onChange = (imageList) => {
     if (imageList.length === 0) return;
 
@@ -74,7 +72,6 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
           imageList,
           onImageUpload,
           onImageUpdate,
-          // TO-FIX
           onImageRemove,
           isDragging,
           dragProps,
@@ -93,7 +90,7 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
               <>
                 <button
                   style={isDragging ? { color: "red" } : null}
-                  onClick={() => onImageUpdate(imageList[0])}
+                  onClick={() => onImageUpdate(0)}
                   {...dragProps}
                   className="fw-normal mx-5"
                 >
@@ -101,7 +98,13 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
                 </button>
                 <button
                   className="btn btn-light border-dark"
-                  onClick={() => setImage(dummyProfile)}
+                  onClick={() => {
+                    onImageRemove(0);
+                    setImage([]);
+                    setTitleImage([]);
+                    console.log("Removed");
+                    console.log(imageList);
+                  }}
                 >
                   Remove
                 </button>
