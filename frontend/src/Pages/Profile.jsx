@@ -311,6 +311,7 @@ const Profile = () => {
                     }
                     images={profile.pic}
                     msg={`Profile Picture. Click or Drop here.`}
+                    canRemove={false}
                   />
                 </div>
               </div>

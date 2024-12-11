@@ -2,7 +2,7 @@ import ImageUploading from "react-images-uploading";
 import { useState } from "react";
 import PropTypes from "prop-types";
 import "../styles/ImageUploader.css";
-const ImageUploader = ({ setTitleImage, images, msg }) => {
+const ImageUploader = ({ setTitleImage, images, msg, canRemove }) => {
   const [image, setImage] = useState(images);
   const compressionQuality = 0.3;
   console.log(image);
@@ -96,18 +96,20 @@ const ImageUploader = ({ setTitleImage, images, msg }) => {
                 >
                   {`Update Image. Click or Drop here.`}
                 </button>
-                <button
-                  className="btn btn-light border-dark"
-                  onClick={() => {
-                    onImageRemove(0);
-                    setImage([]);
-                    setTitleImage([]);
-                    console.log("Removed");
-                    console.log(imageList);
-                  }}
-                >
-                  Remove
-                </button>
+                {canRemove && (
+                  <button
+                    className="btn btn-light border-dark"
+                    onClick={() => {
+                      onImageRemove(0);
+                      setImage([]);
+                      setTitleImage([]);
+                      console.log("Removed");
+                      console.log(imageList);
+                    }}
+                  >
+                    Remove
+                  </button>
+                )}
               </>
             )}
             &nbsp;
@@ -121,5 +123,6 @@ ImageUploader.propTypes = {
   setTitleImage: PropTypes.func.isRequired,
   images: PropTypes.array.isRequired,
   msg: PropTypes.string,
+  canRemove: PropTypes.bool
 };
 export default ImageUploader;
