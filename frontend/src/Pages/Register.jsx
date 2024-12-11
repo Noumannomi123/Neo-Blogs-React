@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useContext, useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import { VStack } from "@chakra-ui/react";
@@ -9,6 +9,7 @@ import Error from "../components/Error";
 import API_URL from "../config";
 import { useNavigate } from "react-router-dom";
 import mark from "../assets/mark.png";
+import AuthContext from "../components/AuthContext";
 const SignUp = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
@@ -16,6 +17,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { setUser, setLoggedIn } = useContext(AuthContext);
   const hanldeSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
@@ -35,6 +37,15 @@ const SignUp = () => {
         }
       );
       const data = response.data;
+      // Triggers authContext to update user and loggedIn state
+      localStorage.setItem("email", response.data.user.email);
+      localStorage.setItem("name", response.data.user.username);
+      localStorage.setItem("id", response.data.user.id);
+      setUser(response.data.user);
+      setLoggedIn(true);
+      // TO-FIX:
+      // localStorage being accessed.
+      // TO-DO
       const { success, message } = data;
       if (success) {
         setError("");

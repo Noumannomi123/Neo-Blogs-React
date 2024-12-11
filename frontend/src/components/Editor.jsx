@@ -158,7 +158,6 @@ const QuillEditor = () => {
   const handleCancel = () => {
     setModalVisible(false);
   };
-  console.log(titleImage[0].data_url);
   return (
     <>
       <div className="vh-100 w-100 d-flex flex-column" id="container">

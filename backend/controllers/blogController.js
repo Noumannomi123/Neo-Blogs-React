@@ -21,6 +21,7 @@ const getAllBlogs = async (req, res) => {
 const getAuthorBlogs = async (req, res) => {
     try {
         const author_id = req.params.id;
+        console.log(author_id);
         const result = await db.query("SELECT id,title,title_picture,created_at FROM blog_posts WHERE author_id = $1", [author_id]);
         res.status(200).json(result.rows);
     } catch (error) {
