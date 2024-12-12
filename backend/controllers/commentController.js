@@ -3,12 +3,13 @@ import { reduceImageSize } from "../utils/imageCompressor.js"
 const getSingleComment = async (req, res) => {
     try {
         const comment_id = req.params.id;
-        const result = await db.query(
-            `SELECT c.id, u.username, u.pic, c.content, c.created_at
+        let query = `SELECT c.id, u.username, u.pic, c.content, c.created_at
              FROM user_profile u
              INNER JOIN comments c ON u.id = c.user_id
-             WHERE parent_id IS NULL AND post_id = $1 ORDER BY created_at DESC 
-             LIMIT 1`,
+             WHERE parent_id IS NULL AND post_id = $1 ORDER BY created_at DESC`;
+        if (process.env.MODE_ENV == 'production') query += ' LIMIT 1';
+        const result = await db.query(
+            query,
             [comment_id]
         );
         for (let comment of result.rows) {
@@ -58,7 +59,9 @@ const addNewComment = async (req, res) => {
 const getAllComments = async (req, res) => {
     try {
         const post_id = req.params.id;
-        const response = await db.query(`SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc LIMIT 2`, [post_id])
+        let query = `SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc`;
+        if (process.env.MODE_ENV == 'production') query += ' LIMIT 2';
+        const response = await db.query(query, [post_id])
         // to-DO: fix this
         for (let comment of response.rows) {
             if (comment.pic) {
@@ -100,7 +103,9 @@ const getAllReplies = async (req, res) => {
     try {
         const parent_id = parseInt(req.params.comment_id);
         const post_id = req.params.post_id;
-        const result = await db.query("SELECT r.parent_id, r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC LIMIT 2", [parent_id, post_id]);
+        let query = 'SELECT r.parent_id, r.id, u.username, u.pic, r.content, r.created_at FROM user_profile u INNER JOIN comments r ON u.id = r.user_id WHERE r.parent_id = $1 and post_id = $2 ORDER BY r.created_at DESC';
+        if (process.env.MODE_ENV == 'production') query += ' LIMIT 2';
+        const result = await db.query(query, [parent_id, post_id]);
         res.status(200).json(result.rows);
     } catch (error) {
         console.log("Error fetching replies from the database.", error)
