@@ -29,11 +29,14 @@
 .image-container{
     object-fit: contain;
 }
-/* @media (max-width: 1200px) {
+@media (max-width: 1200px) {
     .blog-container{
-        margin: 0;
+        margin: 0 2% 0 2%;
     }
-    .blog-container p{
-        font-size: 10pt;
-    }   
-} */
+    
+    .blog-content, .summary{
+        font-size: 14pt;
+        min-height: 200px;
+    }
+    
+}

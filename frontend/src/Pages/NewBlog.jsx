@@ -15,7 +15,7 @@ const NewBlog = () => {
   return (
     <div>
       <NavBar />
-      <VStack marginTop={10} marginLeft={"10%"} marginRight={"10%"}>
+      <VStack marginTop={10} marginLeft={{base:"2%", lg:"10%"}} marginRight={{base: "2%", lg:"10%"}}>
         <h1 className="mb-3">Add a new Blog</h1>
         <Editor />
       </VStack>

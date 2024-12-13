@@ -51,7 +51,7 @@
   position: fixed;
   z-index: 100;
 }
-.ql-editor,.summary {
+.ql-editor,.summary,.preview {
   font-size: 1.2rem; /* Change this value to your desired font size */
 }
 
@@ -62,17 +62,17 @@ textarea:focus {
 }
 
 
-.ql-editor h1,
-.ql-editor h2,
-.ql-editor h3,
-.ql-editor h4,
-.ql-editor h5,
-.ql-editor h6{
-    font-family: sans-serif;
-}
 #summary-heading{
-  margin-top: 2%;
+  margin-top: 5%;
 }
 .ql-editor *, .preview * {
   font-family: 'Times New Roman', Times, serif;
+}
+.ql-editor h1,.preview h1,
+.ql-editor h2,.preview h2,
+.ql-editor h3,.preview h3,
+.ql-editor h4,.preview h4,
+.ql-editor h5,.preview h5,
+.ql-editor h6,.preview h6{
+    font-family: sans-serif;
 }

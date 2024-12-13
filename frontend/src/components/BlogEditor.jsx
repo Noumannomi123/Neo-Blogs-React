@@ -215,8 +215,8 @@ const BlogEditor = () => {
               className="w-100 fs-2 text-center mb-3 d-flex flex-column"
               id="title-container"
             >
-              <div className="d-flex flex-row-reverse">
-                <div className="d-flex" style={{ width: "10%" }}>
+              <div className="d-flex flex-column">
+                <div className="d-flex w-100 justify-content-center" >
                   <button onClick={togglePreview} className="btn btn-primary">
                     Preview
                   </button>

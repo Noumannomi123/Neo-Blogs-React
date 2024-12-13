@@ -194,8 +194,8 @@ const QuillEditor = () => {
               className="w-100 fs-2 text-center mb-3 d-flex flex-column"
               id="title-container"
             >
-              <div className="d-flex flex-row-reverse">
-                <div className="d-flex" style={{ width: "10%" }}>
+              <div className="d-flex flex-column">
+                <div className="d-flex w-100 justify-content-center">
                   <button onClick={togglePreview} className="btn btn-primary">
                     Preview
                   </button>
@@ -207,7 +207,7 @@ const QuillEditor = () => {
                   style={{ width: "90%" }}
                   id="title-input"
                   type="text"
-                  placeholder="Title"
+                  placeholder="Add a new Title"
                   value={title}
                   onChange={(e) => {
                     setError("");
@@ -246,7 +246,11 @@ const QuillEditor = () => {
             />
             <div>
               {/* label and input for summary field */}
-              <label className="fw-bold fs-2" htmlFor="summary">
+              <label
+                className="fw-bold fs-2"
+                htmlFor="summary"
+                id="summary-heading"
+              >
                 Summary
               </label>
               <div className="border mt-3" style={{ padding: "0.8%" }}>

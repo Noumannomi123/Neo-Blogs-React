@@ -28,7 +28,7 @@ const Blog = () => {
     <>
       <NavBar />
       <div className="blog-container">
-        <div className="d-flex flex-column mt-3 px-5">
+        <div className="d-flex flex-column mt-3 px-lg-5 px-md-2 px-sm-2">
           <small className="fs-5 mb-1">
             {new Date(blog.created_at).toLocaleDateString("en-US", {
               year: "numeric",
@@ -60,9 +60,9 @@ const Blog = () => {
         </div>
         <div
           dangerouslySetInnerHTML={{ __html: blog.content }}
-          className="blog-content px-5"
+          className="blog-content px-sm-2 px-md-2 px-lg-5 "
         />
-        <div className="mt-5 border blog-content px-5">
+        <div className="mt-5 border blog-content px-sm-2 px-md-2 px-lg-5">
           <h2 className="mx-2 mb-2">Summary</h2>
           <p className="mx-2">{blog.summary}</p>
         </div>
