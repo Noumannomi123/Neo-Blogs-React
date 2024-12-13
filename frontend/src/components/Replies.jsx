@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import axios from "axios";
 import API_URL from "../config";
@@ -13,6 +13,7 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
   const [loader, setLoader] = useState(true);
   const [expanded, setExpanded] = useState(false);
   const [newReply, setNewReply] = useState("");
+  const [repliesCount, setRepliesCount] = useState(0);
   const getComments = async () => {
     if (replies.length > 0) return;
     try {
@@ -25,6 +26,7 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
     }
   };
   const handleNewReplySubmit = async () => {
+    if (newReply.trim() === "") return;
     try {
       const result = await axios.post(`${API_URL}/user/blog/reply`, {
         user_id: localStorage.getItem("id"),
@@ -39,6 +41,20 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
       console.error("Error adding comment to the database.", error.message);
     }
   };
+  useEffect(() => {
+    const getRepliesCount = async () => {
+      try {
+        const response = await axios.get(
+          `${API_URL}/user/blog/replies/count/${comment.id}/${post_id}`
+        );
+        console.log(response.data.count); 
+        setRepliesCount(response.data.count);
+      } catch (error) {
+        console.error("Error fetching replies count:", error);
+      }
+    };
+    getRepliesCount();
+  }, [comment.id, post_id]);
   return (
     <>
       <div className="reply-container">
@@ -115,23 +131,43 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
         )
       ) : null}
       {/* <Button onClick={() => getComments()}>Load Replies</Button> */}
-      <Button
+      {repliesCount > 0 ? (<Button
         onClick={() => {
           setLoader(true);
           getComments();
           setLoader(false);
           setExpanded(!expanded);
         }}
-        fontWeight={"normal"}
+        fontWeight={"medium"}
         alignSelf={"center"}
         _hover={{
           textDecoration: "underline",
+          transform: "scale(1.05)",
+          transition: "all 0.2s ease-in-out",
         }}
-        style={{ backgroundColor: "inherit" }}
-        backgroundColor={"inherit"}
+        style={{
+          backgroundColor: "transparent",
+          color: "#2A71C1",
+          padding: "8px 16px",
+          borderRadius: "20px",
+          border: "1px solid #2A71C1",
+        }}
+        backgroundColor={"transparent"}
       >
         {expanded ? "Hide Replies" : "Show Replies"}
-      </Button>
+      </Button>):(
+        <Button
+          fontWeight={"normal"}
+          alignSelf={"center"}
+          _hover={{
+            textDecoration: "underline",
+          }}
+          style={{ backgroundColor: "inherit" }}
+          backgroundColor={"inherit"}
+        >
+          {`No Replies`}
+        </Button>
+      )}
     </>
   );
 };

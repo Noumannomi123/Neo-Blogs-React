@@ -112,4 +112,15 @@ const getAllReplies = async (req, res) => {
         res.status(500).json({ message: "Error fetching replies." })
     }
 }
-export { getSingleComment, getCommentCount, addNewComment, getAllComments, addReply, getAllReplies }
+const getRepliesCount = async (req, res) => {
+    try {
+        const parent_id = parseInt(req.params.comment_id);
+        const post_id = req.params.post_id;
+        const result = await db.query("SELECT COUNT(*) as count FROM comments WHERE parent_id = $1 AND post_id = $2", [parent_id, post_id]);
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.log("Error fetching replies count from the database.", error)
+        res.status(500).json({ message: "Error fetching replies count." })
+    }
+}
+export { getSingleComment, getCommentCount, addNewComment, getAllComments, addReply, getAllReplies, getRepliesCount }

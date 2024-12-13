@@ -88,7 +88,7 @@ const AllComments = ({
             </HStack>
           )}
 
-          {expanded && canReply && (
+          {canReply && (
             <Replies
               comment={comment}
               post_id={blog_id}

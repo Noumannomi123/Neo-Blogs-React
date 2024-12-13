@@ -139,6 +139,7 @@ const Comments = ({
 
         {/* more comments */}
         <MoreComments
+          commentCount={comments.length}
           expanded={expanded}
           loadMoreComments={async () => {
             if (comments.length === 1) {
