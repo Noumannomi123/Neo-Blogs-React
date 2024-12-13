@@ -51,7 +51,6 @@ const BlogEditor = () => {
         [{ script: "sub" }, { script: "super" }], // superscript/subscript
         [{ indent: "-1" }, { indent: "+1" }], // outdent/indent
         [{ direction: "rtl" }], // text direction
-        [{ size: ["small", false, "large", "huge"] }], // custom dropdown
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
         [{ color: [] }, { background: [] }], // dropdown with defaults from theme
         [{ align: [] }],
@@ -85,7 +84,6 @@ const BlogEditor = () => {
     "bold",
     "code-block",
     "color",
-    "float",
     "header",
     "height",
     "image",
@@ -184,7 +182,7 @@ const BlogEditor = () => {
     <>
       <div className="vh-100 w-100 d-flex flex-column" id="container">
         {previewMode ? (
-          <div className="preview d-flex flex-column">
+          <div className="preview d-flex flex-column blog-content">
             <div className="w-100 d-flex justify-content-center">
               <button onClick={togglePreview} className="btn btn-primary mb-3">
                 Edit
@@ -277,10 +275,14 @@ const BlogEditor = () => {
             />
             <div>
               {/* label and input for summary field */}
-              <label className="fw-bold fs-2" htmlFor="summary">
+              <label
+                className="fw-bold fs-2"
+                htmlFor="summary"
+                id="summary-heading"
+              >
                 Summary
               </label>
-              <div className="border mt-3" style={{ padding: "0.8%" }}>
+              <div className="border mt-2" style={{ padding: "0.8%" }}>
                 <TextareaAutosize
                   className="w-100 summary"
                   id="summary"

@@ -31,11 +31,13 @@ app.use(cors({
             "https://neo-blogs-react.vercel.app",
             "https://neo-blogs.vercel.app",
             "frontend-e7vkws4xi-noumans-projects-919c94d2.vercel.app",
+            "https://frontend-asdxn1w4j-noumans-projects-919c94d2.vercel.app",
+            "https://frontend-navy-alpha-23.vercel.app",
             "http://localhost:5173",
             "http://192.168.51.1:5173",
             "http://192.168.137.1:5173",
             "http://192.168.0.104:5173",
-            "https://accounts.google.com",
+            "http://192.168.1.2:5173",
         ];
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
             callback(null, true);

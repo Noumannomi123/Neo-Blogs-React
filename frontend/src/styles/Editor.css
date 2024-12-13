@@ -60,3 +60,19 @@ textarea:focus {
   outline: none; /* Removes the default focus outline */
   box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); /* Optional: adds a subtle glow effect */
 }
+
+
+.ql-editor h1,
+.ql-editor h2,
+.ql-editor h3,
+.ql-editor h4,
+.ql-editor h5,
+.ql-editor h6{
+    font-family: sans-serif;
+}
+#summary-heading{
+  margin-top: 2%;
+}
+.ql-editor *, .preview * {
+  font-family: 'Times New Roman', Times, serif;
+}
