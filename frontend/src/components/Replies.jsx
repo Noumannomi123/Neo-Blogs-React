@@ -47,7 +47,6 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
         const response = await axios.get(
           `${API_URL}/user/blog/replies/count/${comment.id}/${post_id}`
         );
-        console.log(response.data.count); 
         setRepliesCount(response.data.count);
       } catch (error) {
         console.error("Error fetching replies count:", error);
@@ -58,6 +57,7 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
   return (
     <>
       <div className="reply-container">
+        {/* Conitnue */}
         {showReply[comment.id] && (
           <>
             <TextAreaAutoSize
@@ -98,6 +98,7 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
               expanded={expanded}
               comment_username={comment.username}
               comments={replies}
+              // TO-FIX
               canReply={false}
             />
           </>
@@ -131,31 +132,33 @@ const Replies = ({ post_id, comment, showReply, setHideReply }) => {
         )
       ) : null}
       {/* <Button onClick={() => getComments()}>Load Replies</Button> */}
-      {repliesCount > 0 ? (<Button
-        onClick={() => {
-          setLoader(true);
-          getComments();
-          setLoader(false);
-          setExpanded(!expanded);
-        }}
-        fontWeight={"medium"}
-        alignSelf={"center"}
-        _hover={{
-          textDecoration: "underline",
-          transform: "scale(1.05)",
-          transition: "all 0.2s ease-in-out",
-        }}
-        style={{
-          backgroundColor: "transparent",
-          color: "#2A71C1",
-          padding: "8px 16px",
-          borderRadius: "20px",
-          border: "1px solid #2A71C1",
-        }}
-        backgroundColor={"transparent"}
-      >
-        {expanded ? "Hide Replies" : "Show Replies"}
-      </Button>):(
+      {repliesCount > 0 ? (
+        <Button
+          onClick={() => {
+            setLoader(true);
+            getComments();
+            setLoader(false);
+            setExpanded(!expanded);
+          }}
+          fontWeight={"medium"}
+          alignSelf={"center"}
+          _hover={{
+            textDecoration: "underline",
+            transform: "scale(1.05)",
+            transition: "all 0.2s ease-in-out",
+          }}
+          style={{
+            backgroundColor: "transparent",
+            color: "#2A71C1",
+            padding: "8px 16px",
+            borderRadius: "20px",
+            border: "1px solid #2A71C1",
+          }}
+          backgroundColor={"transparent"}
+        >
+          {expanded ? "Hide Replies" : "Show Replies"}
+        </Button>
+      ) : (
         <Button
           fontWeight={"normal"}
           alignSelf={"center"}

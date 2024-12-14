@@ -54,7 +54,7 @@ const AllComments = ({
           </HStack>
           {/* comment.text */}
           <p className="w-100">{content}</p>
-          {expanded && canReply && (
+          {canReply && (
             <HStack alignSelf={"start"} spacing={0}>
               <small>
                 <Button
