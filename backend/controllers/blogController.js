@@ -106,4 +106,15 @@ const getLikes = async (req, res) => {
         res.status(500).json({ message: "Error fetching likes." })
     }
 }
-export { getAllBlogs, getSingleBlog, getAuthorBlogs, addNewBlog, updateBlog, deleteBlog, getLikes }
+const addLike = async (req, res) => {
+    try {
+        const user_id = req.params.user_id;
+        const blog_id = req.params.blog_id;
+        await db.query("INSERT INTO likes (user_id, post_id) VALUES ($1, $2)", [user_id, blog_id]);
+        res.status(200).json({ message: "Like added successfully." });
+    } catch (error) {
+        console.log("Error adding like to the database.", error)
+        res.status(500).json({ message: "Error adding like." })
+    }
+}
+export { getAllBlogs, getSingleBlog, getAuthorBlogs, addNewBlog, updateBlog, deleteBlog, getLikes, addLike }

@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 
 import { addNewComment, addReply, getAllComments, getAllReplies, getCommentCount, getSingleComment, getRepliesCount } from "../controllers/commentController.js";
-import { addNewBlog, deleteBlog, getAllBlogs, getAuthorBlogs, getLikes, getSingleBlog, updateBlog } from "../controllers/blogController.js";
+import { addNewBlog, deleteBlog, getAllBlogs, getAuthorBlogs, getLikes, getSingleBlog, updateBlog, addLike } from "../controllers/blogController.js";
 
 // blogs
 router.get("/all", getAllBlogs);
@@ -14,7 +14,7 @@ router.delete("/:id", deleteBlog);
 
 // likes
 router.get("/likes/:id", getLikes);
-
+router.post("/like/:user_id/:blog_id", addLike);
 // comments
 router.get("/comment/single/:id", getSingleComment);
 router.get("/comment/count/:id", getCommentCount);

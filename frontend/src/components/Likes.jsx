@@ -4,8 +4,13 @@ import { HStack } from "@chakra-ui/react";
 import axios from "axios";
 import API_URL from "../config";
 import PropTypes from "prop-types";
+import { useContext } from "react";
+import AuthContext from "./AuthContext";
+import { useNavigate } from "react-router-dom";
 const Likes = ({ blog_id }) => {
   const [likes, setLikes] = useState(0);
+  const { loggedIn } = useContext(AuthContext);
+  const navigate = useNavigate();
   useEffect(() => {
     const getLikes = async () => {
       const res = await axios.get(`${API_URL}/user/blog/likes/${blog_id}`);
@@ -14,15 +19,28 @@ const Likes = ({ blog_id }) => {
     getLikes();
   }, [blog_id]);
   const handleLike = async () => {
-    const res = await axios.post(`${API_URL}/user/blog/like/${blog_id}`);
-    if (res.status === 200) {
-      setLikes(likes + 1);
+    if (!loggedIn) {
+      const currentUrl = `${location.pathname}${location.search}${location.hash}`;
+      localStorage.setItem("redirectUrl", currentUrl);
+      navigate("/users/login");
+      return;
+    }
+    try {
+      const user_id = localStorage.getItem("id");
+      const res = await axios.post(
+        `${API_URL}/user/blog/like/${user_id}/${blog_id}`
+      );
+      if (res.status === 200) {
+        setLikes(likes + 1);
+      }
+    } catch (error) {
+      console.error("Error liking the blog.", error);
     }
   };
   return (
     <div>
       <button
-        onClick={() => handleLike}
+        onClick={handleLike}
         style={{
           border: "none",
           background: "none",
