@@ -126,7 +126,7 @@ const BlogEditor = () => {
         `${API_URL}/user/blog/new/${user.id}?blog_id=${blog_id}`,
         data,
         {
-          withCredentials: true, // TO-DO, check if required
+          withCredentials: true, 
         }
       );
     } catch (error) {

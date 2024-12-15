@@ -61,8 +61,7 @@ const getAllComments = async (req, res) => {
         const post_id = req.params.id;
         let query = `SELECT u.username, u.pic,c.id, c.content, c.created_at from user_profile u inner join comments c on u.id = c.user_id where parent_id IS NULL AND c.post_id = $1   order by c.created_at desc`;
         if (process.env.MODE_ENV == 'production') query += ' LIMIT 2';
-        const response = await db.query(query, [post_id])
-        // to-DO: fix this
+        const response = await db.query(query, [post_id]);
         for (let comment of response.rows) {
             if (comment.pic) {
                 const sizeX = 50, sizeY = 50;

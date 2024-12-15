@@ -21,8 +21,6 @@ const EditBlog = () => {
         marginRight={{ base: "2%", lg: "10%" }}
       >
         <h2 className="mb-3">Edit your blog</h2>
-        {/* <Editor /> */}
-        {/* TO-DO: Add custom component for editing */}
         <BlogEditor />
       </VStack>
     </div>

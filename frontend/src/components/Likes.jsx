@@ -13,9 +13,16 @@ const Likes = ({ blog_id }) => {
     };
     getLikes();
   }, [blog_id]);
+  const handleLike = async () => {
+    const res = await axios.post(`${API_URL}/user/blog/like/${blog_id}`);
+    if (res.status === 200) {
+      setLikes(likes + 1);
+    }
+  };
   return (
     <div>
-      <button // onClick={}
+      <button
+        onClick={() => handleLike}
         style={{
           border: "none",
           background: "none",

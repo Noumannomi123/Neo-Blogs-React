@@ -42,7 +42,6 @@ const Login = () => {
       setLoggedIn(true);
       // TO-FIX:
       // localStorage being accessed.
-      // TO-DO
       if (localStorage.getItem("redirectUrl") != null) {
         switch (localStorage.getItem("redirectUrl")) {
           case "/home":

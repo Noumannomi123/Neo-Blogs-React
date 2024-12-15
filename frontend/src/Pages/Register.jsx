@@ -45,7 +45,6 @@ const SignUp = () => {
       setLoggedIn(true);
       // TO-FIX:
       // localStorage being accessed.
-      // TO-DO
       const { success, message } = data;
       if (success) {
         setError("");
