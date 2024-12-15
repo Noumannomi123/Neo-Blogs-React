@@ -1,6 +1,6 @@
 import { db } from "../index.js";
 import { reduceImageSize } from "../utils/imageCompressor.js";
-import getSizeInMBFromJson from "../utils/sizeCalculator.js";
+import { sendLikes } from "../queues/producer.js";
 const getAllBlogs = async (req, res) => {
     try {
         let query = "SELECT id,summary, title, title_picture, created_at, author_name FROM blog_posts ORDER BY created_at DESC"
@@ -107,13 +107,27 @@ const getLikes = async (req, res) => {
     }
 }
 const addLike = async (req, res) => {
+    const { action } = req.body;
+    if (!action) {
+        return res.status(400).json({ message: "Action is required" });
+    }
     try {
         const user_id = req.params.user_id;
         const blog_id = req.params.blog_id;
-        await db.query("INSERT INTO likes (user_id, post_id) VALUES ($1, $2)", [user_id, blog_id]);
-        res.status(200).json({ message: "Like added successfully." });
+        const code = await sendLikes({
+            body: {
+                user_id: user_id,
+                blog_id: blog_id,
+                action: action
+            }
+        });
+        if (code === 200) {
+            console.log("Like added successfully.");
+            res.status(200).json({ message: "Like added successfully." });
+        }
+        else res.status(500).json({ message: "Error adding like." });
     } catch (error) {
-        console.log("Error adding like to the database.", error)
+        console.log("Error sending likes producer.", error)
         res.status(500).json({ message: "Error adding like." })
     }
 }

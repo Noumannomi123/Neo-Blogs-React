@@ -28,7 +28,11 @@ const Likes = ({ blog_id }) => {
     try {
       const user_id = localStorage.getItem("id");
       const res = await axios.post(
-        `${API_URL}/user/blog/like/${user_id}/${blog_id}`
+        `${API_URL}/user/blog/like/${user_id}/${blog_id}`,
+        {
+          // TO-FIX
+          action: "like", // hard coded
+        }
       );
       if (res.status === 200) {
         setLikes(likes + 1);

@@ -2,7 +2,7 @@
 
 import amqp from "amqplib/callback_api.js"
 const exchange = 'logs';
-
+import { db } from "../index.js";
 // Function to establish connection and channel setup
 const connectToRabbitMQ = () => {
     return new Promise((resolve, reject) => {
@@ -48,19 +48,24 @@ export const updateLikesTable = async (channel) => {
             }
             console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
             channel.bindQueue(q.queue, exchange, '');
-            channel.consume(q.queue, function (msg) {
+            channel.consume(q.queue, async function (msg) {
                 if (msg.content) {
-                    console.log("Received, processing: ")
-                    // Simulate processing
-                    setTimeout(() => {
-                        console.log(" [x] Done processing '%s'", msg.content.toString());
-                        channel.ack(msg);  // Acknowledge the message after processing
-                    }, 3000);
+                    const { user_id, blog_id, action } = JSON.parse(msg.content.toString());
+                    console.log("Received, prcoessing to insert likes: ")
+                    try {
+                        await db.query("INSERT INTO likes (user_id, post_id) VALUES ($1, $2)", [user_id, blog_id]);
+                    } catch (error) {
+                        console.error("Could not insert likes into table. ", error);
+                        return 403;
+                    }
+                    console.log(" [x] Done processing '%s'", msg.content.toString());
+                    channel.ack(msg);  // Acknowledge the message after processing
                 }
             }, {
                 noAck: false  // Set noAck to false to manually acknowledge messages
             });
         });
+        return 200;
     } catch (error) {
         console.error('Error consuming message: ', error);
     }

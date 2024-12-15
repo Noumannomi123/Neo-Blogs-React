@@ -1,3 +1,5 @@
 import { updateLikesTable, channel } from "../config/mq.js";
 
-updateLikesTable(channel);
+export const likesUpdater = async () => {
+    await updateLikesTable(channel);
+}

@@ -1,9 +1,11 @@
 import { sendToQueue, connection, channel } from "../config/mq.js";
-const msgz = String("like1 dislike1 like2 like3").split(' ');
 
-msgz.forEach((msg) => {
-    sendToQueue(channel,msg);
-})
+export const sendLikes = async (req) => {
+    const { user_id, blog_id, action } = req.body;
+    const msg = JSON.stringify({ user_id, blog_id, action });
+    const code = await sendToQueue(channel, msg);
+    return code;
+}
 
 // Gracefully handle server shutdown
 process.on('SIGINT', async () => {

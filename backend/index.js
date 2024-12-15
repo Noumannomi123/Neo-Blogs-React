@@ -7,7 +7,7 @@ import blogRouter from "./routes/blogsRouter.js";
 import userRouter from "./routes/usersRouter.js";
 import authRouter from "./routes/authRouter.js";
 import cookieParser from "cookie-parser";
-
+import { likesUpdater } from "./queues/updater.js";
 env.config();
 const { Pool } = pg;
 
@@ -17,7 +17,7 @@ const db = new Pool({
     ssl: process.env.MODE_ENV == "production" ? { rejectUnauthorized: false } : false
 })
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
 
 const app = express();
 
@@ -72,6 +72,12 @@ db.connect((err) => {
         console.log("Connected to database");
     }
 })
+try {
+    likesUpdater();
+}
+catch (err) {
+    console.error("Could not run the updater process.")
+}
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
