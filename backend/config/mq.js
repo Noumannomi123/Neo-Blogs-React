@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import amqp from "amqplib/callback_api.js"
-const QUEUE = 'task_queue';
+const exchange = 'logs';
 
 // Function to establish connection and channel setup
 const connectToRabbitMQ = () => {
@@ -24,41 +24,43 @@ const connectToRabbitMQ = () => {
 
 export const sendToQueue = async (channel, msg) => {
     try {
-        channel.assertQueue(QUEUE, {
-            durable: true
+        channel.assertExchange(exchange, 'fanout', {
+            durable: false
         });
-
-        channel.sendToQueue(QUEUE, Buffer.from(msg), {
-            persistent: true
-        });
+        channel.publish(exchange, '', Buffer.from(msg));
         console.log(" [x] Sent '%s'", msg);
     } catch (error) {
         console.error('Error sending message: ', error);
     }
 };
 
-export const consumeFromQueue = async (channel) => {
+export const updateLikesTable = async (channel) => {
     try {
-        channel.assertQueue(QUEUE, {
-            durable: true
+        channel.assertExchange(exchange, 'fanout', {
+            durable: false
         });
-        channel.prefetch(1);
 
-        console.log(" [*] Waiting for messages in %s. To exit press Ctrl+C", QUEUE);
-
-        channel.consume(QUEUE, (msg) => {
-            if (msg !== null) {
-
-                // Simulate processing
-                setTimeout(() => {
-                    console.log(" [x] Done processing '%s'", msg.content.toString());
-                    channel.ack(msg);  // Acknowledge the message after processing
-                }, 1000);
+        channel.assertQueue('', {
+            exclusive: true
+        }, function (error2, q) {
+            if (error2) {
+                throw error2;
             }
-        }, {
-            noAck: false  // Ensure we acknowledge the message after processing
+            console.log(" [*] Waiting for messages in %s. To exit press CTRL+C", q.queue);
+            channel.bindQueue(q.queue, exchange, '');
+            channel.consume(q.queue, function (msg) {
+                if (msg.content) {
+                    console.log("Received, processing: ")
+                    // Simulate processing
+                    setTimeout(() => {
+                        console.log(" [x] Done processing '%s'", msg.content.toString());
+                        channel.ack(msg);  // Acknowledge the message after processing
+                    }, 3000);
+                }
+            }, {
+                noAck: false  // Set noAck to false to manually acknowledge messages
+            });
         });
-
     } catch (error) {
         console.error('Error consuming message: ', error);
     }

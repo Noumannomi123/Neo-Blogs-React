@@ -76,6 +76,12 @@ FOR EACH ROW
 WHEN (NEW.id is NOT NULL)
 EXECUTE FUNCTION create_user_profile();
 
+CREATE TABLE likes_count (
+    id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL UNIQUE,
+    likes_count INT DEFAULT 0,
+    FOREIGN KEY (post_id) REFERENCES blog_posts(id) ON DELETE CASCADE
+);
 -- -- table for Followers
 -- CREATE TABLE followers (
 --     id SERIAL PRIMARY KEY,
