@@ -11,7 +11,6 @@ import cookieParser from "cookie-parser";
 env.config();
 const { Pool } = pg;
 
-
 const db = new Pool({
     connectionString: process.env.POSTGRES_URL,
     ssl: process.env.MODE_ENV == "production" ? { rejectUnauthorized: false } : false
